@@ -11,7 +11,9 @@
  * @file Plant.h
  * @brief Defines the abstract Plant class representing a plant entity.
  * @class Plant
- * @brief Represents a plant in the system with dynamic state and care behavior.
+ * @brief Represents a plant in the system with dynamic state and care behavior and also
+ * Acts as the Context in the Strategy Pattern by maintaining a reference 
+ * to a CareStrategy, which defines how the plant is maintained
  */
 class Plant {
     protected:
@@ -23,7 +25,8 @@ class Plant {
         double price;                    
         int waterLevel;                     
         // std::list<PlantObserver*> observers;
-        std::string date;                   
+        std::string date;
+        int healthLevel;
 
     public:
         /**
@@ -33,17 +36,30 @@ class Plant {
          * @param price Price of the plant.
          * @param date Creation or planting date.
          */
-        Plant(const std::string& name, const std::string& classification, double price, const std::string& date);
+        Plant(std::string name, std::string classification, double price, std::string date);
 
         virtual ~Plant();
 
         void setPrice(double price);
-        double getPrice() const;
-        std::string getDescription() const;
+        double getPrice();
+        std::string getDescription();
         void handleState();
         void applyCare();
-        std::string getID() const;
-        int getWaterLevel() const;
+        std::string getID();
+        int getWaterLevel();
+
+        void setCareStrategy(CareStrategy* strategy);//delegates care logic
+        void applyCareStrategy();
+        std::string getCareStrategyName();
+        int calculateWaterNeeds();
+        int calculateSunlightNeeds();
+        int calculateNutrientNeeds();
+        std::string getCurrentStateName();
+        std::string getName();
+        std::string getClassification();
+        std::string getDate();
+        int getHealthLevel();
+        void setHealthLevel(int level);
 };
 
 #endif 
