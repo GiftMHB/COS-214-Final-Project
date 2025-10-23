@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-#include "PlantState.h"
+//#include "PlantState.h"
 #include "CareStrategy.h"
 // #include "PlantObserver.h"
 
@@ -17,7 +17,7 @@
  */
 class Plant {
     protected:
-        PlantState* state;                  
+        //PlantState* state;                  
         CareStrategy* careStrategy;         
         std::string id;                    
         std::string name;                   
@@ -62,12 +62,7 @@ class Plant {
         void setHealthLevel(int level);
 
 
-        void setState(PlantState* newState);  
-        void waterPlant();  
-        void fertilizePlant();     
-        void growPlant();  
-        PlantState* getCurrentState();  
-
+    
 
 };
 
