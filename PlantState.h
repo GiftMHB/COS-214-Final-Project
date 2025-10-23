@@ -3,49 +3,26 @@
 
 #include <string>
 
-
-
-class Plant;
-
-
+class Plant;  
 
 class PlantState {
 public:
 
     virtual ~PlantState() = default;
-
     
-    virtual void water(Plant* plant, int amount) = 0;
 
+    virtual void water(Plant* plant) = 0;
 
-    virtual void fertilize(Plant* plant, int amount) = 0;
-      
+    virtual void fertilize(Plant* plant) = 0;
 
-    virtual void addSunlight(Plant* plant, int amount) = 0;
-
-    
     virtual void grow(Plant* plant) = 0;
 
-
-    
     virtual void checkTransition(Plant* plant) = 0;
 
-
-    
     virtual std::string getStateName() const = 0;
 
-
-
-
-    
-    
     virtual int getHealthPercentage() const = 0;
-
-
     
-    virtual bool canBeSold() const = 0;
-
-
 
 };
 
