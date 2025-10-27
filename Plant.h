@@ -7,6 +7,8 @@
 #include "CareStrategy.h"
 // #include "PlantObserver.h"
 
+using namespace std;
+
 /**
  * @file Plant.h
  * @brief Defines the abstract Plant class representing a plant entity.
@@ -15,18 +17,34 @@
  * Acts as the Context in the Strategy Pattern by maintaining a reference 
  * to a CareStrategy, which defines how the plant is maintained
  */
+
+struct PlantInfo {
+    int id;
+    std::string name;
+    std::string classification;
+    std::string addedDate;
+    double purchasePrice;
+    double salePrice;
+
+    // reasonable defaults
+    int waterLevel = 50;
+    int healthLevel = 100;
+    int sunlightNeed = 5;
+    int fertilizerNeed = 2;
+    double currentHeight = 0.0;
+    double maturityHeight = 100.0;
+    int currentAgeDays = 0;
+    int daysToMaturity = 365;
+};
+
 class Plant {
     protected:
-        //PlantState* state;                  
-        CareStrategy* careStrategy;         
-        std::string id;                    
-        std::string name;                   
-        std::string classification;// classification (e.g., Flower, Tree)
-        double price;                    
-        int waterLevel;                     
+        PlantInfo info;
+        std::string AddedDate;
+
+        CareStrategy* careStrategy;
+        //PlantState* state;
         // std::list<PlantObserver*> observers;
-        std::string date;
-        int healthLevel;
 
     public:
         /**
@@ -36,8 +54,7 @@ class Plant {
          * @param price Price of the plant.
          * @param date Creation or planting date.
          */
-        Plant(std::string name, std::string classification, double price, std::string date);
-
+        Plant(PlantInfo& info);
         virtual ~Plant();
 
         void setPrice(double price);
@@ -45,7 +62,7 @@ class Plant {
         std::string getDescription();
         void handleState();
         void applyCare();
-        std::string getID();
+        int getID();
         int getWaterLevel();
 
         void setCareStrategy(CareStrategy* strategy);//delegates care logic
@@ -60,10 +77,6 @@ class Plant {
         std::string getDate();
         int getHealthLevel();
         void setHealthLevel(int level);
-
-
-    
-
 };
 
 #endif 

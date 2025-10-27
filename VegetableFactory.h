@@ -12,13 +12,12 @@
  */
 class VegetableFactory : public PlantFactory {
     protected:
-        Plant* createFlower(std::string name, double price);
-        Plant* createTree(std::string name, double price);
-        // Plant* createShrub(std::string name, double price);
-        Plant* createVegetable(std::string name, double price);
+        Plant *createFlower(PlantInfo &info, string color, string bloomSeason, int petalCount, bool fragrance);
+        Plant *createTree(PlantInfo &info, string treeType, double height, bool isEvergreen, double trunkDiameter);
+        Plant *createVegetable(PlantInfo &info, string vegetableType, int harvestTime, double expectedYield, bool isEdible);
 
     public:
-        Plant* createPlant(std::string type, std::string name, double price) override;
+        Plant *createPlant(PlantInfo &info, string vegetableType, int harvestTime, double expectedYield, bool isEdible);
 };
 
 #endif 

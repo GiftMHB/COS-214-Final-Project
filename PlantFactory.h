@@ -18,10 +18,9 @@ class PlantFactory {
 
     protected:
         //Protected factory helper methods to be implemented by concrete factories
-        virtual Plant* createFlower(std::string name, double price) = 0;
-        virtual Plant* createTree(std::string name, double price) = 0;
-        // virtual Plant* createShrub(std::string name, double price) = 0;
-        virtual Plant* createVegetable(std::string name, double price) = 0;
+        virtual Plant* createFlower(PlantInfo& info,string color,string bloomSeason,int petalCount,bool fragrance) = 0;
+        virtual Plant* createTree(PlantInfo& info,string treeType,double height,bool isEvergreen,double trunkDiameter) = 0;
+        virtual Plant* createVegetable(PlantInfo& info,string vegetableType,int harvestTime,double expectedYield,bool isEdible) = 0;
 
     public:
         /**
@@ -31,7 +30,11 @@ class PlantFactory {
          * @param price The price of the plant.
          * @return Pointer to the newly created Plant.
          */
-        virtual Plant* createPlant(std::string type, std::string name, double price) = 0;
+        PlantFactory();
+        /**
+         * @note This is the public factory method that clients call
+         */
+        virtual Plant* createPlant(PlantInfo& info, std::string type /* attributes */) = 0;
         virtual ~PlantFactory();
 };
 
