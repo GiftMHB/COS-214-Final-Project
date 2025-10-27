@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-//#include "PlantState.h"
+#include "PlantState.h"  
 #include "CareStrategy.h"
 // #include "PlantObserver.h"
 
@@ -17,16 +17,20 @@
  */
 class Plant {
     protected:
-        //PlantState* state;                  
+        PlantState* state;                  
         CareStrategy* careStrategy;         
         std::string id;                    
         std::string name;                   
-        std::string classification;// classification (e.g., Flower, Tree)
+        std::string classification;         
+        std::string species;               
         double price;                    
         int waterLevel;                     
+        int nutrientLevel;                
+        int age;                         
         // std::list<PlantObserver*> observers;
         std::string date;
         int healthLevel;
+        static int plantCount;             
 
     public:
         /**
@@ -40,6 +44,7 @@ class Plant {
 
         virtual ~Plant();
 
+      
         void setPrice(double price);
         double getPrice();
         std::string getDescription();
@@ -61,9 +66,18 @@ class Plant {
         int getHealthLevel();
         void setHealthLevel(int level);
 
-
-    
+        std::string getSpecies() const;              
+        int getNutrientLevel() const;                
+        int getAge() const;                         
+        PlantState* getState() const;                
+        void setWaterLevel(int level);               
+        void setNutrientLevel(int level);            
+        void setAge(int newAge);                     
+        void setState(PlantState* newState);         
+        void water(int amount);                      
+        void fertilize(int amount);                  
+        void grow();                                 
+        void printStatus() const;                    
 
 };
-
-#endif 
+#endif
