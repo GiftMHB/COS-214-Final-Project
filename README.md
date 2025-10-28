@@ -7,8 +7,8 @@
 ## 👥 Team Members
 | Name | Student Number | Assigned Patterns |
 |------|----------------|------|
-| Gift Mohuba | 23545527 | Factory Method & Strategy & Iterator|
-|  | XXXXXXXX | X |
+| Gift Mohuba  | 23545527 | Factory Method & Strategy & Iterator|
+| Lufuno Mphagi| 22501445 | Abstract Factory & Command & Template Method|
 |  | XXXXXXXX | X |
 |  | XXXXXXXX | X |
 |  | XXXXXXXX | X |
