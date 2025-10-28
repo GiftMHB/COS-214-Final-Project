@@ -7,6 +7,8 @@
 #include "CareStrategy.h"
 // #include "PlantObserver.h"
 
+using namespace std;
+
 /**
  * @file Plant.h
  * @brief Defines the abstract Plant class representing a plant entity.
@@ -18,14 +20,18 @@
 
 struct PlantInfo
 {
-    PlantState *state;
-    CareStrategy *careStrategy;
     int id;
     std::string name;
     std::string classification;
     std::string addedDate;
     double purchasePrice;
     double salePrice;
+    
+    // State and Strategy pointers
+    PlantState *state;
+    CareStrategy *careStrategy;
+    
+    // Static plant counter
     static int plantCount;
 
     // reasonable defaults
@@ -33,6 +39,7 @@ struct PlantInfo
     int healthLevel = 100;
     int sunlightNeed = 5;
     int fertilizerNeed = 2;
+    int nutrientLevel = 50;
     double currentHeight = 0.0;
     double maturityHeight = 100.0;
     int currentAgeDays = 0;
@@ -43,53 +50,65 @@ class Plant
 {
     protected:
         PlantInfo info;
-        std::string AddedDate;
         //  std::list<PlantObserver*> observers;
 
     public:
         /**
-         * @brief Constructs a Plant with the given parameters.
-         * @param name Plant name.
-         * @param classification Plant category or type.
-         * @param price Price of the plant.
-         * @param date Creation or planting date.
+         * @brief Constructs a Plant with the given PlantInfo struct.
+         * @param info PlantInfo struct containing all plant data.
          */
-        Plant(std::string name, std::string classification, double price, std::string date);
+        Plant(PlantInfo& info);
 
         virtual ~Plant();
 
+        // Price management
         void setPrice(double price);
         double getPrice();
-        std::string getDescription();
+        
+        // Pure virtual method
+        virtual std::string getDescription() = 0;
+        
+        // State management
         void handleState();
-        void applyCare();
-        std::string getID();
-        int getWaterLevel();
+        PlantState *getState() const;
+        void setState(PlantState *newState);
+        std::string getCurrentStateName();
 
-        void setCareStrategy(CareStrategy *strategy); // delegates care logic
+        // Care management
+        void applyCare();
+        void setCareStrategy(CareStrategy *strategy);
         void applyCareStrategy();
         std::string getCareStrategyName();
+        
+        // Care needs calculation
         int calculateWaterNeeds();
         int calculateSunlightNeeds();
         int calculateNutrientNeeds();
-        std::string getCurrentStateName();
+
+        // Basic getters
+        std::string getID();
         std::string getName();
         std::string getClassification();
         std::string getDate();
+        std::string getSpecies() const;
+        
+        // Level getters and setters
+        int getWaterLevel();
+        void setWaterLevel(int level);
         int getHealthLevel();
         void setHealthLevel(int level);
-
-        std::string getSpecies() const;
         int getNutrientLevel() const;
-        int getAge() const;
-        PlantState *getState() const;
-        void setWaterLevel(int level);
         void setNutrientLevel(int level);
+        
+        // Age management
+        int getAge() const;
         void setAge(int newAge);
-        void setState(PlantState *newState);
+
+        // Plant actions
         void water(int amount);
         void fertilize(int amount);
         void grow();
-        void printStatus() const;   
+        void printStatus() const;
 };
+
 #endif
