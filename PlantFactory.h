@@ -39,3 +39,5 @@ class PlantFactory {
         virtual Plant* createPlant(PlantInfo& info, std::string type /* attributes */) = 0;
         virtual ~PlantFactory();
 };
+
+#endif
