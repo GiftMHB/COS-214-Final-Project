@@ -19,6 +19,7 @@ class CategoryIterator : public InventoryIterator {
 
     public:
         CategoryIterator(std::vector<InventoryItem*> items,std::string category);
+        ~CategoryIterator();
 
         bool hasNext();
         InventoryItem* next();
