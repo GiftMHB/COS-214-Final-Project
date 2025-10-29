@@ -18,6 +18,7 @@ using namespace std;
  * to a CareStrategy, which defines how the plant is maintained
  */
 
+struct PlantInfo {
 struct PlantInfo
 {
     int id;
@@ -26,6 +27,12 @@ struct PlantInfo
     std::string addedDate;
     double purchasePrice;
     double salePrice;
+
+    // reasonable defaults
+    int waterLevel = 50;
+    int healthLevel = 100;
+    int sunlightNeed = 5;
+    int fertilizerNeed = 2;
     
     // State and Strategy pointers
     PlantState *state;
@@ -46,6 +53,14 @@ struct PlantInfo
     int daysToMaturity = 365;
 };
 
+class Plant {
+    protected:
+        PlantInfo info;
+        std::string AddedDate;
+
+        CareStrategy* careStrategy;
+        //PlantState* state;
+        // std::list<PlantObserver*> observers;
 class Plant
 {
     protected:
@@ -70,6 +85,9 @@ class Plant
         
         // State management
         void handleState();
+        void applyCare();
+        int getID();
+        int getWaterLevel();
         PlantState *getState() const;
         void setState(PlantState *newState);
         std::string getCurrentStateName();
