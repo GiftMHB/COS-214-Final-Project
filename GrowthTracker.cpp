@@ -22,7 +22,7 @@ void GrowthTracker::update(Plant* subject, const std::string& eventType) {
                   << ") has changed growth stage!" << std::endl;
         recordGrowthStage(subject);
     } else if (eventType == "watered" || eventType == "fertilized") {
-        // Check if plant is ready for sale (matured)
+        
         if (subject->isReadyForSale() && lastGrowthStage != "Mature") {
             std::cout << "[GROWTH TRACKER] Plant '" << subject->getName() 
                       << "' has matured and is ready for sale!" << std::endl;
@@ -44,7 +44,7 @@ void GrowthTracker::recordGrowthStage(Plant* subject) {
     std::cout << "  ID: " << subject->getId() << std::endl;
     std::cout << "  Previous Stage: " << lastGrowthStage << std::endl;
     
-    // Determine current stage based on health and readiness
+    
     std::string currentStage;
     if (!subject->getIsAlive()) {
         currentStage = "Dead";

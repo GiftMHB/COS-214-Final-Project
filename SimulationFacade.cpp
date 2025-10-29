@@ -26,7 +26,9 @@ SimulationFacade::~SimulationFacade() {
     
     for (std::list<Staff*>::iterator it = staff.begin(); 
          it != staff.end(); ++it) {
-        delete *it;
+        // Note: Staff class is managed by team member
+        // Uncomment when Staff implementation is available:
+        // delete *it;
     }
     staff.clear();
     
@@ -126,8 +128,8 @@ void SimulationFacade::updateAllPlants() {
         Plant* plant = *it;
         
         
-        plant->water(-5); // Water evaporates
-        plant->fertilize(-3); // Nutrients deplete
+        plant->water(-5); 
+        plant->fertilize(-3); 
     }
     
     std::cout << " Updated " << allPlants.size() << " plants" << std::endl;
@@ -135,7 +137,7 @@ void SimulationFacade::updateAllPlants() {
 
 void SimulationFacade::updateObservers() {
     // Observers are automatically notified when plants change
-    // This method can trigger additional observer-specific updates
+    
     std::cout << " Observers notified of changes" << std::endl;
 }
 
@@ -149,7 +151,7 @@ void SimulationFacade::managePlantCare() {
          it != allPlants.end(); ++it) {
         Plant* plant = *it;
         
-        // Staff performs care
+        
         if (plant->getWaterLevel() < 50) {
             plant->water(30);
             plantsCared++;
@@ -216,7 +218,13 @@ void SimulationFacade::addNewPlant(const std::string& type, const std::string& c
         if (found != nullptr && found->getType() == "PlantBed") {
             PlantBed* bed = dynamic_cast<PlantBed*>(found);
             if (bed != nullptr) {
-                bed->assignPlant(newPlant);
+                if (!bed->assignPlant(newPlant)) {
+                    // Bed is full, clean up
+                    delete healthMon;
+                    delete growthTrack;
+                    delete newPlant;
+                    return;
+                }
             }
         }
     }
@@ -253,12 +261,12 @@ std::string SimulationFacade::getInventorySummary() {
 
 void SimulationFacade::saveSystemState(const std::string& filePath) {
     std::cout << " Saving system state to " << filePath << "..." << std::endl;
-    // Memento pattern implementation would go here
+    
 }
 
 void SimulationFacade::loadSystemState(const std::string& filePath) {
     std::cout << " Loading system state from " << filePath << "..." << std::endl;
-    // Memento pattern implementation would go here
+    
 }
 
 Plant* SimulationFacade::findPlant(const std::string& plantId) {

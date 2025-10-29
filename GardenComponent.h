@@ -36,6 +36,7 @@ public:
      * @param component Pointer to the component to add
      */
     virtual void add(GardenComponent* component) {
+        (void)component; // Suppress unused parameter warning
         // Default: do nothing (leaf nodes don't support this)
     }
 
@@ -44,6 +45,7 @@ public:
      * @param component Pointer to the component to remove
      */
     virtual void remove(GardenComponent* component) {
+        (void)component; // Suppress unused parameter warning
         // Default: do nothing (leaf nodes don't support this)
     }
 

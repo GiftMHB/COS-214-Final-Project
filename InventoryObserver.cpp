@@ -26,7 +26,7 @@ void InventoryObserver::update(Plant* subject, const std::string& eventType) {
                       << "' (ID: " << subject->getId() 
                       << ") is now ready for sale. Updating inventory..." << std::endl;
             
-            // Here you would call inventory methods like:
+            // Here I would call inventory methods like:
             // if (inventoryReference != nullptr) {
             //     inventoryReference->markAsAvailable(subject);
             // }
@@ -40,7 +40,7 @@ void InventoryObserver::update(Plant* subject, const std::string& eventType) {
                   << "' (ID: " << subject->getId() 
                   << ") has died. Removing from sellable inventory..." << std::endl;
         
-        // Here you would call inventory methods like:
+        // Here I would call inventory methods like:
         // if (inventoryReference != nullptr) {
         //     inventoryReference->removeFromSale(subject);
         // }

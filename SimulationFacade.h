@@ -18,6 +18,7 @@ class Reports;
 class SystemOriginator;
 class Staff;
 class Plant;
+class Observer;
 
 /**
  * @class SimulationFacade
@@ -34,6 +35,8 @@ private:
     Reports* reports; ///< Pointer to reporting system
     SystemOriginator* systemOriginator; ///< Pointer to memento originator
     std::list<Staff*> staff; ///< List of staff members
+    std::list<Plant*> managedPlants; ///< Plants created by facade
+    std::list<Observer*> managedObservers; ///< Observers created by facade
     bool simulationRunning; ///< Simulation status flag
     std::string currentSeason; ///< Current season (Spring/Summer/Autumn/Winter)
     int dayCounter; ///< Day counter for simulation

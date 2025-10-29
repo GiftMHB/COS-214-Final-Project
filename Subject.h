@@ -12,6 +12,9 @@
 #include <string>
 #include <algorithm>
 
+// Forward declaration
+class Plant;
+
 /**
  * @class Subject
  * @brief Abstract subject class that manages observers
@@ -61,13 +64,11 @@ public:
     /**
      * @brief Notify all observers of a change
      * @param eventType Type of event that occurred
+     * 
+     * Note: This method should be called from derived classes (like Plant)
+     * The derived class will pass itself as the subject parameter to observers
      */
-    void notify(const std::string& eventType) {
-        for (std::list<Observer*>::iterator it = observers.begin(); 
-             it != observers.end(); ++it) {
-            (*it)->update(dynamic_cast<Plant*>(this), eventType);
-        }
-    }
+    void notify(const std::string& eventType);
 };
 
 #endif // SUBJECT_H

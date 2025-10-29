@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-// Initialize static instance pointer
+
 GardenArea* GardenArea::instance = nullptr;
 
 GardenArea::GardenArea() 
@@ -25,7 +25,7 @@ GardenArea& GardenArea::getInstance() {
 }
 
 GardenArea::~GardenArea() {
-    // Clean up all child sections
+    
     for (std::list<GardenComponent*>::iterator it = sections.begin(); 
          it != sections.end(); ++it) {
         delete *it;
@@ -48,12 +48,12 @@ void GardenArea::remove(GardenComponent* section) {
 
 void GardenArea::display(int depth) {
     std::string indent(depth * 2, ' ');
-    std::cout << indent << "🏡 " << name << " [" << getType() << "]" << std::endl;
+    std::cout << indent << " " << name << " [" << getType() << "]" << std::endl;
     std::cout << indent << "   Temperature: " << temperature << "°C, "
               << "Humidity: " << humidity << "%" << std::endl;
     std::cout << indent << "   Total Plants: " << getPlantCount() << std::endl;
     
-    // Display all child sections
+    
     for (std::list<GardenComponent*>::iterator it = sections.begin(); 
          it != sections.end(); ++it) {
         (*it)->display(depth + 1);
@@ -74,7 +74,7 @@ GardenComponent* GardenArea::findByName(const std::string& searchName) {
         return this;
     }
     
-    // Search in all child sections
+    
     for (std::list<GardenComponent*>::iterator it = sections.begin(); 
          it != sections.end(); ++it) {
         GardenComponent* found = (*it)->findByName(searchName);
@@ -91,7 +91,7 @@ std::list<Plant*> GardenArea::getAllPlants() {
     
     for (std::list<GardenComponent*>::iterator it = sections.begin(); 
          it != sections.end(); ++it) {
-        // Recursively collect plants from sections and beds
+        
         GardenComponent* component = *it;
         if (component->getType() == "PlantBed") {
             PlantBed* bed = dynamic_cast<PlantBed*>(component);

@@ -12,7 +12,7 @@ GardenSection::GardenSection(const std::string& sectionName, const std::string& 
 }
 
 GardenSection::~GardenSection() {
-    // Clean up all child components
+    
     for (std::list<GardenComponent*>::iterator it = components.begin(); 
          it != components.end(); ++it) {
         delete *it;
@@ -38,7 +38,7 @@ void GardenSection::display(int depth) {
     std::cout << indent << " " << name << " [" << getType() << "]" << std::endl;
     std::cout << indent << "   ID: " << id << ", Plants: " << getPlantCount() << std::endl;
     
-    // Display all child components
+    
     for (std::list<GardenComponent*>::iterator it = components.begin(); 
          it != components.end(); ++it) {
         (*it)->display(depth + 1);
@@ -59,7 +59,7 @@ GardenComponent* GardenSection::findByName(const std::string& searchName) {
         return this;
     }
     
-    // Search in all child components
+    
     for (std::list<GardenComponent*>::iterator it = components.begin(); 
          it != components.end(); ++it) {
         GardenComponent* found = (*it)->findByName(searchName);
