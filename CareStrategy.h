@@ -19,6 +19,7 @@ class CareStrategy {
          * @brief Applies the overall care routine to the given plant.
          * @param plant Pointer to the plant receiving care.
          */
+        
         virtual void applyCare(Plant* plant) = 0;
         virtual int calculateWaterNeeds(Plant* plant) = 0;
         virtual int calculateSunlightNeeds(Plant* plant) = 0;

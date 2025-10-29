@@ -35,7 +35,7 @@ struct PlantInfo
     static int plantCount;
 
     // reasonable defaults
-    int waterLevel = 50;
+    int waterLevel = 20;
     int healthLevel = 100;
     int sunlightNeed = 5;
     int fertilizerNeed = 2;
@@ -75,15 +75,16 @@ class Plant
         std::string getCurrentStateName();
 
         // Care management
-        void applyCare();
+        // void applyCare();
         void setCareStrategy(CareStrategy *strategy);
+        //To delegate the care behavior to the currently assigned strategy
         void applyCareStrategy();
         std::string getCareStrategyName();
         
         // Care needs calculation
-        int calculateWaterNeeds();
+       /*  int calculateWaterNeeds();
         int calculateSunlightNeeds();
-        int calculateNutrientNeeds();
+        int calculateNutrientNeeds(); */
 
         // Basic getters
         std::string getID();
@@ -107,6 +108,7 @@ class Plant
         // Plant actions
         void water(int amount);
         void fertilize(int amount);
+        void exposeToSunlight(int hours);
         void grow();
         void printStatus() const;
 };
