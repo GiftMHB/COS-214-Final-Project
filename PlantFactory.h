@@ -4,6 +4,8 @@
 #include <string>
 #include "Plant.h"
 
+using namespace std;
+
 /**
  * @file PlantFactory.h
  * @brief Defines the abstract PlantFactory class responsible for creating Plant objects
@@ -38,4 +40,4 @@ class PlantFactory {
         virtual ~PlantFactory();
 };
 
-#endif 
+#endif

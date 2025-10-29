@@ -15,12 +15,12 @@ class SeasonalCare : public CareStrategy
 {
     private:
         std::string currentSeason;                      
-        std::map<std::string, int> seasonalAdjustments; // Seasonal adjustment factors for care.
+        std::map<std::string, int> seasonalAdjustments; // Seasonal adjustment factors for care
 
     public:
         /**
          * @brief Constructs a SeasonalCare strategy with optional initial season.
-         * @param season Initial season (default = "Spring").
+         * @param season Initial season (default = "Spring")
          */
         explicit SeasonalCare(std::string season = "Spring");
 

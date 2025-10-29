@@ -18,6 +18,7 @@ class LowStockIterator : public InventoryIterator {
 
     public:
         LowStockIterator(std::vector<InventoryItem*> items, int threshold);
+        ~LowStockIterator();
 
         bool hasNext();
         InventoryItem* next();
