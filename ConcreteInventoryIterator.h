@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "InventoryIterator.h"
+#include "InventoryItem.h"
 
 /**
  * @file ConcreteInventoryIterator.h

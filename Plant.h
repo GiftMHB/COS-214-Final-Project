@@ -18,7 +18,6 @@ using namespace std;
  * to a CareStrategy, which defines how the plant is maintained
  */
 
-struct PlantInfo {
 struct PlantInfo
 {
     int id;
@@ -61,11 +60,6 @@ class Plant {
         CareStrategy* careStrategy;
         //PlantState* state;
         // std::list<PlantObserver*> observers;
-class Plant
-{
-    protected:
-        PlantInfo info;
-        //  std::list<PlantObserver*> observers;
 
     public:
         /**
@@ -84,8 +78,8 @@ class Plant
         virtual std::string getDescription() = 0;
         
         // State management
-        void handleState();
-        void applyCare();
+        // void handleState();
+        // void applyCare();
         int getID();
         int getWaterLevel();
         PlantState *getState() const;
@@ -105,11 +99,10 @@ class Plant
         int calculateNutrientNeeds(); */
 
         // Basic getters
-        std::string getID();
         std::string getName();
         std::string getClassification();
         std::string getDate();
-        std::string getSpecies() const;
+        // std::string getSpecies() const;
         
         // Level getters and setters
         int getWaterLevel();

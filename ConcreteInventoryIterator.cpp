@@ -1,6 +1,5 @@
 #include "ConcreteInventoryIterator.h"
 
-
 ConcreteInventoryIterator::ConcreteInventoryIterator( std::vector<InventoryItem*> items)
     : items(items), position(0) {
 
