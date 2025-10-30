@@ -4,7 +4,7 @@
 #include <string>
 #include <cstdlib> // for EXIT_SUCCESS
 
-// Project headers (adjust include paths if your tree differs)
+// Project headers 
 #include "FlowerFactory.h"
 #include "TreeFactory.h"
 #include "PlantFactory.h"
@@ -53,29 +53,28 @@ static PlantInfo makeFlowerInfo(int id, const string &name, double salePrice) {
    - returns Plant* (caller should delete)
    ----------------------- */
 static Plant* testFactoryMethod() {
-    cout << ">>> testFactoryMethod() start\n";
+    cout << "----------------------------------------------------------------------------------------\n";
+    cout << "Testing Factory Method:\n";
 
     FlowerFactory  flowerFactory;
     PlantInfo info = makeFlowerInfo(1, "Autumn Rose", 19.99);
 
     // create a flower
     Plant *flower = flowerFactory.createPlant(info, "Flower", "Red", "Autumn", 24, true);
-    if (!flower) {
-        cout << "[testFactoryMethod] FlowerFactory returned nullptr\n";
-        cout << ">>> testFactoryMethod() end\n\n";
-        return nullptr;
-    }
+    Plant *Cabbege = flowerFactory.createPlant(info, "Vegetable", "Cabbage", "60", 4.5, true); 
+    
+    cout << "[Factory Main] Created: " << flower->getName() << " | class: " << flower->getClassification()
+    << " | price: " << flower->getPrice() << "\n";
 
-    cout << "[testFactoryMethod] Created: " << flower->getName()
-         << " | class: " << flower->getClassification()
-         << " | price: " << flower->getPrice() << "\n";
+    // flower description
+    cout << "Description: " << flower->getDescription() << "\n";
 
     // quick sanity: apply a few actions
-    flower->water(1);
-    flower->fertilize(1);
-    flower->exposeToSunlight(1);
+    flower->water(10);
+    flower->fertilize(11);
+    flower->exposeToSunlight(3);
 
-    cout << ">>> testFactoryMethod() end\n\n";
+    cout << "----------------------------------------------------------------------------------------Factory\n\n";
     return flower;
 }
 
@@ -85,13 +84,15 @@ static Plant* testFactoryMethod() {
    - deletes strategies after use
    ----------------------- */
 static void testStrategy(Plant *plant) {
-    cout << ">>> testStrategy() start\n";
+
+    cout << "----------------------------------------------------------------------------------------\n";
+    cout << "Testing Strategy:\n";
+
     if (!plant) {
-        cout << "[testStrategy] no plant provided, skipping\n\n";
+        cout << "[testStrategy] no plant provided\n\n";
         return;
     }
 
-    // allocate strategies on the heap so we can demonstrate deletion
     vector<CareStrategy*> strategies;
 
     // high maintenance with some treatments
@@ -112,7 +113,7 @@ static void testStrategy(Plant *plant) {
         cout << "[testStrategy] Done strategy: " << strat->getStrategyName() << "\n\n";
     }
 
-    // demonstrate runtime change in SeasonalCare (if the class supports it)
+    // runtime change in SeasonalCare to Winter
     SeasonalCare *seasonal = dynamic_cast<SeasonalCare*>(strategies.back());
     if (seasonal) {
         string newSeason = "Winter";
@@ -123,14 +124,14 @@ static void testStrategy(Plant *plant) {
         cout << "[testStrategy] Seasonal re-apply done\n\n";
     }
 
-    // Delete strategies explicitly (important to avoid leak)
+    // Delete strategies 
     for (CareStrategy* strat : strategies) {
         cout << "[testStrategy] Deleting strategy: " << (strat ? strat->getStrategyName() : string("nullptr")) << "\n";
         delete strat;
     }
     strategies.clear();
 
-    cout << ">>> testStrategy() end\n\n";
+    cout << "----------------------------------------------------------------------------------------Strategy\n\n";
 }
 
 /* -----------------------
@@ -140,11 +141,12 @@ static void testStrategy(Plant *plant) {
    - deletes all created objects.
    ----------------------- */
 static void testIterator() {
-    cout << ">>> testIterator() start\n";
+
+    cout << "----------------------------------------------------------------------------------------\n";
+    cout << "Testing Iterator:\n";
 
     Inventory inventory;
 
-    // Create several plants via factories
     FlowerFactory flowerFactory;
     TreeFactory treeFactory;
 
@@ -157,7 +159,6 @@ static void testIterator() {
     Plant* p2 = flowerFactory.createPlant(f2, "Flower", "Yellow", "Summer", 10, false);
     Plant* p3 = flowerFactory.createPlant(f3, "Flower", "White", "Autumn", 18, true);
 
-    // Example tree (if you'd like; uses treeFactory and a PlantInfo configured as Tree)
     PlantInfo tinfo;
     tinfo.id = 200;
     tinfo.name = "Oak";
@@ -165,14 +166,12 @@ static void testIterator() {
     tinfo.addedDate = "2025-09-20";
     tinfo.purchasePrice = 30.0;
     tinfo.salePrice = 60.0;
-    // Plant* t1 = treeFactory.createPlant(tinfo, "Oak", 200.0, true, 1.2);
 
-    // Turn plants into InventoryItems (assign different quantities)
+    // Turn plants into InventoryItems 
     vector<InventoryItem*> createdItems;
     if (p1) createdItems.push_back(new InventoryItem(p1, 10)); // healthy stock
     if (p2) createdItems.push_back(new InventoryItem(p2, 2));  // low stock
     if (p3) createdItems.push_back(new InventoryItem(p3, 1));  // low stock
-    // if (t1) createdItems.push_back(new InventoryItem(t1, 3));  // tree stock
 
     // Add items to inventory
     for (InventoryItem* it : createdItems) {
@@ -230,14 +229,11 @@ static void testIterator() {
     createdItems.clear();
 
     // Inventory still exists but is now empty of pointers we owned
-    cout << ">>> testIterator() end\n\n";
+    cout << "----------------------------------------------------------------------------------------Iterator\n\n";
 }
 
-/* -----------------------
-   main
-   ----------------------- */
 int main() {
-    cout << "=== Integration tests: Factory, Strategy, Iterator ===\n\n";
+    cout << "Integration tests: Factory, Strategy, Iterator \n\n";
 
     // Factory test (returns allocated Plant*)
     Plant* plant = testFactoryMethod();
@@ -245,7 +241,7 @@ int main() {
     // Strategy test (uses and deletes strategies, does NOT delete plant)
     testStrategy(plant);
 
-    // Iterator test will create its own plants/items and delete them
+    // Iterator test 
     testIterator();
 
     // cleanup plant from factory test
