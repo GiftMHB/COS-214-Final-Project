@@ -26,3 +26,11 @@ double Vegetable::harvest()
     }
     return 0.0; 
 }
+
+bool Vegetable::isReadyToHarvest(){
+    return yield > 0;
+}
+
+std::string getDescription(){
+    return "Plant description ";
+}
