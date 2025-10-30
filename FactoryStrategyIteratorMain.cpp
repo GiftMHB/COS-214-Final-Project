@@ -139,7 +139,7 @@ static void testStrategy(Plant *plant) {
    - tests full iterator, low-stock iterator, and category iterator.
    - deletes all created objects.
    ----------------------- */
-/* static void testIterator() {
+static void testIterator() {
     cout << ">>> testIterator() start\n";
 
     Inventory inventory;
@@ -165,14 +165,14 @@ static void testStrategy(Plant *plant) {
     tinfo.addedDate = "2025-09-20";
     tinfo.purchasePrice = 30.0;
     tinfo.salePrice = 60.0;
-    Plant* t1 = treeFactory.createPlant(tinfo, "Oak", 200.0, true, 1.2);
+    // Plant* t1 = treeFactory.createPlant(tinfo, "Oak", 200.0, true, 1.2);
 
     // Turn plants into InventoryItems (assign different quantities)
     vector<InventoryItem*> createdItems;
     if (p1) createdItems.push_back(new InventoryItem(p1, 10)); // healthy stock
     if (p2) createdItems.push_back(new InventoryItem(p2, 2));  // low stock
     if (p3) createdItems.push_back(new InventoryItem(p3, 1));  // low stock
-    if (t1) createdItems.push_back(new InventoryItem(t1, 3));  // tree stock
+    // if (t1) createdItems.push_back(new InventoryItem(t1, 3));  // tree stock
 
     // Add items to inventory
     for (InventoryItem* it : createdItems) {
@@ -231,7 +231,7 @@ static void testStrategy(Plant *plant) {
 
     // Inventory still exists but is now empty of pointers we owned
     cout << ">>> testIterator() end\n\n";
-} */
+}
 
 /* -----------------------
    main
@@ -246,7 +246,7 @@ int main() {
     testStrategy(plant);
 
     // Iterator test will create its own plants/items and delete them
-    // testIterator();
+    testIterator();
 
     // cleanup plant from factory test
     if (plant) {
