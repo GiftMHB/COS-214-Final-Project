@@ -1,6 +1,14 @@
+/**
+ * @file Plant.h
+ * @brief Concrete Subject class representing a plant that can be observed
+ * @details Plant implements the Subject interface and maintains state that
+ *          observers can monitor.
+ */
+
 #ifndef PLANT_H
 #define PLANT_H
 
+#include "Subject.h"
 #include <string>
 #include <list>
 #include "PlantState.h"
@@ -11,8 +19,6 @@ class CareStrategy;
 using namespace std;
 
 /**
- * @file Plant.h
- * @brief Defines the abstract Plant class representing a plant entity.
  * @class Plant
  * @brief Represents a plant in the system with dynamic state and care behavior and also
  * Acts as the Context in the Strategy Pattern by maintaining a reference
