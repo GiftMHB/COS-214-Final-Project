@@ -9,7 +9,7 @@
 |------|----------------|------|
 | Gift Mohuba  | 23545527 | Factory Method & Strategy & Iterator|
 | Lufuno Mphagi| 22501445 | Abstract Factory & Command & Template Method|
-|  | XXXXXXXX | X |
+| Tiego Mokwena | 22496336 | Composite & Observer & Facade |
 |  | XXXXXXXX | X |
 |  | XXXXXXXX | X |
 
