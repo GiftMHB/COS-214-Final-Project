@@ -33,11 +33,13 @@ class PlantFactory {
          * @return Pointer to the newly created Plant.
          */
         PlantFactory();
+        virtual ~PlantFactory();
         /**
          * @note This is the public factory method that clients call
          */
-        virtual Plant* createPlant(PlantInfo& info, std::string type /* attributes */) = 0;
-        virtual ~PlantFactory();
+        virtual Plant* createPlant(PlantInfo& info, string type, string color, string bloomSeason, int petalCount, bool fragrance) = 0;
+        virtual Plant* createPlant(PlantInfo& info, string type, string treeType, double height, bool isEvergreen, double trunkDiameter) = 0;
+        virtual Plant* createPlant(PlantInfo& info, string type, string vegetableType, int harvestTime, double expectedYield, bool isEdible) = 0;
 };
 
 #endif

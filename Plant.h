@@ -6,6 +6,7 @@
 #include "PlantState.h"
 #include "CareStrategy.h"
 // #include "PlantObserver.h"
+class CareStrategy;
 
 using namespace std;
 
@@ -18,11 +19,7 @@ using namespace std;
  * to a CareStrategy, which defines how the plant is maintained
  */
 
-
-class Plant {
-    protected:
-
-        struct PlantInfo
+ struct PlantInfo
         {
             int id;
             std::string name;
@@ -45,6 +42,10 @@ class Plant {
             int currentAgeDays = 0;
             int daysToMaturity = 365;
         };
+
+
+class Plant {
+    protected:
 
         PlantInfo info;
         CareStrategy* careStrategy;

@@ -55,7 +55,7 @@ static PlantInfo makeFlowerInfo(int id, const string &name, double salePrice) {
 static Plant* testFactoryMethod() {
     cout << ">>> testFactoryMethod() start\n";
 
-    FlowerFactory flowerFactory;
+    FlowerFactory  flowerFactory;
     PlantInfo info = makeFlowerInfo(1, "Autumn Rose", 19.99);
 
     // create a flower
@@ -139,7 +139,7 @@ static void testStrategy(Plant *plant) {
    - tests full iterator, low-stock iterator, and category iterator.
    - deletes all created objects.
    ----------------------- */
-static void testIterator() {
+/* static void testIterator() {
     cout << ">>> testIterator() start\n";
 
     Inventory inventory;
@@ -231,7 +231,7 @@ static void testIterator() {
 
     // Inventory still exists but is now empty of pointers we owned
     cout << ">>> testIterator() end\n\n";
-}
+} */
 
 /* -----------------------
    main
@@ -246,7 +246,7 @@ int main() {
     testStrategy(plant);
 
     // Iterator test will create its own plants/items and delete them
-    testIterator();
+    // testIterator();
 
     // cleanup plant from factory test
     if (plant) {

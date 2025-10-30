@@ -1,7 +1,7 @@
 #include "Plant.h"
 #include <iostream>
 
-int Plant::PlantInfo::plantCount = 0;
+int PlantInfo::plantCount = 0;
 
 Plant::Plant(PlantInfo& info) : info(info)
 {

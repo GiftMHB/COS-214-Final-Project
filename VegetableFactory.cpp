@@ -2,8 +2,8 @@
 #include <iostream>
 
 VegetableFactory::VegetableFactory()
-    : PlantFactory()
 {
+    
 }
 
 Plant *VegetableFactory::createFlower(PlantInfo &info, string color, string bloomSeason, int petalCount, bool fragrance)
@@ -31,7 +31,7 @@ Plant *VegetableFactory::createVegetable(PlantInfo &info, string vegetableType, 
     }
 }
 
-Plant *VegetableFactory::createPlant(PlantInfo &info, string vegetableType, int harvestTime, double expectedYield, bool isEdible)
+Plant *VegetableFactory::createPlant(PlantInfo& info, string type, string vegetableType, int harvestTime, double expectedYield, bool isEdible)
 {
     if (info.classification == "Vegetable")
     {

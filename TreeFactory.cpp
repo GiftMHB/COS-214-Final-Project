@@ -1,6 +1,11 @@
 #include "TreeFactory.h"
 #include <iostream>
 
+TreeFactory::TreeFactory()
+{
+    
+}
+
 Plant *TreeFactory::createFlower(PlantInfo &info, string color, string bloomSeason, int petalCount, bool fragrance)
 {
     std::cout << "[TreeFactory] Cannot create Flower.\n";
@@ -26,7 +31,7 @@ Plant *TreeFactory::createTree(PlantInfo &info, string treeType, double height, 
     }
 }
 
-Plant *TreeFactory::createPlant(PlantInfo &info, string treeType, double height, bool isEvergreen, double trunkDiameter)
+Plant *TreeFactory::createPlant(PlantInfo& info, string type, string treeType, double height, bool isEvergreen, double trunkDiameter)
 {
     if (info.classification == "Tree")
     {
