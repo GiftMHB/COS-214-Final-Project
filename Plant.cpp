@@ -12,17 +12,12 @@ Plant::Plant(PlantInfo& info) : info(info)
 
 Plant::~Plant()
 {
-    if (careStrategy)
-    {
-        delete careStrategy;
-        careStrategy = nullptr;
-    }
+    
 }
 
 void Plant::setCareStrategy(CareStrategy *strategy)
 {
-    if (careStrategy)
-        delete careStrategy;
+  
     this->careStrategy = strategy;
 }
 
