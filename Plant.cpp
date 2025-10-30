@@ -1,31 +1,42 @@
 #include "Plant.h"
 #include <iostream>
 
-Plant::Plant(PlantInfo &info)
+int Plant::PlantInfo::plantCount = 0;
+
+Plant::Plant(PlantInfo& info) : info(info)
 {
-    this->info = info;
+    PlantInfo::plantCount++;
+    this->careStrategy = nullptr;
+    this->state = nullptr;
 }
 
 Plant::~Plant()
 {
+    if (careStrategy)
+    {
+        delete careStrategy;
+        careStrategy = nullptr;
+    }
 }
 
 void Plant::setCareStrategy(CareStrategy *strategy)
 {
-    info.careStrategy = strategy;
+    if (careStrategy)
+        delete careStrategy;
+    this->careStrategy = strategy;
 }
 
 void Plant::applyCareStrategy()
 {
-    if (info.careStrategy)
-        info.careStrategy->applyCare(this);
+    if (this->careStrategy)
+        this->careStrategy->applyCare(this);
     else
         std::cout << "No care strategy set for this plant.\n";
 }
 
 std::string Plant::getCareStrategyName()
 {
-    return info.careStrategy ? info.careStrategy->getStrategyName() : "No Strategy";
+    return this->careStrategy ? this->careStrategy->getStrategyName() : "No Strategy";
 }
 
 void Plant::water(int amount)
@@ -125,17 +136,17 @@ int Plant::getHealthLevel()
 
 PlantState *Plant::getState() const
 {
-    return info.state;
+    // return info.state;
 }
 
 void Plant::setState(PlantState *newState)
 {
-    info.state = newState;
+    // info.state = newState;
 }
 
 std::string Plant::getCurrentStateName()
 {
-    return info.state ? info.state->getStateName() : "No State";
+    // return info.state ? info.state->getStateName() : "No State";
 }
 
 int Plant::getNutrientLevel() const

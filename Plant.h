@@ -18,47 +18,38 @@ using namespace std;
  * to a CareStrategy, which defines how the plant is maintained
  */
 
-struct PlantInfo
-{
-    int id;
-    std::string name;
-    std::string classification;
-    std::string addedDate;
-    double purchasePrice;
-    double salePrice;
-
-    // reasonable defaults
-    int waterLevel = 50;
-    int healthLevel = 100;
-    int sunlightNeed = 5;
-    int fertilizerNeed = 2;
-    
-    // State and Strategy pointers
-    PlantState *state;
-    CareStrategy *careStrategy;
-    
-    // Static plant counter
-    static int plantCount;
-
-    // reasonable defaults
-    int waterLevel = 20;
-    int healthLevel = 100;
-    int sunlightNeed = 5;
-    int fertilizerNeed = 2;
-    int nutrientLevel = 50;
-    double currentHeight = 0.0;
-    double maturityHeight = 100.0;
-    int currentAgeDays = 0;
-    int daysToMaturity = 365;
-};
 
 class Plant {
     protected:
-        PlantInfo info;
-        std::string AddedDate;
 
+        struct PlantInfo
+        {
+            int id;
+            std::string name;
+            std::string classification;
+            std::string addedDate;
+            double purchasePrice;
+            double salePrice;
+            
+            // Static plant counter
+            static int plantCount;
+
+            // reasonable defaults
+            int waterLevel = 20;
+            int healthLevel = 100;
+            int sunlightNeed = 5;
+            int fertilizerNeed = 2;
+            int nutrientLevel = 50;
+            double currentHeight = 0.0;
+            double maturityHeight = 100.0;
+            int currentAgeDays = 0;
+            int daysToMaturity = 365;
+        };
+
+        PlantInfo info;
         CareStrategy* careStrategy;
-        //PlantState* state;
+        PlantState* state;
+
         // std::list<PlantObserver*> observers;
 
     public:
@@ -81,7 +72,6 @@ class Plant {
         // void handleState();
         // void applyCare();
         int getID();
-        int getWaterLevel();
         PlantState *getState() const;
         void setState(PlantState *newState);
         std::string getCurrentStateName();
