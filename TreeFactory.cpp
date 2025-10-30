@@ -43,3 +43,13 @@ Plant *TreeFactory::createPlant(PlantInfo& info, string type, string treeType, d
         return nullptr;
     }
 }
+
+Plant* TreeFactory::createPlant(PlantInfo& info, string type, string color, string bloomSeason, int petalCount, bool fragrance) {
+    std::cout << "[TreeFactory] Cannot create Flower.\n";
+    return nullptr;
+}
+
+Plant* TreeFactory::createPlant(PlantInfo& info, string type, string vegetableType, int harvestTime, double expectedYield, bool isEdible) {
+    std::cout << "[TreeFactory] Cannot create Vegetable.\n";
+    return nullptr;
+}

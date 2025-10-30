@@ -3,7 +3,7 @@
 
 VegetableFactory::VegetableFactory()
 {
-    
+
 }
 
 Plant *VegetableFactory::createFlower(PlantInfo &info, string color, string bloomSeason, int petalCount, bool fragrance)
@@ -42,4 +42,14 @@ Plant *VegetableFactory::createPlant(PlantInfo& info, string type, string vegeta
         std::cout << "[VegetableFactory] Unsupported plant classification: " << info.classification << "\n";
         return nullptr;
     }
+}
+
+Plant* VegetableFactory::createPlant(PlantInfo& info, string type, string color, string bloomSeason, int petalCount, bool fragrance) {
+    std::cout << "[VegetableFactory] Cannot create Flower.\n";
+    return nullptr;
+}
+
+Plant* VegetableFactory::createPlant(PlantInfo& info, string type, string treeType, double height, bool isEvergreen, double trunkDiameter) {
+    std::cout << "[VegetableFactory] Cannot create Tree.\n";
+    return nullptr;
 }

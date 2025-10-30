@@ -17,7 +17,11 @@ class VegetableFactory : public PlantFactory {
         Plant *createVegetable(PlantInfo &info, string vegetableType, int harvestTime, double expectedYield, bool isEdible);
 
     public:
+        VegetableFactory();
         Plant* createPlant(PlantInfo& info, string type, string vegetableType, int harvestTime, double expectedYield, bool isEdible) override;
+
+        Plant* createPlant(PlantInfo& info, string type, string color, string bloomSeason, int petalCount, bool fragrance) override;
+        Plant* createPlant(PlantInfo& info, string type, string treeType, double height, bool isEvergreen, double trunkDiameter) override;
 };
 
 #endif 
