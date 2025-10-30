@@ -24,11 +24,9 @@ class Vegetable : public Plant {
          * @param harvestTime Days until harvest
          * @param yield Expected yield amount
          * @param vegetableType The type or variety of the vegetable
-         * @param isEdible Whether the vegetable is edible (default = true)
+         * @param isEdible Whether the vegetable is edible
          */
-        Vegetable(std::string name, int harvestTime, double yield,
-                std::string vegetableType, bool isEdible = true);
-
+        Vegetable(PlantInfo& info,int harvestTime,double yield,string vegetableType,bool isEdible);
         ~Vegetable();
 
         int getHarvestTime();

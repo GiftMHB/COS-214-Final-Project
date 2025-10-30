@@ -17,8 +17,8 @@ class LowMaintenanceCare : public CareStrategy {
     public:
         /**
          * @brief Constructs a LowMaintenanceCare strategy with specified frequencies.
-         * @param waterFreq Days between watering sessions.
-         * @param nutrientFreq Days between nutrient applications.
+         * @param waterFreq Days between watering sessions
+         * @param nutrientFreq Days between nutrient applications
          */
         LowMaintenanceCare(int waterFreq, int nutrientFreq);
 

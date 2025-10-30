@@ -10,127 +10,115 @@
 
 #include "Subject.h"
 #include <string>
-
-// Forward declarations
-class PlantState;
+#include <list>
+#include "PlantState.h"
+#include "CareStrategy.h"
+// #include "PlantObserver.h"
 class CareStrategy;
+
+using namespace std;
 
 /**
  * @class Plant
- * @brief Concrete subject representing a plant in the nursery
- * 
- * This class represents a plant that can be observed for changes in
- * health, water level, nutrient level, and growth state.
+ * @brief Represents a plant in the system with dynamic state and care behavior and also
+ * Acts as the Context in the Strategy Pattern by maintaining a reference
+ * to a CareStrategy, which defines how the plant is maintained
  */
-class Plant : public Subject {
-private:
-    std::string id; ///< Unique plant identifier
-    std::string name; ///< Plant name
-    std::string species; ///< Plant species
-    std::string classification; ///< Plant classification
-    double price; ///< Sale price
-    int waterLevel; ///< Current water level (0-100)
-    int nutrientLevel; ///< Current nutrient level (0-100)
-    double health; ///< Health status (0.0-100.0)
-    bool isAlive; ///< Whether plant is alive
-    PlantState* currentState; ///< Current growth state
-    CareStrategy* careStrategy; ///< Care strategy
 
-public:
-    /**
-     * @brief Constructor
-     * @param plantName Name of the plant
-     * @param plantSpecies Species of the plant
-     */
-    Plant(const std::string& plantName, const std::string& plantSpecies);
+ struct PlantInfo
+        {
+            int id;
+            std::string name;
+            std::string classification;
+            std::string addedDate;
+            double purchasePrice;
+            double salePrice;
+            
+            // Static plant counter
+            static int plantCount;
 
-    /**
-     * @brief Destructor
-     */
-    ~Plant();
+            // reasonable defaults
+            int waterLevel = 20;
+            int healthLevel = 100;
+            int sunlightNeed = 5;
+            int fertilizerNeed = 2;
+            int nutrientLevel = 50;
+            double currentHeight = 0.0;
+            double maturityHeight = 100.0;
+            int currentAgeDays = 0;
+            int daysToMaturity = 365;
+        };
 
-    /**
-     * @brief Water the plant
-     * @param amount Amount of water to add (1-100)
-     */
-    void water(int amount);
 
-    /**
-     * @brief Fertilize the plant
-     * @param amount Amount of fertilizer to add (1-100)
-     */
-    void fertilize(int amount);
+class Plant {
+    protected:
 
-    /**
-     * @brief Apply care strategy to the plant
-     */
-    void applyCare();
+        PlantInfo info;
+        CareStrategy* careStrategy;
+        PlantState* state;
 
-    /**
-     * @brief Change the plant's growth state
-     * @param newState Pointer to the new state
-     */
-    void changeState(PlantState* newState);
+        // std::list<PlantObserver*> observers;
 
-    /**
-     * @brief Get the plant's health
-     * @return Health value (0.0-100.0)
-     */
-    double getHealth() const;
+    public:
+        /**
+         * @brief Constructs a Plant with the given PlantInfo struct.
+         * @param info PlantInfo struct containing all plant data.
+         */
+        Plant(PlantInfo& info);
 
-    /**
-     * @brief Check if plant is ready for sale
-     * @return true if ready for sale, false otherwise
-     */
-    bool isReadyForSale() const;
+        virtual ~Plant();
 
-    /**
-     * @brief Get plant ID
-     * @return Plant identifier
-     */
-    std::string getId() const;
+        // Price management
+        void setPrice(double price);
+        double getPrice();
+        
+        // Pure virtual method
+        virtual std::string getDescription() = 0;
+        
+        // State management
+        // void handleState();
+        // void applyCare();
+        int getID();
+        PlantState *getState() const;
+        void setState(PlantState *newState);
+        std::string getCurrentStateName();
 
-    /**
-     * @brief Get plant name
-     * @return Plant name
-     */
-    std::string getName() const;
+        // Care management
+        // void applyCare();
+        void setCareStrategy(CareStrategy *strategy);
+        //To delegate the care behavior to the currently assigned strategy
+        void applyCareStrategy();
+        std::string getCareStrategyName();
+        
+        // Care needs calculation
+       /*  int calculateWaterNeeds();
+        int calculateSunlightNeeds();
+        int calculateNutrientNeeds(); */
 
-    /**
-     * @brief Get plant species
-     * @return Plant species
-     */
-    std::string getSpecies() const;
+        // Basic getters
+        std::string getName();
+        std::string getClassification();
+        std::string getDate();
+        // std::string getSpecies() const;
+        
+        // Level getters and setters
+        int getWaterLevel();
+        void setWaterLevel(int level);
+        int getHealthLevel();
+        void setHealthLevel(int level);
+        int getNutrientLevel() const;
+        void setNutrientLevel(int level);
+        
+        // Age management
+        int getAge() const;
+        void setAge(int newAge);
 
-    /**
-     * @brief Get water level
-     * @return Current water level
-     */
-    int getWaterLevel() const;
-
-    /**
-     * @brief Get nutrient level
-     * @return Current nutrient level
-     */
-    int getNutrientLevel() const;
-
-    /**
-     * @brief Set plant price
-     * @param newPrice New price
-     */
-    void setPrice(double newPrice);
-
-    /**
-     * @brief Get plant price
-     * @return Current price
-     */
-    double getPrice() const;
-
-    /**
-     * @brief Check if plant is alive
-     * @return true if alive, false otherwise
-     */
-    bool getIsAlive() const;
+        // Plant actions
+        void water(int amount);
+        void fertilize(int amount);
+        void exposeToSunlight(int hours);
+        void grow();
+        void printStatus() const;
 };
 
-#endif // PLANT_H
+#endif

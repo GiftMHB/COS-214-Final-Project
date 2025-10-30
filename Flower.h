@@ -25,12 +25,13 @@ class Flower : public Plant {
          * @param petalCount The number of petals.
          * @param fragrance Whether the flower is fragrant.
          */
-        Flower( std::string color,std::string bloomSeason,int petalCount,bool fragrance);
+        Flower(PlantInfo& info,string color,string bloomSeason,int petalCount,bool fragrance);
         ~Flower();
 
         std::string getColor();
         std::string getBloomSeason();
-        bool isInBloom();
+        int getPetalCount();
+        bool hasFragrance();
         std::string getDescription();
 };
 

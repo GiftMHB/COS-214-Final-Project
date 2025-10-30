@@ -19,11 +19,9 @@ class Tree : public Plant {
     public:
         /**
          * @brief Constructs a Tree with the given attributes.
-         * @param treeType The type of tree.
-         * @param height The tree's height.
          * @param isEvergreen Whether the tree is evergreen.
          */
-        Tree(std::string treeType, double height, bool isEvergreen, double trunckDiameter);
+        Tree(PlantInfo& info,string treeType,double height,bool isEvergreen,double trunkDiameter);  
         ~Tree();//more parameters will be added later
 
         double getHeight();

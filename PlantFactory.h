@@ -4,6 +4,8 @@
 #include <string>
 #include "Plant.h"
 
+using namespace std;
+
 /**
  * @file PlantFactory.h
  * @brief Defines the abstract PlantFactory class responsible for creating Plant objects
@@ -18,10 +20,9 @@ class PlantFactory {
 
     protected:
         //Protected factory helper methods to be implemented by concrete factories
-        virtual Plant* createFlower(std::string name, double price) = 0;
-        virtual Plant* createTree(std::string name, double price) = 0;
-        // virtual Plant* createShrub(std::string name, double price) = 0;
-        virtual Plant* createVegetable(std::string name, double price) = 0;
+        virtual Plant* createFlower(PlantInfo& info,string color,string bloomSeason,int petalCount,bool fragrance) = 0;
+        virtual Plant* createTree(PlantInfo& info,string treeType,double height,bool isEvergreen,double trunkDiameter) = 0;
+        virtual Plant* createVegetable(PlantInfo& info,string vegetableType,int harvestTime,double expectedYield,bool isEdible) = 0;
 
     public:
         /**
@@ -31,8 +32,14 @@ class PlantFactory {
          * @param price The price of the plant.
          * @return Pointer to the newly created Plant.
          */
-        virtual Plant* createPlant(std::string type, std::string name, double price) = 0;
+        PlantFactory();
         virtual ~PlantFactory();
+        /**
+         * @note This is the public factory method that clients call
+         */
+        virtual Plant* createPlant(PlantInfo& info, string type, string color, string bloomSeason, int petalCount, bool fragrance) = 0;
+        virtual Plant* createPlant(PlantInfo& info, string type, string treeType, double height, bool isEvergreen, double trunkDiameter) = 0;
+        virtual Plant* createPlant(PlantInfo& info, string type, string vegetableType, int harvestTime, double expectedYield, bool isEdible) = 0;
 };
 
-#endif 
+#endif
