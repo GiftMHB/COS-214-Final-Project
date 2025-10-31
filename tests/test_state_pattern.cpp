@@ -7,10 +7,16 @@
 #include "../include/WiltingState.h"
 #include "../include/DeadState.h"
 
+
+
 TEST_SUITE("State Pattern Unit Tests") {
+
+
     
     TEST_CASE("Plant Initialization") {
         Plant plant("Rose", "Rosa", 100.0);
+
+
         
         CHECK(plant.getName() == "Rose");
         CHECK(plant.getSpecies() == "Rosa");
@@ -20,46 +26,66 @@ TEST_SUITE("State Pattern Unit Tests") {
         CHECK(plant.getNutrientLevel() == 50);
         CHECK(plant.getAge() == 0);
     }
+
+
+
     
     TEST_CASE("Seedling State Transitions") {
         Plant plant("Test Plant", "Test Species", 50.0);
         
         SUBCASE("Seedling remains seedling with insufficient conditions") {
-            plant.setAge(5);  // Below min age
-            plant.setWaterLevel(30);  // Below required water
+            plant.setAge(5);  
+            
+            plant.setWaterLevel(30);  
+            
             plant.grow();
             
             CHECK(plant.getStateName() == "Seedling");
         }
         
         SUBCASE("Seedling transitions to growing with proper conditions") {
-            plant.setAge(10);  // Above min age
-            plant.setWaterLevel(60);  // Above required water
+            plant.setAge(10);
+            
+            plant.setWaterLevel(60);  
+            
             plant.grow();
             
             CHECK(plant.getStateName() == "Growing");
+
+            
         }
     }
+
+
+
     
     TEST_CASE("Growing State Transitions") {
         Plant plant("Growing Plant", "Test Species", 50.0);
         plant.setState(new GrowingState());
         
         SUBCASE("Growing transitions to mature with age") {
-            plant.setAge(35);  // Above maturation age
+            plant.setAge(35);  
+            
             plant.grow();
             
             CHECK(plant.getStateName() == "Mature");
         }
         
         SUBCASE("Growing transitions to wilting with low resources") {
-            plant.setWaterLevel(10);  // Very low water
-            plant.setNutrientLevel(10);  // Very low nutrients
+            plant.setWaterLevel(10);  
+
+            
+            plant.setNutrientLevel(10);  
+
+            
             plant.grow();
             
             CHECK(plant.getStateName() == "Wilting");
         }
     }
+
+
+
     
     TEST_CASE("Mature State Behavior") {
         Plant plant("Mature Plant", "Test Species", 50.0);
@@ -71,6 +97,8 @@ TEST_SUITE("State Pattern Unit Tests") {
             
             CHECK(plant.getWaterLevel() > initialWater);
         }
+
+        
         
         SUBCASE("Mature transitions to wilting when neglected") {
             plant.setWaterLevel(10);
@@ -80,6 +108,9 @@ TEST_SUITE("State Pattern Unit Tests") {
             CHECK(plant.getStateName() == "Wilting");
         }
     }
+
+
+    
     
     TEST_CASE("Wilting State Recovery") {
         Plant plant("Wilting Plant", "Test Species", 50.0);
@@ -92,12 +123,16 @@ TEST_SUITE("State Pattern Unit Tests") {
             
             CHECK(plant.getStateName() == "Growing");
         }
+
+
+
         
         SUBCASE("Wilting dies after prolonged neglect") {
             plant.setWaterLevel(10);
             plant.setNutrientLevel(10);
+
+
             
-            // Simulate multiple days of wilting
             for (int i = 0; i < 10; i++) {
                 plant.grow();
             }
@@ -105,6 +140,9 @@ TEST_SUITE("State Pattern Unit Tests") {
             CHECK(plant.getStateName() == "Dead");
         }
     }
+
+
+
     
     TEST_CASE("Dead State Terminal Behavior") {
         Plant plant("Dead Plant", "Test Species", 50.0);
@@ -161,18 +199,22 @@ TEST_SUITE("State Pattern Unit Tests") {
         Plant plant("Resource Test", "Test Species", 50.0);
         
         SUBCASE("Water level clamping") {
-            plant.setWaterLevel(150);  // Above max
+            plant.setWaterLevel(150);  
+            
             CHECK(plant.getWaterLevel() == 100);
             
-            plant.setWaterLevel(-10);  // Below min
+            plant.setWaterLevel(-10);  
+            
             CHECK(plant.getWaterLevel() == 0);
         }
         
         SUBCASE("Nutrient level clamping") {
-            plant.setNutrientLevel(200);  // Above max
+            plant.setNutrientLevel(200);  
+            
             CHECK(plant.getNutrientLevel() == 100);
             
-            plant.setNutrientLevel(-5);  // Below min
+            plant.setNutrientLevel(-5);  
+            
             CHECK(plant.getNutrientLevel() == 0);
         }
     }
@@ -184,14 +226,16 @@ TEST_SUITE("State Pattern Unit Tests") {
         CHECK(plant1->getStateName() == "Seedling");
         CHECK(plant2->getStateName() == "Seedling");
         CHECK(plant1->getName() != plant2->getName());
+
+
         
-        // Test independent state progression
         plant1->setAge(10);
         plant1->setWaterLevel(60);
         plant1->grow();
         
         CHECK(plant1->getStateName() == "Growing");
-        CHECK(plant2->getStateName() == "Seedling");  // Should remain unchanged
+        CHECK(plant2->getStateName() == "Seedling");  
+        
         
         delete plant1;
         delete plant2;
