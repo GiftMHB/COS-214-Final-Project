@@ -1,108 +1,66 @@
-#ifndef PLANTABSTRACTFACTORY_H
-#define PLANTABSTRACTFACTORY_H
+/**
+ * @file PlantAbstractFactory.h
+ * @brief Abstract Factory pattern for creating plant families and related products
+ */
+
+#ifndef PLANT_ABSTRACT_FACTORY_H
+#define PLANT_ABSTRACT_FACTORY_H
 
 #include <string>
-#include "Plant.h"
-#include "CareKit.h"
-#include "Soil.h"
-
-using namespace std;
+#include <memory>
+#include <vector>
+#include <algorithm>
+#include "Plant.h"  // Include the complete plant hierarchy
 
 /**
- * @brief Abstract Factory interface for creating families of related garden objects
- * 
- * This factory creates complete plant packages including the plant itself,
- * its care kit, and appropriate soil type. Ensures all components work together
- * harmoniously for specific plant types (Flowers, Trees, etc.).
+ * @brief Abstract factory interface for creating plant family products
  */
 class PlantAbstractFactory {
 public:
-    virtual ~PlantAbstractFactory() {}
+    virtual ~PlantAbstractFactory() = default;
     
-    /**
-     * @brief Creates a plant instance with specific type and attributes
-     * @param name The common name of the plant (e.g., "Red Rose")
-     * @param species The scientific species name
-     * @param price The selling price of the plant
-     * @return Pointer to the created Plant object
-     */
-    virtual Plant* createPlant(const string& name, 
-                              const string& species, 
-                              double price) = 0;
-    
-    /**
-     * @brief Creates a care kit suitable for the plant type
-     * @return Pointer to the created CareKit object
-     */
+    virtual Plant* createPlant(const std::string& name, const std::string& species, double price) = 0;
     virtual CareKit* createCareKit() = 0;
-    
-    /**
-     * @brief Creates soil optimized for the plant type
-     * @return Pointer to the created Soil object
-     */
     virtual Soil* createSoil() = 0;
-    
-    /**
-     * @brief Gets the plant type this factory creates
-     * @return String representing the plant type
-     */
-    virtual string getFactoryType() const = 0;
+    virtual std::string getFactoryType() const = 0;
+    virtual std::string getDescription() const = 0;
 };
 
 /**
- * @brief Concrete Factory for creating Flower plants and accessories
+ * @brief Concrete factory for creating flower family products
  */
 class FlowerPlantFactory : public PlantAbstractFactory {
 public:
-    Plant* createPlant(const string& name, 
-                      const string& species, 
-                      double price) override;
-    
+    Plant* createPlant(const std::string& name, const std::string& species, double price) override;
     CareKit* createCareKit() override;
     Soil* createSoil() override;
-    string getFactoryType() const override;
+    std::string getFactoryType() const override;
+    std::string getDescription() const override;
 };
 
 /**
- * @brief Concrete Factory for creating Tree plants and accessories
+ * @brief Concrete factory for creating tree family products
  */
 class TreePlantFactory : public PlantAbstractFactory {
 public:
-    Plant* createPlant(const string& name, 
-                      const string& species, 
-                      double price) override;
-    
+    Plant* createPlant(const std::string& name, const std::string& species, double price) override;
     CareKit* createCareKit() override;
     Soil* createSoil() override;
-    string getFactoryType() const override;
+    std::string getFactoryType() const override;
+    std::string getDescription() const override;
 };
 
 /**
- * @brief Concrete Factory for creating Shrub plants and accessories
+ * @brief Factory provider and registry
  */
-class ShrubPlantFactory : public PlantAbstractFactory {
-public:
-    Plant* createPlant(const string& name, 
-                      const string& species, 
-                      double price) override;
+class PlantFactoryProvider {
+private:
+    static std::unique_ptr<PlantAbstractFactory> createFactory(const std::string& type);
     
-    CareKit* createCareKit() override;
-    Soil* createSoil() override;
-    string getFactoryType() const override;
+public:
+    static std::unique_ptr<PlantAbstractFactory> getFactory(const std::string& type);
+    static std::vector<std::string> getSupportedFactories();
+    static bool isFactorySupported(const std::string& type);
 };
 
-/**
- * @brief Concrete Factory for creating Vegetable plants and accessories
- */
-class VegetablePlantFactory : public PlantAbstractFactory {
-public:
-    Plant* createPlant(const string& name, 
-                      const string& species, 
-                      double price) override;
-    
-    CareKit* createCareKit() override;
-    Soil* createSoil() override;
-    string getFactoryType() const override;
-};
-
-#endif // PLANTABSTRACTFACTORY_H
+#endif // PLANT_ABSTRACT_FACTORY_H

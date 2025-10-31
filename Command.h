@@ -1,202 +1,180 @@
+/**
+ * @file Command.h
+ * @brief Command pattern interface and implementations for garden center operations
+ * @details Defines the Command interface and concrete command classes for various plant operations
+ */
+
 #ifndef COMMAND_H
 #define COMMAND_H
 
 #include <string>
 #include <vector>
-using namespace std;
+#include <memory>
 
-// Forward declarations to avoid circular dependencies
+// Forward declarations
 class Plant;
-class Inventory;
-class Staff;
 
 /**
- * @brief Abstract base class for all garden management commands
- * 
- * Implements the Command Pattern to encapsulate all staff actions as objects.
- * This allows for queuing, logging, undo/redo functionality, and transactional
- * operations throughout the garden simulation.
+ * @brief Abstract base class for all commands in the system
+ * @details Follows the Command pattern to encapsulate all information needed to perform an action
  */
 class Command {
 public:
-    virtual ~Command() {}
+    virtual ~Command() = default;
     
     /**
-     * @brief Executes the command operation
-     * 
-     * Performs the specific action this command represents (water, fertilize, sell, etc.)
-     * and returns a success status message.
-     * 
+     * @brief Execute the command
      * @return String describing the execution result
      */
-    virtual string execute() = 0;
+    virtual std::string execute() = 0;
     
     /**
-     * @brief Reverses the command operation
-     * 
-     * Restores the system to the state before this command was executed.
-     * Essential for undo functionality.
-     * 
+     * @brief Undo the command
      * @return String describing the undo result
      */
-    virtual string undo() = 0;
+    virtual std::string undo() = 0;
     
     /**
-     * @brief Gets a description of what this command does
-     * @return Human-readable command description
+     * @brief Get command description
+     * @return Detailed description of the command
      */
-    virtual string getDescription() const = 0;
+    virtual std::string getDescription() const = 0;
     
     /**
-     * @brief Gets the type of command for categorization
-     * @return Command type string
+     * @brief Get command type for categorization
+     * @return String representing command type
      */
-    virtual string getCommandType() const = 0;
+    virtual std::string getCommandType() const = 0;
+    
+    /**
+     * @brief Check if command can be undone
+     * @return True if command supports undo operation
+     */
+    virtual bool isUndoable() const { return true; }
 };
 
 /**
- * @brief Command for watering a specific plant
+ * @brief Concrete command for watering plants
  */
 class WaterPlantCommand : public Command {
 private:
     Plant* plant;
     double waterAmount;
-    string staffMember;
+    std::string staffMember;
+    double previousWaterLevel;
+    bool executed;
 
 public:
-    WaterPlantCommand(Plant* plant, double amount, const string& staff);
-    string execute() override;
-    string undo() override;
-    string getDescription() const override;
-    string getCommandType() const override;
+    /**
+     * @brief Construct a new WaterPlantCommand object
+     * @param plant Pointer to the plant to water
+     * @param amount Amount of water in milliliters
+     * @param staff Name of staff member performing the action
+     */
+    WaterPlantCommand(Plant* plant, double amount, const std::string& staff);
+    
+    std::string execute() override;
+    std::string undo() override;
+    std::string getDescription() const override;
+    std::string getCommandType() const override;
 };
 
 /**
- * @brief Command for fertilizing a specific plant
- */
-class FertilizePlantCommand : public Command {
-private:
-    Plant* plant;
-    string fertilizerType;
-    string staffMember;
-
-public:
-    FertilizePlantCommand(Plant* plant, const string& fertilizer, const string& staff);
-    string execute() override;
-    string undo() override;
-    string getDescription() const override;
-    string getCommandType() const override;
-};
-
-/**
- * @brief Command for pruning a specific plant
- */
-class PrunePlantCommand : public Command {
-private:
-    Plant* plant;
-    double pruneAmount; // Percentage or specific measurement
-    string staffMember;
-
-public:
-    PrunePlantCommand(Plant* plant, double amount, const string& staff);
-    string execute() override;
-    string undo() override;
-    string getDescription() const override;
-    string getCommandType() const override;
-};
-
-/**
- * @brief Command for selling a plant to a customer
+ * @brief Concrete command for selling plants
  */
 class SellPlantCommand : public Command {
 private:
     Plant* plant;
-    string customerName;
+    std::string customerName;
     double salePrice;
-    string staffMember;
+    std::string staffMember;
+    bool wasSold;
+    std::string previousStatus;
 
 public:
-    SellPlantCommand(Plant* plant, const string& customer, double price, const string& staff);
-    string execute() override;
-    string undo() override;
-    string getDescription() const override;
-    string getCommandType() const override;
+    /**
+     * @brief Construct a new SellPlantCommand object
+     * @param plant Pointer to the plant being sold
+     * @param customer Name of the customer
+     * @param price Sale price of the plant
+     * @param staff Name of staff member processing the sale
+     */
+    SellPlantCommand(Plant* plant, const std::string& customer, double price, const std::string& staff);
+    
+    std::string execute() override;
+    std::string undo() override;
+    std::string getDescription() const override;
+    std::string getCommandType() const override;
 };
 
 /**
- * @brief Command for restocking inventory
- */
-class RestockCommand : public Command {
-private:
-    Inventory* inventory;
-    string itemType;
-    int quantity;
-    string staffMember;
-
-public:
-    RestockCommand(Inventory* inventory, const string& item, int qty, const string& staff);
-    string execute() override;
-    string undo() override;
-    string getDescription() const override;
-    string getCommandType() const override;
-};
-
-/**
- * @brief Manages command execution and history for undo/redo functionality
- * 
- * The Invoker class in the Command Pattern that maintains command history
- * and handles the execution pipeline.
+ * @brief Manages command execution history and provides undo/redo functionality
  */
 class CommandInvoker {
 private:
-    vector<Command*> commandHistory;
-    vector<Command*> undoneCommands;
-    static const int MAX_HISTORY_SIZE = 100; // Prevent memory issues
+    std::vector<Command*> commandHistory;
+    std::vector<Command*> undoneCommands;
+    static const size_t MAX_HISTORY_SIZE = 100;
 
 public:
+    /**
+     * @brief Destroy the CommandInvoker and clean up commands
+     */
     ~CommandInvoker();
     
     /**
-     * @brief Executes a command and adds it to history
-     * @param command The command to execute
-     * @return Result message from command execution
+     * @brief Execute a command and add it to history
+     * @param command Pointer to command to execute
+     * @return Execution result message
      */
-    string executeCommand(Command* command);
+    std::string executeCommand(Command* command);
     
     /**
-     * @brief Undoes the most recent command
-     * @return Result message from undo operation
+     * @brief Undo the last executed command
+     * @return Undo result message
      */
-    string undo();
+    std::string undo();
     
     /**
-     * @brief Redoes the most recently undone command
-     * @return Result message from redo operation
+     * @brief Redo the last undone command
+     * @return Redo result message
      */
-    string redo();
+    std::string redo();
     
     /**
-     * @brief Gets the execution history
-     * @return Vector of all executed commands in chronological order
+     * @brief Get command history
+     * @return Vector of command descriptions
      */
-    vector<string> getCommandHistory() const;
+    std::vector<std::string> getCommandHistory() const;
     
     /**
-     * @brief Clears all command history
+     * @brief Clear all command history
      */
     void clearHistory();
     
     /**
-     * @brief Checks if undo is possible
-     * @return True if there are commands to undo
+     * @brief Check if undo is possible
+     * @return True if commands can be undone
      */
     bool canUndo() const;
     
     /**
-     * @brief Checks if redo is possible
-     * @return True if there are commands to redo
+     * @brief Check if redo is possible
+     * @return True if commands can be redone
      */
     bool canRedo() const;
+    
+    /**
+     * @brief Get the number of commands in history
+     * @return Size of command history
+     */
+    size_t getHistorySize() const { return commandHistory.size(); }
+    
+    /**
+     * @brief Get the number of undone commands available for redo
+     * @return Size of undone commands stack
+     */
+    size_t getRedoStackSize() const { return undoneCommands.size(); }
 };
 
 #endif // COMMAND_H

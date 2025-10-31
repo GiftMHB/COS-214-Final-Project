@@ -1,163 +1,192 @@
+/**
+ * @file Report.h
+ * @brief Template Method pattern for report generation with customizable steps
+ * @details Defines the report generation algorithm skeleton with customizable steps
+ */
+
 #ifndef REPORT_H
 #define REPORT_H
 
 #include <string>
-#include <vector>
 #include <map>
-
-using namespace std;
+#include <vector>
+#include <memory>
+#include <ctime> // Add this for time_t
 
 // Forward declarations
-class Plant;
 class Inventory;
 class SalesRecord;
 
 /**
- * @brief Abstract base class for all report generators using Template Method pattern
- * 
- * Defines the skeleton of the report generation algorithm, allowing subclasses
- * to override specific steps while maintaining the overall structure.
- * This ensures consistent report formatting across different report types.
+ * @brief Abstract base class for all reports using Template Method pattern
+ * @details Defines the skeleton of report generation algorithm with customizable steps
  */
 class Report {
 protected:
-    string reportTitle;
-    string generatedDate;
-    map<string, string> reportData;
-    
+    std::string reportTitle;
+    std::string generatedDate;
+    std::map<std::string, std::string> reportData;
+
     /**
-     * @brief Sets up report header and initial data (hook method)
+     * @brief Initialize report with basic information
      */
     virtual void initializeReport() = 0;
     
     /**
-     * @brief Collects data specific to the report type (abstract method)
+     * @brief Collect data needed for the report
      */
     virtual void collectData() = 0;
     
     /**
-     * @brief Processes and analyzes the collected data (hook method)
+     * @brief Process and analyze collected data
      */
     virtual void processData();
     
     /**
-     * @brief Formats the report body content (abstract method)
+     * @brief Format the main body of the report
+     * @return Formatted report body as string
      */
-    virtual string formatBody() = 0;
+    virtual std::string formatBody() = 0;
     
     /**
-     * @brief Adds common footer to all reports (hook method)
+     * @brief Add footer to the report
+     * @return Formatted footer as string
      */
-    virtual string addFooter();
+    virtual std::string addFooter();
 
 public:
-    virtual ~Report() {}
+    virtual ~Report() = default;
     
     /**
-     * @brief Template method that defines the report generation algorithm
-     * 
-     * This is the core template method that subclasses cannot override.
-     * It defines the fixed sequence of steps for generating any report.
-     * 
-     * @return Complete formatted report as a string
+     * @brief Generate the complete report (Template Method)
+     * @return Complete formatted report as string
      */
-    string generateReport();
+    virtual std::string generateReport();
     
     /**
-     * @brief Gets the report type for identification
+     * @brief Export report in specific format
+     * @param format Export format (txt, html, pdf, etc.)
+     * @return Export status message
+     */
+    virtual std::string exportReport(const std::string& format);
+    
+    /**
+     * @brief Get report type identifier
      * @return Report type string
      */
-    virtual string getReportType() const = 0;
+    virtual std::string getReportType() const = 0;
     
     /**
-     * @brief Exports report to different formats (hook method)
-     * @param format The export format (txt, html, csv)
-     * @return Export success message
+     * @brief Get report title
+     * @return Report title
      */
-    virtual string exportReport(const string& format);
+    std::string getTitle() const { return reportTitle; }
+    
+    /**
+     * @brief Get generation date
+     * @return Date when report was generated
+     */
+    std::string getGenerationDate() const { return generatedDate; }
 };
 
 /**
- * @brief Concrete report for inventory status and stock levels
+ * @brief Concrete report for inventory status
  */
 class InventoryReport : public Report {
 private:
     Inventory* inventory;
+
+public:
+    /**
+     * @brief Construct a new InventoryReport object
+     * @param inv Pointer to inventory system
+     */
+    explicit InventoryReport(Inventory* inv);
     
-protected:
     void initializeReport() override;
     void collectData() override;
     void processData() override;
-    string formatBody() override;
-    string addFooter() override;
-
-public:
-    InventoryReport(Inventory* inv);
-    string getReportType() const override;
-    string exportReport(const string& format) override;
+    std::string formatBody() override;
+    std::string addFooter() override;
+    std::string getReportType() const override;
+    
+    /**
+     * @brief Set custom title for inventory report
+     * @param title Custom report title
+     */
+    void setCustomTitle(const std::string& title) { reportTitle = title; }
 };
 
 /**
- * @brief Concrete report for sales performance and revenue
+ * @brief Concrete report for sales performance
  */
 class SalesReport : public Report {
 private:
     SalesRecord* salesRecord;
-    time_t startDate;
-    time_t endDate;
+    std::time_t startDate;
+    std::time_t endDate;
+
+public:
+    /**
+     * @brief Construct a new SalesReport object
+     * @param sales Pointer to sales record system
+     * @param start Start date for report period
+     * @param end End date for report period
+     */
+    SalesReport(SalesRecord* sales, std::time_t start, std::time_t end);
     
-protected:
     void initializeReport() override;
     void collectData() override;
     void processData() override;
-    string formatBody() override;
-
-public:
-    SalesReport(SalesRecord* sales, time_t start, time_t end);
-    string getReportType() const override;
-    string exportReport(const string& format) override;
-};
-
-/**
- * @brief Concrete report for plant health and growth metrics
- */
-class PlantHealthReport : public Report {
-private:
-    vector<Plant*> plants;
-    
-protected:
-    void initializeReport() override;
-    void collectData() override;
-    void processData() override;
-    string formatBody() override;
-
-public:
-    PlantHealthReport(const vector<Plant*>& plantList);
-    string getReportType() const override;
+    std::string formatBody() override;
+    std::string getReportType() const override;
     
     /**
-     * @brief Adds health metrics analysis specific to plant reports
+     * @brief Set report period dates
+     * @param start Start date for report
+     * @param end End date for report
      */
-    string addHealthMetrics();
+    void setReportPeriod(std::time_t start, std::time_t end) {
+        startDate = start;
+        endDate = end;
+    }
 };
 
 /**
- * @brief Concrete report for staff performance and activities
+ * @brief Report generator facade for creating and managing reports
  */
-class StaffPerformanceReport : public Report {
+class ReportGenerator {
 private:
-    vector<string> staffMembers;
-    time_t reportPeriod;
-    
-protected:
-    void initializeReport() override;
-    void collectData() override;
-    string formatBody() override;
-    string addFooter() override;
+    std::map<std::string, std::unique_ptr<Report>> availableReports;
 
 public:
-    StaffPerformanceReport(const vector<string>& staff, time_t period);
-    string getReportType() const override;
+    /**
+     * @brief Register a report type with the generator
+     * @param type Report type identifier
+     * @param report Unique pointer to report instance
+     */
+    void registerReport(const std::string& type, std::unique_ptr<Report> report);
+    
+    /**
+     * @brief Generate a report of specified type
+     * @param type Type of report to generate
+     * @return Generated report content
+     * @throws std::invalid_argument if report type not found
+     */
+    std::string generateReport(const std::string& type);
+    
+    /**
+     * @brief Get list of available report types
+     * @return Vector of available report type strings
+     */
+    std::vector<std::string> getAvailableReports() const;
+    
+    /**
+     * @brief Check if report type is available
+     * @param type Report type to check
+     * @return True if report type is available
+     */
+    bool hasReport(const std::string& type) const;
 };
 
 #endif // REPORT_H
