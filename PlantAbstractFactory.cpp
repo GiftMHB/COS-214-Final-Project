@@ -26,7 +26,7 @@ Plant* FlowerPlantFactory::createPlant(const std::string& name, const std::strin
     bool isFragrant = true;
     
     std::cout << "🌸 FlowerFactory: Creating '" << name << "' (" << species 
-              << ") priced at $" << std::fixed << std::setprecision(2) << price << std::endl;
+              << ") priced at R" << std::fixed << std::setprecision(2) << price << std::endl;
     
     return new Flower(name, species, price, color, bloomSeason, isFragrant);
 }
@@ -67,7 +67,7 @@ Plant* TreePlantFactory::createPlant(const std::string& name, const std::string&
     bool isEvergreen = false;
     
     std::cout << "🌳 TreeFactory: Creating '" << name << "' (" << species 
-              << ") priced at $" << std::fixed << std::setprecision(2) << price << std::endl;
+              << ") priced at R" << std::fixed << std::setprecision(2) << price << std::endl;
     
     return new Tree(name, species, price, height, trunkDiameter, treeType, isEvergreen);
 }

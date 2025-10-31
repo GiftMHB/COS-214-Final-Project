@@ -112,8 +112,8 @@ void InventoryReport::collectData() {
     reportData["SuppliesInStock"] = "58";
     reportData["LowStockItems"] = "23";
     reportData["OutOfStock"] = "7";
-    reportData["TotalValue"] = "$8,425.50";
-    reportData["AverageItemValue"] = "$34.11";
+    reportData["TotalValue"] = "R8,425.50";
+    reportData["AverageItemValue"] = "R34.11";
     reportData["InventoryTurnover"] = "2.8";
     
     std::cout << "Inventory data collection completed" << std::endl;
@@ -218,10 +218,10 @@ void SalesReport::collectData() {
     std::cout << "Collecting sales data from period " << startDate << " to " << endDate << std::endl;
     
     // Simulate data collection from sales system
-    reportData["TotalSales"] = "$12,847.25";
+    reportData["TotalSales"] = "R12,847.25";
     reportData["UnitsSold"] = "324";
     reportData["Transactions"] = "187";
-    reportData["AverageTransaction"] = "$68.70";
+    reportData["AverageTransaction"] = "R68.70";
     reportData["BestSeller"] = "Rose Bush 'Peace'";
     reportData["BestSellerUnits"] = "45";
     reportData["GrowthRate"] = "+18.7%";

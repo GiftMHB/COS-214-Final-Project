@@ -134,7 +134,7 @@ std::string SellPlantCommand::execute() {
         ss << "[" << std::put_time(timeInfo, "%Y-%m-%d %H:%M:%S") << "] "
            << staffMember << " successfully sold plant '" 
            << plant->getName() << "' to " 
-           << customerName << " for $" << std::fixed << std::setprecision(2) 
+           << customerName << " for R" << std::fixed << std::setprecision(2) 
            << salePrice;
            
     } catch (const std::exception& e) {
@@ -170,7 +170,7 @@ std::string SellPlantCommand::undo() {
 std::string SellPlantCommand::getDescription() const {
     std::stringstream ss;
     ss << "SellPlantCommand: " << staffMember << " sells plant to " 
-       << customerName << " for $" << std::fixed << std::setprecision(2) 
+       << customerName << " for R" << std::fixed << std::setprecision(2) 
        << salePrice;
     return ss.str();
 }

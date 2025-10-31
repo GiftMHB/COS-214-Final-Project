@@ -49,7 +49,7 @@ void Plant::displayInfo() const {
     std::cout << "ID: " << id << "\n";
     std::cout << "Species: " << species << "\n";
     std::cout << "Type: " << getPlantType() << "\n";
-    std::cout << "Price: $" << std::fixed << std::setprecision(2) << price << "\n";
+    std::cout << "Price: R" << std::fixed << std::setprecision(2) << price << "\n";
     std::cout << "Status: " << status << "\n";
     std::cout << "Health: " << getHealthStatus() << "\n";
     std::cout << "Water: " << waterLevel << "%, Sunlight: " << sunlightLevel 
@@ -144,7 +144,7 @@ CareKit::CareKit(const std::string& plantType, double price)
 void CareKit::displayInfo() const {
     std::cout << "=== " << plantType << " Care Kit ===\n";
     std::cout << "ID: " << id << "\n";
-    std::cout << "Price: $" << std::fixed << std::setprecision(2) << price << "\n";
+    std::cout << "Price: R" << std::fixed << std::setprecision(2) << price << "\n";
     std::cout << "Description: " << getKitDescription() << "\n";
     std::cout << "Tools included: ";
     for (size_t i = 0; i < tools.size(); ++i) {
@@ -227,7 +227,7 @@ void Soil::displayInfo() const {
     std::cout << "=== " << soilType << " ===\n";
     std::cout << "ID: " << id << "\n";
     std::cout << "pH Level: " << phLevel << "\n";
-    std::cout << "Price: $" << std::fixed << std::setprecision(2) << price << "\n";
+    std::cout << "Price: R" << std::fixed << std::setprecision(2) << price << "\n";
     std::cout << "Description: " << getSoilDescription() << "\n";
     std::cout << "Nutrient Content: ";
     for (const auto& nutrient : nutrientContent) {
