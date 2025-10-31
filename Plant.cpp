@@ -1,188 +1,149 @@
+//Here is my Plant.cpp - TIEGO MOKWENA
+/**
+ * @file Plant.cpp
+ * @brief Implementation of the Plant concrete subject class
+ */
+
 #include "Plant.h"
 #include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <ctime>
 
-int PlantInfo::plantCount = 0;
 
-Plant::Plant(PlantInfo& info) : info(info)
-{
-    PlantInfo::plantCount++;
-    this->careStrategy = nullptr;
-    this->state = nullptr;
+static int plantIdCounter = 1000;
+
+Plant::Plant(const std::string& plantName, const std::string& plantSpecies)
+    : name(plantName), species(plantSpecies), classification("Unknown"),
+      price(0.0), waterLevel(50), nutrientLevel(50), health(100.0),
+      isAlive(true), currentState(nullptr), careStrategy(nullptr) {
+    
+    
+    std::stringstream ss;
+    ss << "P" << plantIdCounter++;
+    id = ss.str();
 }
 
-Plant::~Plant()
-{
+Plant::~Plant() {
+    // Note: State and Strategy are managed by other systems done by my teammates
     
 }
 
-void Plant::setCareStrategy(CareStrategy *strategy)
-{
-  
-    this->careStrategy = strategy;
-}
+void Plant::water(int amount) {
+    if (!isAlive) {
+        std::cout << name << " is dead and cannot be watered." << std::endl;
+        return;
+    }
 
-void Plant::applyCareStrategy()
-{
-    if (this->careStrategy)
-        this->careStrategy->applyCare(this);
-    else
-        std::cout << "No care strategy set for this plant.\n";
-}
+    waterLevel += amount;
+    if (waterLevel > 100) {
+        waterLevel = 100;
+    }
 
-std::string Plant::getCareStrategyName()
-{
-    return this->careStrategy ? this->careStrategy->getStrategyName() : "No Strategy";
-}
-
-void Plant::water(int amount)
-{
-    // Increase water level, but not beyond 100
-    int newWaterLevel = info.waterLevel + amount;
-
-    if (newWaterLevel < 0)
-        newWaterLevel = 0;
-    else if (newWaterLevel > 100)
-        newWaterLevel = 100;
-
-    info.waterLevel = newWaterLevel;
-    std::cout << info.name << " watered by " << amount
-              << " units. Current water level: " << info.waterLevel << "\n";
-
-    if (info.waterLevel >= 40 && info.waterLevel <= 80)
-        info.healthLevel = std::min(100, info.healthLevel + 2);
-    else if (info.waterLevel > 90)
-        info.healthLevel = std::max(0, info.healthLevel - 3); // overwatering 
-}
-
-void Plant::fertilize(int amount)
-{
-    int newnutrientLevel = info.nutrientLevel + amount;
-
-    if (newnutrientLevel < 0)
-        newnutrientLevel = 0;
-    else if (newnutrientLevel > 100)
-        newnutrientLevel = 100;
-
-    info.nutrientLevel = newnutrientLevel;
-
-    std::cout << info.name << " fertilized by " << amount
-              << " units. Nutrient level: " << info.nutrientLevel << "\n";
-
-    // Slight growth effect
-    if (info.nutrientLevel > 40)
-        info.currentHeight = std::min(info.maturityHeight, info.currentHeight + 0.5);
-}
-
-void Plant::exposeToSunlight(int hours)
-{
-    std::cout << info.name << " exposed to sunlight for " << hours << " hours.\n";
-
-    // Simulate effect of sunlight
-    if (hours < info.sunlightNeed)
-        info.healthLevel = std::max(0, info.healthLevel - 2); // not enough sunlight
-    else if (hours > info.sunlightNeed + 3)
-        info.healthLevel = std::max(0, info.healthLevel - 1); // too much sunlight
-    else
-        info.healthLevel = std::min(100, info.healthLevel + 1); // ideal sunlight
-
-    if (info.healthLevel > 70)
-        info.currentHeight = std::min(info.maturityHeight, info.currentHeight + 0.2);
-}
-
-int Plant::getID()
-{
-    return info.id;
-}
-
-double Plant::getPrice()
-{
-    return info.salePrice;
-}
-
-void Plant::setPrice(double price)
-{
-    info.salePrice = price;
-}
-
-std::string Plant::getName()
-{
-    return info.name;
-}
-
-std::string Plant::getClassification()
-{
-    return info.classification;
-}
-
-std::string Plant::getDate()
-{
-    return info.addedDate;
-}
-
-int Plant::getWaterLevel()
-{
-    return info.waterLevel;
-}
-
-int Plant::getHealthLevel()
-{
-    return info.healthLevel;
-}
-
-PlantState *Plant::getState() const
-{
-    // return info.state;
-}
-
-void Plant::setState(PlantState *newState)
-{
-    // info.state = newState;
-}
-
-std::string Plant::getCurrentStateName()
-{
-    // return info.state ? info.state->getStateName() : "No State";
-}
-
-int Plant::getNutrientLevel() const
-{
-    return info.nutrientLevel;
-}
-
-void Plant::setNutrientLevel(int level)
-{
-    info.nutrientLevel = level;
-}
-
-void Plant::setHealthLevel(int level)
-{
-    info.healthLevel = level;
-}
-
-void Plant::setWaterLevel(int level)
-{
-    info.waterLevel = level;
-}
-
-int Plant::getAge() const
-{
-    return info.currentAgeDays;
-}
-
-void Plant::setAge(int newAge)
-{
-    info.currentAgeDays = newAge;
-}
-
-void Plant::grow()
-{
-    // info.state->grow(this);
-}
-
-void Plant::printStatus() const
-{
     
+    if (waterLevel > 80) {
+        health += 5.0;
+    } else if (waterLevel < 20) {
+        health -= 10.0;
+    }
 
+    if (health > 100.0) health = 100.0;
+    if (health < 0.0) {
+        health = 0.0;
+        isAlive = false;
+    }
+
+    
+    notify("watered");
+
+    if (health < 30.0) {
+        notify("health_low");
+    }
 }
 
+void Plant::fertilize(int amount) {
+    if (!isAlive) {
+        std::cout << name << " is dead and cannot be fertilized." << std::endl;
+        return;
+    }
 
+    nutrientLevel += amount;
+    if (nutrientLevel > 100) {
+        nutrientLevel = 100;
+    }
+
+    
+    if (nutrientLevel > 70) {
+        health += 8.0;
+    } else if (nutrientLevel < 30) {
+        health -= 5.0;
+    }
+
+    if (health > 100.0) health = 100.0;
+    if (health < 0.0) {
+        health = 0.0;
+        isAlive = false;
+    }
+
+    
+    notify("fertilized");
+
+    if (health < 30.0) {
+        notify("health_low");
+    }
+}
+
+void Plant::applyCare() {
+    if (careStrategy != nullptr) {
+        // Care strategy would call water/fertilize with appropriate amounts
+        // This is a placeholder for strategy pattern integration
+        notify("care_applied");
+    }
+}
+
+void Plant::changeState(PlantState* newState) {
+    if (newState != nullptr) {
+        currentState = newState;
+        notify("state_changed");
+    }
+}
+
+double Plant::getHealth() const {
+    return health;
+}
+
+bool Plant::isReadyForSale() const {
+    return isAlive && health >= 70.0 && waterLevel >= 40 && nutrientLevel >= 40;
+}
+
+std::string Plant::getId() const {
+    return id;
+}
+
+std::string Plant::getName() const {
+    return name;
+}
+
+std::string Plant::getSpecies() const {
+    return species;
+}
+
+int Plant::getWaterLevel() const {
+    return waterLevel;
+}
+
+int Plant::getNutrientLevel() const {
+    return nutrientLevel;
+}
+
+void Plant::setPrice(double newPrice) {
+    price = newPrice;
+}
+
+double Plant::getPrice() const {
+    return price;
+}
+
+bool Plant::getIsAlive() const {
+    return isAlive;
+}
