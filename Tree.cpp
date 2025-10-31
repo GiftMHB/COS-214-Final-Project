@@ -1,6 +1,6 @@
 #include "Tree.h"
 
-Tree::Tree(PlantInfo& info,string treeType,double height,bool isEvergreen,double trunkDiameter)
+Tree::Tree(PlantInfo& info,std::string treeType,double height,bool isEvergreen,double trunkDiameter)
     : Plant(info), treeType(treeType), height(height), isEvergreen(isEvergreen), trunkDiameter(trunkDiameter)
 {
 
@@ -16,7 +16,7 @@ double Tree::getHeight()
     return height;
 }
 
-std::string Tree::getDescription()
+std::string Tree::getDescription() const 
 {
     return "Tree: " + info.name + ", Type: " + treeType + ", Height: " + std::to_string(height) +
            ", Evergreen: " + (isEvergreen ? "Yes" : "No") + ", Trunk Diameter: " + std::to_string(trunkDiameter);

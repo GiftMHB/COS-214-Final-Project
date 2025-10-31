@@ -31,6 +31,6 @@ bool Vegetable::isReadyToHarvest(){
     return yield > 0;
 }
 
-std::string Vegetable::getDescription(){
+std::string Vegetable::getDescription() const {
     return "Vegetable: " + info.name + ", Type: " + vegetableType;
 }

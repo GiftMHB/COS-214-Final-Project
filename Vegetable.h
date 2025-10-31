@@ -32,7 +32,7 @@ class Vegetable : public Plant {
         int getHarvestTime();
         double harvest();
         bool isReadyToHarvest();
-        std::string getDescription();
+        std::string getDescription() const override;
 };
 
 #endif 

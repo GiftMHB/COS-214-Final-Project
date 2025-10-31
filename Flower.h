@@ -32,7 +32,7 @@ class Flower : public Plant {
         std::string getBloomSeason();
         int getPetalCount();
         bool hasFragrance();
-        std::string getDescription();
+        std::string getDescription()const override;;
 };
 
 #endif
