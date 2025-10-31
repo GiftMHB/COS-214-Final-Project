@@ -8,175 +8,82 @@
 #ifndef GARDEN_AREA_H
 #define GARDEN_AREA_H
 
-#include "GardenComponent.h"
+#include "GardenComponent.h"          // Composite base class
 #include <list>
 #include <string>
+#include <vector>
 
-// Forward declaration
+// Forward declarations
 class Plant;
+class GardenSection;                  // for your original API
 
 /**
  * @class GardenArea
  * @brief Singleton composite root managing all garden sections
- * 
- * This class represents the top-level container in the garden hierarchy.
- * It implements the Singleton pattern to ensure only one garden area exists.
  */
 class GardenArea : public GardenComponent {
 private:
-    static GardenArea* instance; ///< Singleton instance
-    std::list<GardenComponent*> sections; ///< Child sections
-    int totalCapacity; ///< Maximum capacity of the garden
-    double temperature; ///< Current temperature
-    double humidity; ///< Current humidity level
-    std::string id; ///< Unique identifier
+    static GardenArea* instance;               ///< Singleton instance
+    std::list<GardenComponent*> sections;      ///< Composite children (list as teammate used)
+    std::vector<GardenSection*> sectionVec;    ///< Compatibility view for your old API
 
-    /**
-     * @brief Private constructor for Singleton pattern
-     */
+    int totalCapacity;        ///< Maximum capacity of the garden
+    double temperature;       ///< Current temperature
+    double humidity;          ///< Current humidity level
+    std::string id;           ///< Unique identifier
+    std::string name;         ///< Human-readable name (used by findByName / getName)
+
+    /** Private constructor – Singleton */
     GardenArea();
 
-    /**
-     * @brief Private copy constructor (deleted)
-     */
-    GardenArea(const GardenArea&);
-
-    /**
-     * @brief Private assignment operator (deleted)
-     */
-    GardenArea& operator=(const GardenArea&);
-
-public:
-    /**
-     * @brief Get the singleton instance of GardenArea
-     * @return Reference to the GardenArea instance
-     */
-    static GardenArea& getInstance();
-
-    /**
-     * @brief Destructor - cleans up all child sections
-     */
-    ~GardenArea();
-
-    /**
-     * @brief Add a section to the garden
-     * @param section Pointer to the section to add
-     */
-    void add(GardenComponent* section);
-
-    /**
-     * @brief Remove a section from the garden
-     * @param section Pointer to the section to remove
-     */
-    void remove(GardenComponent* section);
-
-    /**
-     * @brief Display the entire garden hierarchy
-     * @param depth Indentation depth for display formatting
-     */
-    void display(int depth = 0);
-
-    /**
-     * @brief Get total plant count across all sections
-     * @return Total number of plants
-     */
-    int getPlantCount();
-
-    /**
-     * @brief Find a component by name in the hierarchy
-     * @param name Name to search for
-     * @return Pointer to found component, nullptr if not found
-     */
-    GardenComponent* findByName(const std::string& name);
-
-    /**
-     * @brief Get all plants from all sections
-     * @return List of plant pointers
-     */
-    std::list<Plant*> getAllPlants();
-
-    /**
-     * @brief Set the garden temperature
-     * @param temp Temperature value
-     */
-    void setTemperature(double temp);
-
-    /**
-     * @brief Get the current temperature
-     * @return Current temperature
-     */
-    double getTemperature();
-
-    /**
-     * @brief Set the garden humidity
-     * @param hum Humidity value
-     */
-    void setHumidity(double hum);
-
-    /**
-     * @brief Get the current humidity
-     * @return Current humidity
-     */
-    double getHumidity();
-
-    /**
-     * @brief Get the component type
-     * @return Type string "GardenArea"
-     */
-    std::string getType();
-
-    /**
-     * @brief Get the garden name
-     * @return Garden name
-     */
-    std::string getName();
-};
-
-#endif // GARDEN_AREA_H
-#ifndef GARDENAREA_H
-#define GARDENAREA_H
-
-#include <vector>
-#include <string>
-
-class GardenSection; // Forward declaration
-
-class GardenArea {
-private:
-    static GardenArea* instance;
-    std::vector<GardenSection*> sections;
-    int totalCapacity;
-    double temperature;
-    int humidity;
-    
-    // Private constructor for Singleton
-    GardenArea();
-    
-    // Delete copy constructor and assignment operator
+    /** Deleted copy / assignment – Singleton */
     GardenArea(const GardenArea&) = delete;
     GardenArea& operator=(const GardenArea&) = delete;
 
+    /** Helper – keep the vector view in sync with the list */
+    void syncVectorView();
+
 public:
-    // Singleton access
-    static GardenArea* getInstance();
-    
-    // Section management
+    /** -------------------------------------------------------------
+     *  Singleton access
+     *  ------------------------------------------------------------- */
+    static GardenArea& getInstance();          // returns reference (teammate style)
+    static GardenArea* getInstancePtr();       // your original pointer version
+
+    /** -------------------------------------------------------------
+     *  Composite interface (required by teammate)
+     *  ------------------------------------------------------------- */
+    void add(GardenComponent* section) override;
+    void remove(GardenComponent* section) override;
+    void display(int depth = 0) override;
+
+    int getPlantCount() override;
+    GardenComponent* findByName(const std::string& name) override;
+    std::list<Plant*> getAllPlants() override;
+
+    std::string getType() override { return "GardenArea"; }
+    std::string getName() override { return name; }
+
+    /** -------------------------------------------------------------
+     *  Your original API (kept fully functional)
+     *  ------------------------------------------------------------- */
     void addSection(GardenSection* section);
     bool removeSection(const std::string& sectionId);
     GardenSection* getSection(const std::string& id);
     std::vector<GardenSection*> getAllSections() const;
-    
-    // Capacity
-    int getTotalCapacity() const;
-    
-    // Environmental conditions
-    void setTemperature(double temp);
-    double getTemperature() const;
-    void setHumidity(int humidity);
-    int getHumidity() const;
-    
-    // Destructor
-    ~GardenArea();
+
+    int getTotalCapacity() const { return totalCapacity; }
+
+    void setTemperature(double temp) { temperature = temp; }
+    double getTemperature() const { return temperature; }
+
+    void setHumidity(double hum) { humidity = hum; }
+    double getHumidity() const { return humidity; }
+
+    /** -------------------------------------------------------------
+     *  Destructor – cleans up all children
+     *  ------------------------------------------------------------- */
+    ~GardenArea() override;
 };
 
-#endif // GARDENAREA_H
+#endif // GARDEN_AREA_H

@@ -1,199 +1,124 @@
-/**
- * @file GardenArea.cpp
- * @brief Implementation of the GardenArea singleton composite root
- */
-
 #include "GardenArea.h"
-#include "PlantBed.h"
-#include "Plant.h"
+#include "GardenSection.h"
+#include <algorithm>
 #include <iostream>
-#include <sstream>
-
 
 GardenArea* GardenArea::instance = nullptr;
 
-GardenArea::GardenArea() 
-    : totalCapacity(1000), temperature(22.0), humidity(60.0), id("GA001") {
-    name = "Main Garden Area";
-}
+/* ------------------------------------------------------------------ */
+/*  Construction                                                       */
+/* ------------------------------------------------------------------ */
+GardenArea::GardenArea()
+    : totalCapacity(1000), temperature(25.0), humidity(60.0),
+      id("GA-001"), name("Main Garden Area") {}
 
+/* ------------------------------------------------------------------ */
+/*  Singleton access                                                   */
+/* ------------------------------------------------------------------ */
 GardenArea& GardenArea::getInstance() {
-    if (instance == nullptr) {
-        instance = new GardenArea();
-    }
+    if (!instance) instance = new GardenArea();
     return *instance;
 }
 
-GardenArea::~GardenArea() {
-    
-    for (std::list<GardenComponent*>::iterator it = sections.begin(); 
-         it != sections.end(); ++it) {
-        delete *it;
-    }
-    sections.clear();
+GardenArea* GardenArea::getInstancePtr() {
+    return &getInstance();               // pointer version you used before
 }
 
-void GardenArea::add(GardenComponent* section) {
-    if (section != nullptr) {
-        sections.push_back(section);
+/* ------------------------------------------------------------------ */
+/*  Helper – keep vector view in sync with list                        */
+/* ------------------------------------------------------------------ */
+void GardenArea::syncVectorView() {
+    sectionVec.clear();
+    for (auto* comp : sections) {
+        if (auto* sec = dynamic_cast<GardenSection*>(comp))
+            sectionVec.push_back(sec);
     }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Composite API (teammate)                                           */
+/* ------------------------------------------------------------------ */
+void GardenArea::add(GardenComponent* section) {
+    sections.push_back(section);
+    syncVectorView();
 }
 
 void GardenArea::remove(GardenComponent* section) {
-    if (section != nullptr) {
-        sections.remove(section);
-        delete section;
-    }
+    sections.remove(section);
+    syncVectorView();
 }
 
 void GardenArea::display(int depth) {
     std::string indent(depth * 2, ' ');
-    std::cout << indent << " " << name << " [" << getType() << "]" << std::endl;
-    std::cout << indent << "   Temperature: " << temperature << "°C, "
-              << "Humidity: " << humidity << "%" << std::endl;
-    std::cout << indent << "   Total Plants: " << getPlantCount() << std::endl;
-    
-    
-    for (std::list<GardenComponent*>::iterator it = sections.begin(); 
-         it != sections.end(); ++it) {
-        (*it)->display(depth + 1);
-    }
+    std::cout << indent << "[GardenArea] " << name
+              << " (temp:" << temperature << "C, hum:" << humidity << "%)\n";
+    for (auto* sec : sections)
+        sec->display(depth + 1);
 }
 
 int GardenArea::getPlantCount() {
-    int total = 0;
-    for (std::list<GardenComponent*>::iterator it = sections.begin(); 
-         it != sections.end(); ++it) {
-        total += (*it)->getPlantCount();
-    }
-    return total;
+    int cnt = 0;
+    for (auto* sec : sections) cnt += sec->getPlantCount();
+    return cnt;
 }
 
-GardenComponent* GardenArea::findByName(const std::string& searchName) {
-    if (name == searchName) {
-        return this;
+GardenComponent* GardenArea::findByName(const std::string& name) {
+    if (this->name == name) return this;
+    for (auto* sec : sections) {
+        GardenComponent* found = sec->findByName(name);
+        if (found) return found;
     }
-    
-    
-    for (std::list<GardenComponent*>::iterator it = sections.begin(); 
-         it != sections.end(); ++it) {
-        GardenComponent* found = (*it)->findByName(searchName);
-        if (found != nullptr) {
-            return found;
-        }
-    }
-    
     return nullptr;
 }
 
 std::list<Plant*> GardenArea::getAllPlants() {
-    std::list<Plant*> allPlants;
-    
-    for (std::list<GardenComponent*>::iterator it = sections.begin(); 
-         it != sections.end(); ++it) {
-        
-        GardenComponent* component = *it;
-        if (component->getType() == "PlantBed") {
-            PlantBed* bed = dynamic_cast<PlantBed*>(component);
-            if (bed != nullptr) {
-                std::list<Plant*> bedPlants = bed->getPlants();
-                allPlants.insert(allPlants.end(), bedPlants.begin(), bedPlants.end());
-            }
-        }
+    std::list<Plant*> all;
+    for (auto* sec : sections) {
+        std::list<Plant*> secPlants = sec->getAllPlants();
+        all.splice(all.end(), secPlants);
     }
-    
-    return allPlants;
+    return all;
 }
 
-void GardenArea::setTemperature(double temp) {
-    temperature = temp;
-}
-
-double GardenArea::getTemperature() {
-    return temperature;
-}
-
-void GardenArea::setHumidity(double hum) {
-    humidity = hum;
-}
-
-double GardenArea::getHumidity() {
-    return humidity;
-}
-
-std::string GardenArea::getType() {
-    return "GardenArea";
-}
-
-std::string GardenArea::getName() {
-    return name;
-// GardenArea.cpp
-#include "GardenArea.h"
-#include "GardenSection.h" // Assuming this header exists; forward declaration in .h
-
-GardenArea* GardenArea::instance = nullptr;
-
-GardenArea::GardenArea() : totalCapacity(1000), temperature(25.0), humidity(60) {} // Defaults from project plan inference
-
-GardenArea* GardenArea::getInstance() {
-    if (instance == nullptr) {
-        instance = new GardenArea();
-    }
-    return instance;
-}
-
+/* ------------------------------------------------------------------ */
+/*  Your original API (unchanged behaviour)                           */
+/* ------------------------------------------------------------------ */
 void GardenArea::addSection(GardenSection* section) {
-    sections.push_back(section);
-    // Could update totalCapacity here if sections contribute to it
+    sections.push_back(section);      // treat as GardenComponent
+    syncVectorView();
 }
 
 bool GardenArea::removeSection(const std::string& sectionId) {
-    for (auto it = sections.begin(); it != sections.end(); ++it) {
-        if ((*it)->getId() == sectionId) { // Assuming GardenSection has getId()
-            delete *it; // Memory management; beware
-            sections.erase(it);
-            return true;
-        }
-    }
-    return false;
+    auto it = std::find_if(sections.begin(), sections.end(),
+        [&sectionId](GardenComponent* c) {
+            auto* sec = dynamic_cast<GardenSection*>(c);
+            return sec && sec->getId() == sectionId;
+        });
+    if (it == sections.end()) return false;
+    delete *it;
+    sections.erase(it);
+    syncVectorView();
+    return true;
 }
 
 GardenSection* GardenArea::getSection(const std::string& id) {
-    for (auto section : sections) {
-        if (section->getId() == id) {
-            return section;
-        }
+    for (auto* comp : sections) {
+        if (auto* sec = dynamic_cast<GardenSection*>(comp))
+            if (sec->getId() == id) return sec;
     }
     return nullptr;
 }
 
 std::vector<GardenSection*> GardenArea::getAllSections() const {
-    return sections;
+    return sectionVec;                 // up-to-date view
 }
 
-int GardenArea::getTotalCapacity() const {
-    return totalCapacity;
-}
-
-void GardenArea::setTemperature(double temp) {
-    temperature = temp;
-}
-
-double GardenArea::getTemperature() const {
-    return temperature;
-}
-
-void GardenArea::setHumidity(int hum) {
-    humidity = hum;
-}
-
-int GardenArea::getHumidity() const {
-    return humidity;
-}
-
+/* ------------------------------------------------------------------ */
+/*  Destructor                                                        */
+/* ------------------------------------------------------------------ */
 GardenArea::~GardenArea() {
-    for (auto section : sections) {
-        delete section;
-    }
+    for (auto* sec : sections) delete sec;
     sections.clear();
+    sectionVec.clear();
+    if (instance == this) instance = nullptr;
 }
