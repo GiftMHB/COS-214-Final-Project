@@ -22,6 +22,8 @@ public:
     virtual std::string getStateName() const = 0;
 
     virtual int getHealthPercentage() const = 0;
+
+    virtual void handle(Plant* plant) = 0;
     
 
 };
