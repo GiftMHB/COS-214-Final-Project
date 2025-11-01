@@ -8,6 +8,35 @@
 int PlantInfo::plantCount = 0;
 static int plantIdCounter = 1000;  // YOUR ID counter
 
+
+// === YOUR CONSTRUCTOR (Primary) ===
+Plant::Plant(const std::string& name, const std::string& species, double price) 
+    : careStrategy(nullptr), state(new SeedlingState()) {
+    
+    // YOUR ID system
+    info.id = "PLANT-" + std::to_string(++plantIdCounter);
+    info.name = name;
+    info.species = species;
+    info.classification = species;
+    info.salePrice = price;
+    
+    // YOUR default values
+    info.waterLevel = 50;
+    info.nutrientLevel = 50;
+    info.healthLevel = 100;
+    info.isAlive = true;
+    info.currentAgeDays = 0;
+    
+    // Set current date
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+    info.addedDate = to_string(1900 + ltm->tm_year) + "-" +
+                     to_string(1 + ltm->tm_mon) + "-" +
+                     to_string(ltm->tm_mday);
+
+    cout << "Created new plant: " << name << " (ID: " << info.id << ")" << endl;
+}
+
 // === THEIR CONSTRUCTORS ===
 
 Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(nullptr) {
@@ -27,7 +56,7 @@ Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(nullp
 }
 
 Plant::Plant(const std::string& name, const std::string& classification, double price) 
-    : careStrategy(nullptr), state(nullptr) {
+    : careStrategy(nullptr), state(new SeedlingState()) {
     // THEIR ID system
     info.id = "P" + std::to_string(++PlantInfo::plantCount);
     info.name = name;
@@ -35,6 +64,11 @@ Plant::Plant(const std::string& name, const std::string& classification, double 
     info.species = classification;
     info.salePrice = price;
     info.purchasePrice = price * 0.7;
+
+    info.waterLevel = 50;
+    info.nutrientLevel = 50;
+    info.healthLevel = 100;
+    info.isAlive = true;
     
     time_t now = time(0);
     tm* ltm = localtime(&now);
@@ -82,7 +116,7 @@ Plant::~Plant() {
 // === YOUR METHODS (added to their class) ===
 
 void Plant::changeState(PlantState* newState) {
-    if (newState != nullptr) {
+    if (newState != nullptr && newState != state) {
         // YOUR logic
         delete state;  // Clean up old state
         state = newState;
@@ -390,14 +424,22 @@ void Plant::setReadyForSale(bool ready) {
 }
 
 void Plant::printStatus() const {
-    std::cout << "Plant: " << info.name << " (" << info.species << ")\n"
-              << "ID: " << info.id << ", Health: " << info.healthLevel 
-              << "%, Water: " << info.waterLevel
-              << ", Sunlight: " << info.sunlightLevel << ", Nutrients: " << info.nutrientLevel
-              << ", Age: " << info.currentAgeDays << " days\n"
-              << "Height: " << info.currentHeight << "/" << info.maturityHeight
-              << ", Alive: " << (info.isAlive ? "Yes" : "No")
-              << ", Ready for sale: " << (info.readyForSale ? "Yes" : "No") << "\n";
+    cout << "\n=== " << info.name << " Status ===" << endl;
+    cout << "ID: " << info.id << endl;
+    cout << "Species: " << info.species << endl;
+    cout << "Price: R" << info.salePrice << endl;
+    cout << "State: " << getStateName() << endl;
+    cout << "Age: " << info.currentAgeDays << " days" << endl;
+    cout << "Water: " << info.waterLevel << "/100" << endl;
+    cout << "Nutrients: " << info.nutrientLevel << "/100" << endl;
+    cout << "Health: " << (state ? state->getHealthPercentage() : 0) << "%" << endl;
+    cout << "Alive: " << (info.isAlive ? "Yes" : "No") << endl;
+    
+    // ADDED FROM THE OTHER VERSION
+    cout << "Sunlight: " << info.sunlightLevel << endl;
+    cout << "Height: " << info.currentHeight << "/" << info.maturityHeight << endl;
+    cout << "Ready for sale: " << (info.readyForSale ? "Yes" : "No") << endl;
+    cout << "==========================" << endl;
 }
 
 // === PROTECTED METHODS ===
