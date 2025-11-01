@@ -1,137 +1,149 @@
-// Here's my specific header
 /**
  * @file Plant.h
- * @brief Concrete Subject class representing a plant that can be observed
- * @details Plant implements the Subject interface and maintains state that
- *          observers can monitor.
+ * @brief Unified Plant class combining both implementations
  */
 
 #ifndef PLANT_H
 #define PLANT_H
 
-#include "Subject.h"
 #include <string>
+#include <list>
+#include "PlantState.h"
+#include "CareStrategy.h"
+#include "Observer.h"
+#include "Subject.h"
 
-// Forward declarations
-class PlantState;
-class CareStrategy;
+using namespace std;
+
+/**
+ * @struct PlantInfo
+ * @brief Their complex plant attributes structure
+ */
+struct PlantInfo {
+    std::string id;
+    std::string name;
+    std::string classification;
+    std::string species;
+    std::string addedDate;
+    double purchasePrice;
+    double salePrice;
+    
+    static int plantCount;
+
+    // Resource levels
+    int waterLevel = 20;
+    int sunlightLevel = 0;
+    int healthLevel = 100;
+    int sunlightNeed = 5;
+    int fertilizerNeed = 2;
+    int nutrientLevel = 50;
+    
+    // Growth tracking
+    double currentHeight = 0.0;
+    double maturityHeight = 100.0;
+    int currentAgeDays = 0;
+    int daysToMaturity = 365;
+    
+    // YOUR ADDITION: isAlive boolean
+    bool isAlive = true;
+    bool readyForSale = false;
+};
 
 /**
  * @class Plant
- * @brief Concrete subject representing a plant in the nursery
- * 
- * This class represents a plant that can be observed for changes in
- * health, water level, nutrient level, and growth state.
+ * @brief Unified Plant class with both implementations
  */
 class Plant : public Subject {
-private:
-    std::string id; ///< Unique plant identifier
-    std::string name; ///< Plant name
-    std::string species; ///< Plant species
-    std::string classification; ///< Plant classification
-    double price; ///< Sale price
-    int waterLevel; ///< Current water level (0-100)
-    int nutrientLevel; ///< Current nutrient level (0-100)
-    double health; ///< Health status (0.0-100.0)
-    bool isAlive; ///< Whether plant is alive
-    PlantState* currentState; ///< Current growth state
-    CareStrategy* careStrategy; ///< Care strategy
+protected:
+    PlantInfo info;
+    CareStrategy* careStrategy;
+    PlantState* state;
 
 public:
-    /**
-     * @brief Constructor
-     * @param plantName Name of the plant
-     * @param plantSpecies Species of the plant
-     */
+    // === BOTH CONSTRUCTORS ===
+    
+    // THEIR constructor
+    Plant(PlantInfo& info);
+    Plant(const std::string& name, const std::string& classification, double price);
+    
+    // YOUR constructor
     Plant(const std::string& plantName, const std::string& plantSpecies);
+    
+    Plant(const Plant& other);
+    virtual ~Plant();
 
-    /**
-     * @brief Destructor
-     */
-    ~Plant();
-
-    /**
-     * @brief Water the plant
-     * @param amount Amount of water to add (1-100)
-     */
-    void water(int amount);
-
-    /**
-     * @brief Fertilize the plant
-     * @param amount Amount of fertilizer to add (1-100)
-     */
-    void fertilize(int amount);
-
-    /**
-     * @brief Apply care strategy to the plant
-     */
-    void applyCare();
-
-    /**
-     * @brief Change the plant's growth state
-     * @param newState Pointer to the new state
-     */
-    void changeState(PlantState* newState);
-
-    /**
-     * @brief Get the plant's health
-     * @return Health value (0.0-100.0)
-     */
-    double getHealth() const;
-
-    /**
-     * @brief Check if plant is ready for sale
-     * @return true if ready for sale, false otherwise
-     */
-    bool isReadyForSale() const;
-
-    /**
-     * @brief Get plant ID
-     * @return Plant identifier
-     */
+    // === YOUR METHODS (added to their class) ===
+    
+    // Your core methods
+    void changeState(PlantState* newState);  // YOUR METHOD
+    double getHealth() const;  // YOUR METHOD (returns double)
+    bool getIsAlive() const;  // YOUR METHOD
+    
+    // === THEIR METHODS (keep all of theirs) ===
+    
+    // Identification
     std::string getId() const;
-
-    /**
-     * @brief Get plant name
-     * @return Plant name
-     */
     std::string getName() const;
-
-    /**
-     * @brief Get plant species
-     * @return Plant species
-     */
     std::string getSpecies() const;
+    std::string getClassification() const;
+    std::string getDate() const;
 
-    /**
-     * @brief Get water level
-     * @return Current water level
-     */
-    int getWaterLevel() const;
-
-    /**
-     * @brief Get nutrient level
-     * @return Current nutrient level
-     */
-    int getNutrientLevel() const;
-
-    /**
-     * @brief Set plant price
-     * @param newPrice New price
-     */
-    void setPrice(double newPrice);
-
-    /**
-     * @brief Get plant price
-     * @return Current price
-     */
+    // Price management
     double getPrice() const;
+    void setPrice(double price);
+    double getSalePrice() const;
 
-    /**
-     * @brief Check if plant is alive
-     * @return true if alive, false otherwise
-     */
-    bool getIsAlive() const;
+    // State management
+    PlantState* getState() const;
+    void setState(PlantState* newState);
+    std::string getCurrentStateName() const;
+    int getHealthPercentage() const;  // THEIR METHOD (returns int)
+
+    // Strategy management
+    void setCareStrategy(CareStrategy* strategy);
+    void applyCare();
+    std::string getCareStrategyName() const;
+
+    // Resource level management
+    int getWaterLevel() const;
+    void setWaterLevel(int level);
+    int getSunlightLevel() const;
+    void setSunlightLevel(int level);
+    void setHealthLevel(int level);  // THEIR METHOD (takes int)
+    int getNutrientLevel() const;
+    void setNutrientLevel(int level);
+
+    // Growth & age management
+    int getAge() const;
+    void setAge(int newAge);
+    double getCurrentHeight() const;
+    double getMaturityHeight() const;
+    void setCurrentHeight(double height);
+
+    // Plant actions
+    virtual void water(int amount);
+    virtual void fertilize(int amount);
+    virtual void addSunlight(int amount);
+    virtual void exposeToSunlight(int hours);
+    virtual void grow();
+    virtual void checkHealth();
+    
+    // Composite pattern
+    virtual std::string getDescription() const;
+    
+    // Observer pattern (inherited from Subject)
+    
+    // Additional methods
+    bool isReadyForSale() const;  // BOTH HAVE THIS
+    void setReadyForSale(bool ready);
+    void printStatus() const;
+    
+protected:
+    virtual void updateResourceLevels();
+    virtual double calculateGrowthRate();
+    void notifyHealthChange();
+    void notifyGrowth();
+    void notifyCareApplied(const std::string& careType);
 };
 
 #endif // PLANT_H
