@@ -3,9 +3,9 @@
 #include "../Tree.h"
 #include "../Vegetable.h"
 
-TEST_CASE("Flower Functionality") {
+TEST_CASE("Flower Functionality " * doctest::test_suite("Plant")) {
     PlantInfo info;
-    info.id = 1;
+    info.id = "1";
     info.name = "Rose";
     info.classification = "Flower";
     info.waterLevel = 50;
@@ -16,7 +16,7 @@ TEST_CASE("Flower Functionality") {
     Flower flower(info, "Red", "Spring", 24, true);
     
     SUBCASE("Flower getters return correct values") {
-        CHECK(flower.getID() == 1);
+        CHECK(flower.getId() == "1");
         CHECK(flower.getName() == "Rose");
         CHECK(flower.getWaterLevel() == 50);
         CHECK(flower.getColor() == "Red");
@@ -33,7 +33,7 @@ TEST_CASE("Flower Functionality") {
     }
 }
 
-TEST_CASE("Tree Functionality") {
+TEST_CASE("Tree Functionality "* doctest::test_suite("Plant")) {
     PlantInfo info;
     info.id = 2;
     info.name = "Oak";
@@ -58,7 +58,7 @@ TEST_CASE("Tree Functionality") {
     }
 }
 
-TEST_CASE("Vegetable Functionality") {
+TEST_CASE("Vegetable Functionality "* doctest::test_suite("Plant")) {
     PlantInfo info;
     info.id = 3;
     info.name = "Tomato";
