@@ -45,7 +45,7 @@ Plant::Plant(const std::string& name, const std::string& species, double price)
 
 // === THEIR CONSTRUCTORS ===
 
-Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(nullptr) {
+Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(new SeedlingState()) {
     if (info.id.empty()) {
         info.id = "P" + std::to_string(++PlantInfo::plantCount);
     }
@@ -86,7 +86,7 @@ Plant::Plant(const std::string& name, const std::string& classification, double 
 // === YOUR CONSTRUCTOR (added to their class) ===
 
 Plant::Plant(const std::string& plantName, const std::string& plantSpecies)
-    : careStrategy(nullptr), state(nullptr) {
+    : careStrategy(nullptr), state(new SeedlingState()) {
     // YOUR ID system
     std::stringstream ss;
     ss << "P" << plantIdCounter++;
@@ -110,7 +110,7 @@ Plant::Plant(const std::string& plantName, const std::string& plantSpecies)
 }
 
 Plant::Plant(const Plant& other)
-    : Subject(other), info(other.info), careStrategy(nullptr), state(nullptr) {
+    : Subject(other), info(other.info), careStrategy(nullptr), state(new SeedlingState()) {
     // Copy logic
 }
 
