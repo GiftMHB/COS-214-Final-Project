@@ -1,4 +1,10 @@
 #include "Plant.h"
+#include "SeedlingState.h"
+#include "GrowingState.h" 
+#include "MatureState.h"
+#include "WiltingState.h"
+#include "DeadState.h"
+#include "CareStrategy.h"
 #include <iostream>
 #include <ctime>
 #include <algorithm>
@@ -30,11 +36,11 @@ Plant::Plant(const std::string& name, const std::string& species, double price)
     // Set current date
     time_t now = time(0);
     tm* ltm = localtime(&now);
-    info.addedDate = to_string(1900 + ltm->tm_year) + "-" +
-                     to_string(1 + ltm->tm_mon) + "-" +
-                     to_string(ltm->tm_mday);
+    info.addedDate = std::to_string(1900 + ltm->tm_year) + "-" +
+                     std::to_string(1 + ltm->tm_mon) + "-" +
+                     std::to_string(ltm->tm_mday);
 
-    cout << "Created new plant: " << name << " (ID: " << info.id << ")" << endl;
+    std::cout << "Created new plant: " << name << " (ID: " << info.id << ")" << std::endl;
 }
 
 // === THEIR CONSTRUCTORS ===
@@ -269,7 +275,6 @@ void Plant::water(int amount) {
 
 
     if(state){
-
         state->water(this);  // Your state pattern handles the logic
     }
 
@@ -302,8 +307,7 @@ void Plant::fertilize(int amount) {
         return;
     }
 
-        if(state){
-            
+    if(state){
         state->fertilize(this);  // Your state pattern handles the logic
     }
 
@@ -365,21 +369,16 @@ void Plant::grow() {
     info.currentAgeDays++;
     updateResourceLevels();
     notifyGrowth();
-    checkHealth();
-
-
-    if(state){
-
-        state->checkTransition(this);  // Your state pattern handles the logic
-    }
-
-
     
+    // State transition check - ONLY ONCE
+    if (state) {
+        state->checkTransition(this);
+    }
+    
+    checkHealth();
 }
 
 void Plant::checkHealth() {
-
-
     if (state) {
         state->checkTransition(this);  // Your state pattern checks transitions
     }
@@ -424,22 +423,22 @@ void Plant::setReadyForSale(bool ready) {
 }
 
 void Plant::printStatus() const {
-    cout << "\n=== " << info.name << " Status ===" << endl;
-    cout << "ID: " << info.id << endl;
-    cout << "Species: " << info.species << endl;
-    cout << "Price: R" << info.salePrice << endl;
-    cout << "State: " << getStateName() << endl;
-    cout << "Age: " << info.currentAgeDays << " days" << endl;
-    cout << "Water: " << info.waterLevel << "/100" << endl;
-    cout << "Nutrients: " << info.nutrientLevel << "/100" << endl;
-    cout << "Health: " << (state ? state->getHealthPercentage() : 0) << "%" << endl;
-    cout << "Alive: " << (info.isAlive ? "Yes" : "No") << endl;
+    std::cout << "\n=== " << info.name << " Status ===" << std::endl;
+    std::cout << "ID: " << info.id << std::endl;
+    std::cout << "Species: " << info.species << std::endl;
+    std::cout << "Price: R" << info.salePrice << std::endl;
+    std::cout << "State: " << getStateName() << std::endl;
+    std::cout << "Age: " << info.currentAgeDays << " days" << std::endl;
+    std::cout << "Water: " << info.waterLevel << "/100" << std::endl;
+    std::cout << "Nutrients: " << info.nutrientLevel << "/100" << std::endl;
+    std::cout << "Health: " << (state ? state->getHealthPercentage() : 0) << "%" << std::endl;
+    std::cout << "Alive: " << (info.isAlive ? "Yes" : "No") << std::endl;
     
     // ADDED FROM THE OTHER VERSION
-    cout << "Sunlight: " << info.sunlightLevel << endl;
-    cout << "Height: " << info.currentHeight << "/" << info.maturityHeight << endl;
-    cout << "Ready for sale: " << (info.readyForSale ? "Yes" : "No") << endl;
-    cout << "==========================" << endl;
+    std::cout << "Sunlight: " << info.sunlightLevel << std::endl;
+    std::cout << "Height: " << info.currentHeight << "/" << info.maturityHeight << std::endl;
+    std::cout << "Ready for sale: " << (info.readyForSale ? "Yes" : "No") << std::endl;
+    std::cout << "==========================" << std::endl;
 }
 
 // === PROTECTED METHODS ===
