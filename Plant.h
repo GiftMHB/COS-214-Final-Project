@@ -1,247 +1,151 @@
 /**
  * @file Plant.h
- * @brief Plant class hierarchy and related product classes
+ * @brief Unified Plant class combining both implementations
  */
 
 #ifndef PLANT_H
 #define PLANT_H
 
 #include <string>
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <map>
-#include <vector>
-#include <memory>
-#include <cstdlib>
-#include <ctime>
+#include <list>
+#include "PlantState.h"
+#include "CareStrategy.h"
+#include "Observer.h"
+#include "Subject.h"
 
-// ============================================================================
-// PLANT CLASS HIERARCHY
-// ============================================================================
+class CareStrategy;
+
+using namespace std;
 
 /**
- * @brief Base Plant class with common properties and methods
+ * @struct PlantInfo
+ * @brief Their complex plant attributes structure
  */
-
-
-class Plant {
-protected:
+struct PlantInfo {
     std::string id;
     std::string name;
+    std::string classification;
     std::string species;
-    double price;
-    int waterLevel;
-    int sunlightLevel;
-    int nutrientLevel;
-    std::string status;
+    std::string addedDate;
+    double purchasePrice;
+    double salePrice;
+    
+    static int plantCount;
+
+    // Resource levels
+    int waterLevel = 20;
+    int sunlightLevel = 0;
+    int healthLevel = 100;
+    int sunlightNeed = 5;
+    int fertilizerNeed = 2;
+    int nutrientLevel = 50;
+    
+    // Growth tracking
+    double currentHeight = 0.0;
+    double maturityHeight = 100.0;
+    int currentAgeDays = 0;
+    int daysToMaturity = 365;
+    
+    // YOUR ADDITION: isAlive boolean
+    bool isAlive = true;
+    bool readyForSale = false;
+};
+
+/**
+ * @class Plant
+ * @brief Unified Plant class with both implementations
+ */
+class Plant : public Subject {
+protected:
+    PlantInfo info;
+    CareStrategy* careStrategy;
+    PlantState* state;
 
 public:
-    Plant(const std::string& name, const std::string& species, double price);
-    virtual ~Plant() = default;
+    // === BOTH CONSTRUCTORS ===
+    
+    // THEIR constructor
+    Plant(PlantInfo& info);
+    Plant(const std::string& name, const std::string& classification, double price);
+    
+    // YOUR constructor
+    Plant(const std::string& plantName, const std::string& plantSpecies);
+    
+    Plant(const Plant& other);
+    virtual ~Plant();
 
-    // Getters
-    std::string getId() const { return id; }
-    std::string getName() const { return name; }
-    std::string getSpecies() const { return species; }
-    double getPrice() const { return price; }
-    int getWaterLevel() const { return waterLevel; }
-    int getSunlightLevel() const { return sunlightLevel; }
-    int getNutrientLevel() const { return nutrientLevel; }
-    std::string getStatus() const { return status; }
+    // === YOUR METHODS (added to their class) ===
+    
+    // Your core methods
+    void changeState(PlantState* newState);  // YOUR METHOD
+    double getHealth() const;  // YOUR METHOD (returns double)
+    bool getIsAlive() const;  // YOUR METHOD
+    
+    // === THEIR METHODS (keep all of theirs) ===
+    
+    // Identification
+    std::string getId() const;
+    std::string getName() const;
+    std::string getSpecies() const;
+    std::string getClassification() const;
+    std::string getDate() const;
 
-    // Setters
-    void setPrice(double newPrice) { price = newPrice; }
-    void setWaterLevel(int level) { waterLevel = std::max(0, std::min(100, level)); }
-    void setSunlightLevel(int level) { sunlightLevel = std::max(0, std::min(100, level)); }
-    void setNutrientLevel(int level) { nutrientLevel = std::max(0, std::min(100, level)); }
-    void setStatus(const std::string& newStatus) { status = newStatus; }
+    // Price management
+    virtual double getPrice() const;
+    void setPrice(double price);
+    double getSalePrice() const;
 
-    // Plant care methods
+    // State management
+    PlantState* getState() const;
+    void setState(PlantState* newState);
+    std::string getCurrentStateName() const;
+    int getHealthPercentage() const;  // THEIR METHOD (returns int)
+
+    // Strategy management
+    void setCareStrategy(CareStrategy* strategy);
+    void applyCare();
+    std::string getCareStrategyName() const;
+
+    // Resource level management
+    int getWaterLevel() const;
+    void setWaterLevel(int level);
+    int getSunlightLevel() const;
+    void setSunlightLevel(int level);
+    void setHealthLevel(int level);  // THEIR METHOD (takes int)
+    int getNutrientLevel() const;
+    void setNutrientLevel(int level);
+
+    // Growth & age management
+    int getAge() const;
+    void setAge(int newAge);
+    double getCurrentHeight() const;
+    double getMaturityHeight() const;
+    void setCurrentHeight(double height);
+
+    // Plant actions
     virtual void water(int amount);
-    virtual void addSunlight(int amount);
     virtual void fertilize(int amount);
-
-    // Sales methods
-    void markAsSold() { status = "Sold"; }
-    void markAsAvailable() { status = "Available"; }
-
-    virtual std::string getPlantType() const = 0;
-    virtual std::string getDescription() const = 0;
-    virtual std::string getCareInstructions() const = 0;
-
-    // Health assessment
-    virtual std::string getHealthStatus() const;
-    virtual void displayInfo() const;
-};
-
-/**
- * @brief Flower plant specialization
- */
-class Flower : public Plant {
-private:
-    std::string color;
-    std::string bloomSeason;
-    bool isFragrant;
-    int petalCount;
-
-public:
-    Flower(const std::string& name, const std::string& species, double price,
-           const std::string& color, const std::string& bloomSeason, 
-           bool isFragrant = false, int petalCount = 5);
-
-    std::string getPlantType() const override;
-    std::string getDescription() const override;
-    std::string getCareInstructions() const override;
-
-    // Flower-specific methods
-    std::string getColor() const { return color; }
-    std::string getBloomSeason() const { return bloomSeason; }
-    bool isFragrantFlower() const { return isFragrant; }
-    int getPetalCount() const { return petalCount; }
-
-    bool isInBloom(const std::string& currentSeason) const;
-    void displayInfo() const override;
-};
-
-/**
- * @brief Tree plant specialization
- */
-class Tree : public Plant {
-private:
-    double height;
-    double trunkDiameter;
-    std::string treeType;
-    bool isEvergreen;
-
-public:
-    Tree(const std::string& name, const std::string& species, double price,
-         double height, double trunkDiameter, const std::string& treeType, 
-         bool isEvergreen = false);
-
-    std::string getPlantType() const override;
-    std::string getDescription() const override;
-    std::string getCareInstructions() const override;
-
-    // Tree-specific methods
-    double getHeight() const { return height; }
-    double getTrunkDiameter() const { return trunkDiameter; }
-    std::string getTreeType() const { return treeType; }
-    bool isEvergreenTree() const { return isEvergreen; }
-
-    void grow(double heightIncrease = 0.1);
-    void prune();
-    void displayInfo() const override;
-};
-
-// ============================================================================
-// CARE KIT CLASS HIERARCHY
-// ============================================================================
-
-/**
- * @brief Base CareKit class
- */
-class CareKit {
+    virtual void addSunlight(int amount);
+    virtual void exposeToSunlight(int hours);
+    virtual void grow();
+    virtual void checkHealth();
+    
+    // Composite pattern
+    virtual std::string getDescription() const;
+    
+    // Observer pattern (inherited from Subject)
+    
+    // Additional methods
+    bool isReadyForSale() const;  // BOTH HAVE THIS
+    void setReadyForSale(bool ready);
+    void printStatus() const;
+    
 protected:
-    std::string id;
-    std::string plantType;
-    std::vector<std::string> tools;
-    std::string instructions;
-    double price;
-
-public:
-    CareKit(const std::string& plantType, double price);
-    virtual ~CareKit() = default;
-
-    std::string getId() const { return id; }
-    std::string getPlantType() const { return plantType; }
-    double getPrice() const { return price; }
-    std::vector<std::string> getTools() const { return tools; }
-    std::string getInstructions() const { return instructions; }
-
-    virtual void applyCare(Plant* plant) = 0;
-    virtual std::string getKitDescription() const = 0;
-    void displayInfo() const;
-};
-
-/**
- * @brief Flower-specific care kit
- */
-class FlowerCareKit : public CareKit {
-private:
-    std::string fertilizerType;
-    std::string pesticide;
-
-public:
-    FlowerCareKit();
-    void applyCare(Plant* plant) override;
-    std::string getKitDescription() const override;
-};
-
-/**
- * @brief Tree-specific care kit
- */
-class TreeCareKit : public CareKit {
-private:
-    std::string treeFood;
-    std::string mulchType;
-
-public:
-    TreeCareKit();
-    void applyCare(Plant* plant) override;
-    std::string getKitDescription() const override;
-};
-
-// ============================================================================
-// SOIL CLASS HIERARCHY
-// ============================================================================
-
-/**
- * @brief Base Soil class
- */
-class Soil {
-protected:
-    std::string id;
-    std::string soilType;
-    double phLevel;
-    std::map<std::string, int> nutrientContent;
-    double price;
-
-public:
-    Soil(const std::string& soilType, double phLevel, double price);
-    virtual ~Soil() = default;
-
-    std::string getId() const { return id; }
-    std::string getSoilType() const { return soilType; }
-    double getPhLevel() const { return phLevel; }
-    double getPrice() const { return price; }
-    std::map<std::string, int> getNutrientContent() const { return nutrientContent; }
-
-    virtual bool isOptimalFor(const std::string& plantType) const = 0;
-    virtual std::string getSoilDescription() const = 0;
-
-    void addNutrient(const std::string& nutrient, int amount);
-    void displayInfo() const;
-};
-
-/**
- * @brief Flower-optimized soil
- */
-class FlowerSoil : public Soil {
-public:
-    FlowerSoil();
-    bool isOptimalFor(const std::string& plantType) const override;
-    std::string getSoilDescription() const override;
-};
-
-/**
- * @brief Tree-optimized soil
- */
-class TreeSoil : public Soil {
-public:
-    TreeSoil();
-    bool isOptimalFor(const std::string& plantType) const override;
-    std::string getSoilDescription() const override;
+    virtual void updateResourceLevels();
+    virtual double calculateGrowthRate();
+    void notifyHealthChange();
+    void notifyGrowth();
+    void notifyCareApplied(const std::string& careType);
 };
 
 #endif // PLANT_H

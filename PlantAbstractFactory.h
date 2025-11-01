@@ -1,6 +1,6 @@
 /**
  * @file PlantAbstractFactory.h
- * @brief Abstract Factory pattern for creating plant families and related products
+ * @brief Abstract Factory pattern for creating plant families
  */
 
 #ifndef PLANT_ABSTRACT_FACTORY_H
@@ -10,7 +10,11 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
-#include "Plant.h"  // Include the complete plant hierarchy
+
+// Forward declarations
+class Plant;
+class CareKit;
+class Soil;
 
 /**
  * @brief Abstract factory interface for creating plant family products

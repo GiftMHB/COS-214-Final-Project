@@ -1,15 +1,21 @@
 /**
  * @file PlantAbstractFactory.cpp
- * @brief Implementation of Abstract Factory pattern for plant families
+ * @brief Abstract Factory pattern implementation for plant families
  */
 
 #include "PlantAbstractFactory.h"
+#include "ConcretePlant.h"
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
+
+// ============================================================================
+// FACTORY IMPLEMENTATIONS
+// ============================================================================
 
 // Flower Factory implementations
 Plant* FlowerPlantFactory::createPlant(const std::string& name, const std::string& species, double price) {
@@ -20,25 +26,21 @@ Plant* FlowerPlantFactory::createPlant(const std::string& name, const std::strin
         throw std::invalid_argument("Plant price must be positive");
     }
     
-    // For demonstration, create flowers with some default properties
-    std::string color = "Various";
-    std::string bloomSeason = "Spring-Summer";
-    bool isFragrant = true;
-    
     std::cout << "🌸 FlowerFactory: Creating '" << name << "' (" << species 
-              << ") priced at R" << std::fixed << std::setprecision(2) << price << std::endl;
+              << ") priced at $" << std::fixed << std::setprecision(2) << price << std::endl;
     
-    return new Flower(name, species, price, color, bloomSeason, isFragrant);
+    // Use our concrete Plant implementation
+    return new ConcretePlant(name, species, price);
 }
 
 CareKit* FlowerPlantFactory::createCareKit() {
-    std::cout << "🛠️  FlowerFactory: Creating comprehensive flower care kit\n";
-    return new FlowerCareKit();
+    std::cout << "🛠️  FlowerFactory: Care kits not available with unified Plant system\n";
+    return nullptr;
 }
 
 Soil* FlowerPlantFactory::createSoil() {
-    std::cout << "🌱 FlowerFactory: Creating optimal well-draining potting soil\n";
-    return new FlowerSoil();
+    std::cout << "🌱 FlowerFactory: Soil not available with unified Plant system\n";
+    return nullptr;
 }
 
 std::string FlowerPlantFactory::getFactoryType() const {
@@ -46,9 +48,7 @@ std::string FlowerPlantFactory::getFactoryType() const {
 }
 
 std::string FlowerPlantFactory::getDescription() const {
-    return "Specialized factory for creating flowering plants and their care products. "
-           "Produces annuals, perennials, and flowering shrubs with appropriate soil "
-           "and maintenance kits optimized for bloom production.";
+    return "Specialized factory for creating flowering plants using unified Plant system.";
 }
 
 // Tree Factory implementations
@@ -60,26 +60,21 @@ Plant* TreePlantFactory::createPlant(const std::string& name, const std::string&
         throw std::invalid_argument("Plant price must be positive");
     }
     
-    // Default tree properties
-    double height = 1.5;
-    double trunkDiameter = 0.15;
-    std::string treeType = "Ornamental";
-    bool isEvergreen = false;
-    
     std::cout << "🌳 TreeFactory: Creating '" << name << "' (" << species 
-              << ") priced at R" << std::fixed << std::setprecision(2) << price << std::endl;
+              << ") priced at $" << std::fixed << std::setprecision(2) << price << std::endl;
     
-    return new Tree(name, species, price, height, trunkDiameter, treeType, isEvergreen);
+    // Use our concrete Plant implementation
+    return new ConcretePlant(name, species, price);
 }
 
 CareKit* TreePlantFactory::createCareKit() {
-    std::cout << "🛠️  TreeFactory: Creating comprehensive tree care kit\n";
-    return new TreeCareKit();
+    std::cout << "🛠️  TreeFactory: Care kits not available with unified Plant system\n";
+    return nullptr;
 }
 
 Soil* TreePlantFactory::createSoil() {
-    std::cout << "🌱 TreeFactory: Creating nutrient-rich garden soil\n";
-    return new TreeSoil();
+    std::cout << "🌱 TreeFactory: Soil not available with unified Plant system\n";
+    return nullptr;
 }
 
 std::string TreePlantFactory::getFactoryType() const {
@@ -87,12 +82,13 @@ std::string TreePlantFactory::getFactoryType() const {
 }
 
 std::string TreePlantFactory::getDescription() const {
-    return "Specialized factory for creating trees and their care products. "
-           "Produces deciduous, evergreen, and ornamental trees with deep-root "
-           "soil formulations and long-term maintenance kits.";
+    return "Specialized factory for creating trees using unified Plant system.";
 }
 
-// Factory Provider implementation
+// ============================================================================
+// FACTORY PROVIDER IMPLEMENTATION
+// ============================================================================
+
 std::unique_ptr<PlantAbstractFactory> PlantFactoryProvider::createFactory(const std::string& type) {
     std::string lowerType = type;
     std::transform(lowerType.begin(), lowerType.end(), lowerType.begin(), ::tolower);

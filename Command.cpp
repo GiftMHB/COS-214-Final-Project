@@ -34,10 +34,10 @@ std::string WaterPlantCommand::execute() {
     std::stringstream ss;
     
     try {
-        // Store previous state for undo
+        // Store previous state for undo - use getWaterLevel() which is the same
         previousWaterLevel = plant->getWaterLevel();
         
-        // Execute watering
+        // Execute watering - method name is the same
         plant->water(waterAmount);
         
         executed = true;
@@ -121,21 +121,19 @@ std::string SellPlantCommand::execute() {
     
     try {
         // Store previous state
-        previousStatus = plant->getStatus();
+        wasReadyForSale = plant->isReadyForSale(); // ADD THIS LINE
         
-        // Execute sale - mark plant as sold
-        plant->markAsSold();
+        // Mark plant as sold (not ready for sale)
+        plant->setReadyForSale(false);
         
         wasSold = true;
         
         std::time_t now = std::time(nullptr);
-        std::tm* timeInfo = std::localtime(&now);
+        std::tm* timeInfo = std::localtime(&now); // ADD THIS LINE
         
         ss << "[" << std::put_time(timeInfo, "%Y-%m-%d %H:%M:%S") << "] "
            << staffMember << " successfully sold plant '" 
-           << plant->getName() << "' to " 
-           << customerName << " for R" << std::fixed << std::setprecision(2) 
-           << salePrice;
+           << plant->getName() << "' to " << customerName << " for $" << salePrice;
            
     } catch (const std::exception& e) {
         ss << "Error selling plant: " << e.what();
@@ -152,13 +150,13 @@ std::string SellPlantCommand::undo() {
     std::stringstream ss;
     
     try {
-        // Reverse the sale - mark plant as available again
-        plant->markAsAvailable();
+        // CHANGE: Restore readyForSale state
+        plant->setReadyForSale(wasReadyForSale);
         
         wasSold = false;
         
         ss << "UNDO: Reverted sale to " << customerName 
-           << ". Plant status restored to 'Available'";
+           << ". Plant ready-for-sale status restored";
            
     } catch (const std::exception& e) {
         ss << "Error undoing sale command: " << e.what();

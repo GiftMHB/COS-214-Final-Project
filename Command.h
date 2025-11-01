@@ -103,6 +103,7 @@ public:
     
     std::string execute() override;
     std::string undo() override;
+    bool wasReadyForSale; 
     std::string getDescription() const override;
     std::string getCommandType() const override;
 };
