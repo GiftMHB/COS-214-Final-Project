@@ -9,6 +9,7 @@ class PlantState {
 public:
     virtual ~PlantState() = default;
     virtual void grow(Plant* plant) = 0;
+    virtual void handle(Plant* plant) = 0;
     virtual std::string getStateName() const = 0;
 };
 

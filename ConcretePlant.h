@@ -1,8 +1,3 @@
-/**
- * @file ConcretePlant.h
- * @brief Concrete implementation of Plant that works with the unified system
- */
-
 #ifndef CONCRETE_PLANT_H
 #define CONCRETE_PLANT_H
 
@@ -10,27 +5,34 @@
 #include <iostream>
 #include <list>
 
-
-// Concrete implementation of Plant
 class ConcretePlant : public Plant {
+private:
+    std::list<Observer*> observers;
+
 public:
-    // Use their constructors
+    // All constructors
     ConcretePlant(PlantInfo& info) : Plant(info) {}
+    
     ConcretePlant(const std::string& name, const std::string& classification, double price) 
         : Plant(name, classification, price) {}
     
-    // Override the pure virtual methods from Subject
+    // YOUR constructor - add this
+    ConcretePlant(const std::string& plantName, const std::string& plantSpecies)
+        : Plant(plantName, plantSpecies) {}
+    
+    // Implement the pure virtual methods from Subject
     void attach(Observer* observer) override {
-        // Simple implementation
+        observers.push_back(observer);
     }
     
     void detach(Observer* observer) override {
-        // Simple implementation  
+        observers.remove(observer);
     }
     
     void notify(const std::string& event) override {
-        // Simple implementation
-        std::cout << "Plant " << getName() << " event: " << event << std::endl;
+        for (Observer* observer : observers) {
+            observer->update(event);
+        }
     }
 };
 

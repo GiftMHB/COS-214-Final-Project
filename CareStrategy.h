@@ -1,5 +1,7 @@
+
 #ifndef CARE_STRATEGY_H
 #define CARE_STRATEGY_H
+
 #include <string>
 
 class Plant;
