@@ -89,7 +89,12 @@ std::string SeedlingState::getStateName() const {
 
 }
 
+void SeedlingState::handle(Plant* plant) {
 
+    std::cout << "Handling seedling state for plant: " << plant->getName() << std::endl;
+    plant->setState(new GrowingState());
+
+}
 
 int SeedlingState::getHealthPercentage() const {
 

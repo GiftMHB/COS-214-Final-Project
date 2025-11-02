@@ -248,7 +248,7 @@ Plant* SimulationFacade::createPlant(const std::string& type, const std::string&
         }
         
         // Set initial state
-        // plant->setState(new SeedlingState());
+        plant->setState(new SeedlingState());
         
         std::cout << "Successfully created plant: " << plant->getName() << " with ID: " << plant->getId() << std::endl;
     } else {
