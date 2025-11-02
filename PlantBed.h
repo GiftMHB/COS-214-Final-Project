@@ -27,6 +27,7 @@ private:
     std::string id; ///< Unique identifier
     int capacity; ///< Maximum number of plants
     std::list<Plant*> plants; ///< List of plants in the bed
+    std::string name; 
 
 public:
     /**
