@@ -1,18 +1,26 @@
+/**
+ * @file InventoryReport.cpp
+ * @brief Implements the InventoryReport class for generating detailed inventory reports.
+ */
+
 #include "InventoryReport.h"
 #include <stdexcept>
 
-// Simple Inventory stub for compilation
-class Inventory {
-public:
-    // Stub methods
-};
-
+/**
+ * @brief Constructs an InventoryReport for a given inventory.
+ * 
+ * @param inv Pointer to the Inventory object to generate the report from.
+ * Prints a warning if the inventory pointer is null.
+ */
 InventoryReport::InventoryReport(Inventory* inv) : inventory(inv) {
     if (inv == nullptr) {
         std::cout << "Warning: Inventory is null in InventoryReport constructor\n";
     }
 }
 
+/**
+ * @brief Initializes the report with a title and the current date/time.
+ */
 void InventoryReport::initializeReport() {
     reportTitle = "Comprehensive Inventory Status Report";
     
@@ -24,10 +32,14 @@ void InventoryReport::initializeReport() {
     generatedDate = dateStream.str();
 }
 
+/**
+ * @brief Collects inventory data for the report.
+ * 
+ * Simulates data collection for total items, stock levels, and inventory value.
+ */
 void InventoryReport::collectData() {
     std::cout << "Collecting comprehensive inventory data..." << std::endl;
     
-    // Simulate data collection
     reportData["TotalItems"] = "247";
     reportData["PlantsInStock"] = "189";
     reportData["SuppliesInStock"] = "58";
@@ -40,6 +52,11 @@ void InventoryReport::collectData() {
     std::cout << "Inventory data collection completed" << std::endl;
 }
 
+/**
+ * @brief Processes the collected inventory data.
+ * 
+ * Calculates low stock percentage and assesses inventory risk levels.
+ */
 void InventoryReport::processData() {
     Report::processData();
     
@@ -62,6 +79,11 @@ void InventoryReport::processData() {
     }
 }
 
+/**
+ * @brief Formats the body of the inventory report.
+ * 
+ * @return A string containing the inventory overview, stock analysis, and recommended actions.
+ */
 std::string InventoryReport::formatBody() {
     std::stringstream body;
     
@@ -92,6 +114,11 @@ std::string InventoryReport::formatBody() {
     return body.str();
 }
 
+/**
+ * @brief Adds a footer to the inventory report.
+ * 
+ * @return A string containing contact information and next audit details.
+ */
 std::string InventoryReport::addFooter() {
     std::stringstream footer;
     footer << "\n" << std::string(50, '=') << "\n";
@@ -105,6 +132,11 @@ std::string InventoryReport::addFooter() {
     return footer.str();
 }
 
+/**
+ * @brief Returns the type of the report.
+ * 
+ * @return A string indicating this is an "Inventory" report.
+ */
 std::string InventoryReport::getReportType() const {
     return "Inventory";
 }
