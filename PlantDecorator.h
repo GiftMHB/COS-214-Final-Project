@@ -15,7 +15,7 @@ public:
     
     // Override Plant methods to delegate
     virtual std::string getDescription() const override;
-    virtual double getPrice() const override;
+    virtual double getPrice() const ;
     virtual void water(int amount) override;
     virtual void fertilize(int amount) override;
     virtual void exposeToSunlight(int hours) override;  // Added for Gift's method

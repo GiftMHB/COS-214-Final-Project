@@ -3,3 +3,7 @@
 InventoryIterator::~InventoryIterator() {
     
 }
+
+InventoryIterator::InventoryIterator() {
+    
+}

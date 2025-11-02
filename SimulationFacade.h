@@ -1,177 +1,131 @@
 /**
  * @file SimulationFacade.h
  * @brief Facade pattern providing simplified interface to the nursery simulation
- * @details SimulationFacade coordinates between garden, inventory, staff, and reporting
- *          subsystems to provide a unified, simplified interface for the entire system.
  */
 
 #ifndef SIMULATION_FACADE_H
 #define SIMULATION_FACADE_H
 
 #include <string>
-#include <list>
+#include <vector>
+#include <map>
+#include <memory>
+#include <sstream>
+
 
 // Forward declarations
 class GardenArea;
-class InventoryAggregate;
-class Reports;
-class SystemOriginator;
-class Staff;
+class Inventory;
 class Plant;
-class Observer;
+class CommandInvoker;
+class ReportGenerator;
+
+/**
+ * @class NurseryStaff
+ * @brief Simple staff class for the facade
+ */
+class NurseryStaff {
+public:
+    std::string name;
+    std::string role;
+    std::vector<std::string> tasks;
+    
+    NurseryStaff(const std::string& n, const std::string& r) : name(n), role(r) {}
+    
+    void assignTask(const std::string& task) {
+        tasks.push_back(task);
+    }
+    
+    std::string getInfo() const {
+        std::stringstream ss;
+        ss << name << " (" << role << ") - Tasks: " << tasks.size();
+        return ss.str();
+    }
+};
 
 /**
  * @class SimulationFacade
- * @brief Facade providing simplified access to complex nursery subsystems
- * 
- * This class implements the Facade pattern to hide the complexity of
- * interacting with multiple subsystems (garden, inventory, staff, reports).
- * It provides high-level methods for common operations.
+ * @brief Main facade class that integrates all subsystems
  */
 class SimulationFacade {
 private:
-    GardenArea* gardenArea; ///< Pointer to garden management system
-    InventoryAggregate* inventory; ///< Pointer to inventory system
-    Reports* reports; ///< Pointer to reporting system
-    SystemOriginator* systemOriginator; ///< Pointer to memento originator
-    std::list<Staff*> staff; ///< List of staff members
-    std::list<Plant*> managedPlants; ///< Plants created by facade
-    std::list<Observer*> managedObservers; ///< Observers created by facade
-    bool simulationRunning; ///< Simulation status flag
-    std::string currentSeason; ///< Current season (Spring/Summer/Autumn/Winter)
-    int dayCounter; ///< Day counter for simulation
+    GardenArea* gardenArea;
+    Inventory* inventory;
+    CommandInvoker* commandInvoker;
+    ReportGenerator* reportGenerator;
+    
+    std::vector<NurseryStaff*> staffMembers;  // Changed to NurseryStaff
+    std::map<std::string, Plant*> allPlants;
+    
+    bool simulationRunning;
+    std::string currentSeason;
+    int currentDay;
+    double nurseryFunds;
 
 public:
-    /**
-     * @brief Constructor - initializes all subsystems
-     */
     SimulationFacade();
-
-    /**
-     * @brief Destructor - cleans up resources
-     */
     ~SimulationFacade();
 
-    /**
-     * @brief Initialize the nursery with default setup
-     */
-    void initializeNursery();
-
-    /**
-     * @brief Start the simulation
-     */
+    // Simulation control
+    void initializeSystem();
     void startSimulation();
-
-    /**
-     * @brief Stop the simulation
-     */
     void stopSimulation();
-
-    /**
-     * @brief Simulate one day of nursery operations
-     */
     void simulateDay();
-
-    /**
-     * @brief Update all plants (care, growth, health)
-     */
-    void updateAllPlants();
-
-    /**
-     * @brief Update all observers with current plant states
-     */
-    void updateObservers();
-
-    /**
-     * @brief Manage plant care routines (staff caring for plants)
-     */
-    void managePlantCare();
-
-    /**
-     * @brief Manage sales operations
-     */
-    void manageSales();
-
-    /**
-     * @brief Generate reports for the nursery
-     */
-    void generateReports();
-
-    /**
-     * @brief Hire a new staff member
-     * @param name Staff member's name
-     * @param role Staff role (e.g., "Gardener", "Salesperson")
-     */
+    void runSimulation(int days);
+    
+    // Plant management
+    void addPlant(const std::string& type, const std::string& name, 
+                  const std::string& careLevel = "Medium");
+    void removePlant(const std::string& plantId);
+    void displayAllPlants();
+    void displayPlantStatus(const std::string& plantId);
+    
+    // Staff operations
     void hireStaff(const std::string& name, const std::string& role);
-
-    /**
-     * @brief Fire a staff member
-     * @param staffId ID of the staff member to fire
-     */
-    void fireStaff(const std::string& staffId);
-
-    /**
-     * @brief Add a new plant to the nursery
-     * @param type Plant type (e.g., "Rose", "Cactus")
-     * @param careLevel Care difficulty level (e.g., "Easy", "Medium", "Hard")
-     */
-    void addNewPlant(const std::string& type, const std::string& careLevel);
-
-    /**
-     * @brief Remove a plant from the nursery
-     * @param plantId ID of the plant to remove
-     * @return true if plant was found and removed
-     */
-    bool removePlant(const std::string& plantId);
-
-    /**
-     * @brief Get a summary of all plants
-     * @return Summary string with plant counts and statistics
-     */
-    std::string getPlantSummary();
-
-    /**
-     * @brief Get inventory summary
-     * @return Summary string with inventory statistics
-     */
-    std::string getInventorySummary();
-
-    /**
-     * @brief Save the current system state to a file
-     * @param filePath Path to save file
-     */
-    void saveSystemState(const std::string& filePath);
-
-    /**
-     * @brief Load system state from a file
-     * @param filePath Path to load file
-     */
-    void loadSystemState(const std::string& filePath);
-
-    /**
-     * @brief Find a plant by ID
-     * @param plantId ID of the plant to find
-     * @return Pointer to the plant, nullptr if not found
-     */
-    Plant* findPlant(const std::string& plantId);
-
-    /**
-     * @brief Get current simulation day
-     * @return Day counter
-     */
-    int getCurrentDay() const;
-
-    /**
-     * @brief Get current season
-     * @return Season string
-     */
+    void assignTask(const std::string& staffName, const std::string& task);
+    void displayStaff();
+    
+    // Garden management
+    void displayGardenLayout();
+    void setEnvironment(double temperature, double humidity);
+    
+    // Inventory operations
+    void displayInventory();
+    void displayLowStock();
+    void restockItem(const std::string& itemId, int quantity);
+    
+    // Command operations
+    void waterPlant(const std::string& plantId, const std::string& staffName);
+    void fertilizePlant(const std::string& plantId, const std::string& staffName);
+    void sellPlant(const std::string& plantId, const std::string& customerName);
+    void undoLastCommand();
+    void redoLastCommand();
+    
+    // Reporting
+    void generateInventoryReport();
+    void generateSalesReport();
+    void generatePlantHealthReport();
+    
+    // System information
+    void displaySystemStatus();
     std::string getCurrentSeason() const;
-
-    /**
-     * @brief Check if simulation is running
-     * @return true if running, false otherwise
-     */
+    int getCurrentDay() const;
+    double getNurseryFunds() const;
     bool isRunning() const;
+    
+    // Interactive menu helpers
+    std::vector<std::string> getAvailablePlantTypes() const;
+    std::vector<std::string> getAvailableStaffRoles() const;
+    std::vector<std::string> getAllPlantIds() const;
+    
+private:
+    void updatePlantStates();
+    void processDailyEvents();
+    void processSeasonalChanges();
+    Plant* createPlant(const std::string& type, const std::string& name, 
+                       const std::string& careLevel);
+    void initializeDefaultPlants();
+    void initializeDefaultStaff();
 };
 
 #endif // SIMULATION_FACADE_H

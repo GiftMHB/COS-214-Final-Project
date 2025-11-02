@@ -12,7 +12,7 @@
 #include <sstream>
 
 #include "CareStrategy.h"
-#include "Subject.cpp"
+#include "Subject.h"
 
 // Static counters for both ID systems
 int PlantInfo::plantCount = 0;

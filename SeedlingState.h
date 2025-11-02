@@ -2,6 +2,7 @@
 #define SEEDLINGSTATE_H
 
 #include "PlantState.h"
+#include "Plant.h"
 
 class SeedlingState : public PlantState {
 private:

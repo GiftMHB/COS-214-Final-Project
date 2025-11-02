@@ -3,3 +3,7 @@
 InventoryAggregate::~InventoryAggregate() {
     
 }
+
+InventoryAggregate::InventoryAggregate() {
+    
+}

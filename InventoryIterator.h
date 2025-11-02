@@ -11,6 +11,7 @@
  */
 class InventoryIterator {
     public: 
+        InventoryIterator();
         virtual bool hasNext() = 0;
         virtual InventoryItem* next() = 0;
         virtual void reset() = 0;

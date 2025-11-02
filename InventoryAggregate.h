@@ -16,6 +16,7 @@ class InventoryAggregate {
         virtual InventoryIterator* createLowStockIterator() = 0;
         virtual InventoryIterator* createCategoryIterator( std::string category) = 0;
 
+        InventoryAggregate();
         virtual ~InventoryAggregate();
 };
 
