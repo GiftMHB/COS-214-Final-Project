@@ -11,6 +11,9 @@
 #include <algorithm>
 #include <sstream>
 
+#include "CareStrategy.h"
+#include "Subject.cpp"
+
 // Static counters for both ID systems
 int PlantInfo::plantCount = 0;
 static int plantIdCounter = 1000;  // YOUR ID counter
