@@ -13,6 +13,8 @@
 #include "Observer.h"
 #include "Subject.h"
 
+class CareStrategy;
+
 using namespace std;
 
 /**

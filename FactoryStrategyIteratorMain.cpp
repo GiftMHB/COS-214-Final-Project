@@ -109,7 +109,7 @@ static void testStrategy(Plant *plant) {
         if (!strat) continue;
         cout << "[testStrategy] Setting strategy: " << strat->getStrategyName() << "\n";
         plant->setCareStrategy(strat);
-        plant->applyCareStrategy();
+        plant->applyCare();
         cout << "[testStrategy] Done strategy: " << strat->getStrategyName() << "\n\n";
     }
 
@@ -120,7 +120,7 @@ static void testStrategy(Plant *plant) {
         seasonal->setSeason(newSeason);
         cout << "[testStrategy] Re-applying after season change\n";
         plant->setCareStrategy(seasonal);
-        plant->applyCareStrategy();
+        plant->applyCare();
         cout << "[testStrategy] Seasonal re-apply done\n\n";
     }
 

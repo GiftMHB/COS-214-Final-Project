@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <sstream>
 
+#include "CareStrategy.h"
+#include "Subject.cpp"
+
 // Static counters for both ID systems
 int PlantInfo::plantCount = 0;
 static int plantIdCounter = 1000;  // YOUR ID counter
@@ -327,7 +330,7 @@ void Plant::checkHealth() {
     // THEIR health checking logic
     if (info.healthLevel < 30) {
         if (state) {
-            state->handle(this);
+            // state->handle(this);
         }
         notify("health_critical");
     } else if (info.waterLevel < 20 || info.nutrientLevel < 20 || info.sunlightLevel < info.sunlightNeed) {
