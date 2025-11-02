@@ -4,7 +4,7 @@
 #include "Plant.h"
 #include <string>
 
-// Abstract Decorator
+// Abstract Decorator (updated for merged Plant)
 class PlantDecorator : public Plant {
 protected:
     Plant* decoratedPlant;
@@ -13,15 +13,17 @@ public:
     PlantDecorator(Plant* plant);
     virtual ~PlantDecorator();
     
-    // Override Plant methods to delegate to decorated plant
+    // Override Plant methods to delegate
     virtual std::string getDescription() const override;
     virtual double getPrice() const override;
     virtual void water(int amount) override;
     virtual void fertilize(int amount) override;
+    virtual void exposeToSunlight(int hours) override;  // Added for Gift's method
+    virtual void addSunlight(int amount) override;  // Added for plan alias
     virtual void grow() override;
 };
 
-// Concrete Decorators
+// Concrete Decorators (updated constructors)
 class PottedPlant : public PlantDecorator {
 private:
     std::string potType;
