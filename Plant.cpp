@@ -18,38 +18,9 @@
 int PlantInfo::plantCount = 0;
 static int plantIdCounter = 1000;  // YOUR ID counter
 
-
-// === YOUR CONSTRUCTOR (Primary) ===
-Plant::Plant(const std::string& name, const std::string& species, double price) 
-    : careStrategy(nullptr), state(new SeedlingState()) {
-    
-    // YOUR ID system
-    info.id = "PLANT-" + std::to_string(++plantIdCounter);
-    info.name = name;
-    info.species = species;
-    info.classification = species;
-    info.salePrice = price;
-    
-    // YOUR default values
-    info.waterLevel = 50;
-    info.nutrientLevel = 50;
-    info.healthLevel = 100;
-    info.isAlive = true;
-    info.currentAgeDays = 0;
-    
-    // Set current date
-    time_t now = time(0);
-    tm* ltm = localtime(&now);
-    info.addedDate = std::to_string(1900 + ltm->tm_year) + "-" +
-                     std::to_string(1 + ltm->tm_mon) + "-" +
-                     std::to_string(ltm->tm_mday);
-
-    std::cout << "Created new plant: " << name << " (ID: " << info.id << ")" << std::endl;
-}
-
 // === THEIR CONSTRUCTORS ===
 
-Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(new SeedlingState()) {
+Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(nullptr) {
     if (info.id.empty()) {
         info.id = "P" + std::to_string(++PlantInfo::plantCount);
     }
@@ -66,7 +37,7 @@ Plant::Plant(PlantInfo& pInfo) : info(pInfo), careStrategy(nullptr), state(new S
 }
 
 Plant::Plant(const std::string& name, const std::string& classification, double price) 
-    : careStrategy(nullptr), state(new SeedlingState()) {
+    : careStrategy(nullptr), state(nullptr) {
     // THEIR ID system
     info.id = "P" + std::to_string(++PlantInfo::plantCount);
     info.name = name;
@@ -74,11 +45,6 @@ Plant::Plant(const std::string& name, const std::string& classification, double 
     info.species = classification;
     info.salePrice = price;
     info.purchasePrice = price * 0.7;
-
-    info.waterLevel = 50;
-    info.nutrientLevel = 50;
-    info.healthLevel = 100;
-    info.isAlive = true;
     
     time_t now = time(0);
     tm* ltm = localtime(&now);
@@ -90,7 +56,7 @@ Plant::Plant(const std::string& name, const std::string& classification, double 
 // === YOUR CONSTRUCTOR (added to their class) ===
 
 Plant::Plant(const std::string& plantName, const std::string& plantSpecies)
-    : careStrategy(nullptr), state(new SeedlingState()) {
+    : careStrategy(nullptr), state(nullptr) {
     // YOUR ID system
     std::stringstream ss;
     ss << "P" << plantIdCounter++;
@@ -114,19 +80,19 @@ Plant::Plant(const std::string& plantName, const std::string& plantSpecies)
 }
 
 Plant::Plant(const Plant& other)
-    : Subject(other), info(other.info), careStrategy(nullptr), state(new SeedlingState()) {
+    : Subject(other), info(other.info), careStrategy(nullptr), state(nullptr) {
     // Copy logic
 }
 
 Plant::~Plant() {
-    //delete careStrategy;
+    delete careStrategy;
     delete state;
 }
 
 // === YOUR METHODS (added to their class) ===
 
 void Plant::changeState(PlantState* newState) {
-    if (newState != nullptr && newState != state) {
+    if (newState != nullptr) {
         // YOUR logic
         delete state;  // Clean up old state
         state = newState;
@@ -201,7 +167,7 @@ int Plant::getHealthPercentage() const {
 
 void Plant::setCareStrategy(CareStrategy* strategy) {
     if (careStrategy != strategy) {
-        //delete careStrategy;
+        delete careStrategy;
         careStrategy = strategy;
     }
 }
@@ -311,10 +277,6 @@ void Plant::fertilize(int amount) {
         return;
     }
 
-    if(state){
-        state->fertilize(this);  // Your state pattern handles the logic
-    }
-
     int newNutrientLevel = info.nutrientLevel + amount;
     info.nutrientLevel = std::max(0, std::min(100, newNutrientLevel));
     
@@ -373,20 +335,10 @@ void Plant::grow() {
     info.currentAgeDays++;
     updateResourceLevels();
     notifyGrowth();
-    
-    // State transition check - ONLY ONCE
-    if (state) {
-        state->checkTransition(this);
-    }
-    
     checkHealth();
 }
 
 void Plant::checkHealth() {
-    if (state) {
-        state->checkTransition(this);  // Your state pattern checks transitions
-    }
-    
     // THEIR health checking logic
     if (info.healthLevel < 30) {
         if (state) {
@@ -427,22 +379,14 @@ void Plant::setReadyForSale(bool ready) {
 }
 
 void Plant::printStatus() const {
-    std::cout << "\n=== " << info.name << " Status ===" << std::endl;
-    std::cout << "ID: " << info.id << std::endl;
-    std::cout << "Species: " << info.species << std::endl;
-    std::cout << "Price: R" << info.salePrice << std::endl;
-    std::cout << "State: " << getStateName() << std::endl;
-    std::cout << "Age: " << info.currentAgeDays << " days" << std::endl;
-    std::cout << "Water: " << info.waterLevel << "/100" << std::endl;
-    std::cout << "Nutrients: " << info.nutrientLevel << "/100" << std::endl;
-    std::cout << "Health: " << (state ? state->getHealthPercentage() : 0) << "%" << std::endl;
-    std::cout << "Alive: " << (info.isAlive ? "Yes" : "No") << std::endl;
-    
-    // ADDED FROM THE OTHER VERSION
-    std::cout << "Sunlight: " << info.sunlightLevel << std::endl;
-    std::cout << "Height: " << info.currentHeight << "/" << info.maturityHeight << std::endl;
-    std::cout << "Ready for sale: " << (info.readyForSale ? "Yes" : "No") << std::endl;
-    std::cout << "==========================" << std::endl;
+    std::cout << "Plant: " << info.name << " (" << info.species << ")\n"
+              << "ID: " << info.id << ", Health: " << info.healthLevel 
+              << "%, Water: " << info.waterLevel
+              << ", Sunlight: " << info.sunlightLevel << ", Nutrients: " << info.nutrientLevel
+              << ", Age: " << info.currentAgeDays << " days\n"
+              << "Height: " << info.currentHeight << "/" << info.maturityHeight
+              << ", Alive: " << (info.isAlive ? "Yes" : "No")
+              << ", Ready for sale: " << (info.readyForSale ? "Yes" : "No") << "\n";
 }
 
 // === PROTECTED METHODS ===

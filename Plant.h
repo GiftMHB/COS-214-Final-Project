@@ -91,7 +91,8 @@ public:
     std::string getDate() const;
 
     // Price management
-    virtual double getPrice() const;
+    double getPrice() const;
+  
     void setPrice(double price);
     double getSalePrice() const;
 
