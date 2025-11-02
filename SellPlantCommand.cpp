@@ -1,8 +1,25 @@
+/**
+ * @file SellPlantCommand.cpp
+ * @brief Implements the SellPlantCommand class for selling plants and undoing the sale.
+ */
+
 #include "SellPlantCommand.h"
 #include <iostream>
 
+/**
+ * @brief Constructs a SellPlantCommand object.
+ * 
+ * Initializes the command with a target plant, customer name, sale price,
+ * and the staff member performing the sale.
+ * 
+ * @param plant Pointer to the Plant to be sold.
+ * @param customer Name of the customer purchasing the plant.
+ * @param price Sale price of the plant.
+ * @param staff Name of the staff member handling the sale.
+ * @throws std::invalid_argument if plant is null, customer is empty, price is non-positive, or staff is empty.
+ */
 SellPlantCommand::SellPlantCommand(Plant* plant, const std::string& customer, 
-                                 double price, const std::string& staff)
+                                   double price, const std::string& staff)
     : plant(plant), customerName(customer), salePrice(price), 
       staffMember(staff), wasSold(false), wasReadyForSale(false) {
       
@@ -20,6 +37,14 @@ SellPlantCommand::SellPlantCommand(Plant* plant, const std::string& customer,
     }
 }
 
+/**
+ * @brief Executes the sale of the plant.
+ * 
+ * Marks the plant as sold (not ready for sale), logs the sale with timestamp,
+ * and records the staff member and customer details.
+ * 
+ * @return A string describing the result of the sale action.
+ */
 std::string SellPlantCommand::execute() {
     if (wasSold) {
         return "Plant already sold";
@@ -50,6 +75,14 @@ std::string SellPlantCommand::execute() {
     return ss.str();
 }
 
+/**
+ * @brief Undoes the sale of the plant.
+ * 
+ * Restores the plant's ready-for-sale status to its previous state and
+ * marks the sale as undone.
+ * 
+ * @return A string describing the result of the undo operation.
+ */
 std::string SellPlantCommand::undo() {
     if (!wasSold) {
         return "Plant not sold yet";
@@ -73,6 +106,11 @@ std::string SellPlantCommand::undo() {
     return ss.str();
 }
 
+/**
+ * @brief Provides a human-readable description of the command.
+ * 
+ * @return A string describing the sale action with staff, customer, and price details.
+ */
 std::string SellPlantCommand::getDescription() const {
     std::stringstream ss;
     ss << "SellPlantCommand: " << staffMember << " sells plant to " 
@@ -81,6 +119,11 @@ std::string SellPlantCommand::getDescription() const {
     return ss.str();
 }
 
+/**
+ * @brief Returns the command type identifier.
+ * 
+ * @return A string representing the type of the command ("Sell").
+ */
 std::string SellPlantCommand::getCommandType() const {
     return "Sell";
 }
