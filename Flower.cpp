@@ -31,7 +31,7 @@ bool Flower::hasFragrance()
     return fragrance;
 }
 
-std::string Flower::getDescription()
+std::string Flower::getDescription() const
 {
     return "Flower: " + info.name + ", Color: " + color + ", Bloom Season: " + bloomSeason +
            ", Petal Count: " + std::to_string(petalCount) + ", Fragrance: " + (fragrance ? "Yes" : "No");
