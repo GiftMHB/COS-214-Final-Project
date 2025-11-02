@@ -1,6 +1,22 @@
+/**
+ * @file WaterPlantCommand.cpp
+ * @brief Implements the WaterPlantCommand class responsible for watering plants and undoing the action.
+ */
+
 #include "WaterPlantCommand.h"
 #include <iostream>
 
+/**
+ * @brief Constructs a WaterPlantCommand object.
+ * 
+ * Initializes the command with a target plant, the amount of water to be added,
+ * and the name of the staff member performing the watering.
+ * 
+ * @param plant Pointer to the Plant object to be watered.
+ * @param amount The amount of water (in milliliters) to apply.
+ * @param staff The name of the staff member executing the watering.
+ * @throws std::invalid_argument if the plant pointer is null, the amount is non-positive, or the staff name is empty.
+ */
 WaterPlantCommand::WaterPlantCommand(Plant* plant, double amount, const std::string& staff) 
     : plant(plant), waterAmount(amount), staffMember(staff), previousWaterLevel(0.0), executed(false) {
         
@@ -15,6 +31,15 @@ WaterPlantCommand::WaterPlantCommand(Plant* plant, double amount, const std::str
     }
 }
 
+/**
+ * @brief Executes the watering command on the associated plant.
+ * 
+ * Increases the plant's water level by the specified amount, logs the action,
+ * and records the time and staff member responsible. The previous water level
+ * is stored to support undo functionality.
+ * 
+ * @return A formatted string describing the result of the watering action.
+ */
 std::string WaterPlantCommand::execute() {
     if (executed) {
         return "Command already executed";
@@ -47,6 +72,14 @@ std::string WaterPlantCommand::execute() {
     return ss.str();
 }
 
+/**
+ * @brief Undoes the previously executed watering action.
+ * 
+ * Restores the plant's water level to the value it had before the
+ * last execution of this command.
+ * 
+ * @return A string describing the undo operation result.
+ */
 std::string WaterPlantCommand::undo() {
     if (!executed) {
         return "Command not executed yet";
@@ -70,6 +103,11 @@ std::string WaterPlantCommand::undo() {
     return ss.str();
 }
 
+/**
+ * @brief Provides a human-readable description of the command.
+ * 
+ * @return A string describing the watering action performed by the staff member.
+ */
 std::string WaterPlantCommand::getDescription() const {
     std::stringstream ss;
     ss << "WaterPlantCommand: " << staffMember << " waters plant with " 
@@ -77,6 +115,11 @@ std::string WaterPlantCommand::getDescription() const {
     return ss.str();
 }
 
+/**
+ * @brief Returns the command type identifier.
+ * 
+ * @return A string representing the type of the command ("Water").
+ */
 std::string WaterPlantCommand::getCommandType() const {
     return "Water";
 }
