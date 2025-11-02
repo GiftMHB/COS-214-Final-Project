@@ -27,6 +27,7 @@ Plant *FlowerFactory::createFlower(PlantInfo &info, string color, string bloomSe
 
     if (info.classification == "Flower")
     {
+        nextId++;
         return new Flower(info, color, bloomSeason, petalCount, fragrance);
     }
     else

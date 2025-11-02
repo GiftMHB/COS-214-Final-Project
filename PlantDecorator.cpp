@@ -1,11 +1,15 @@
-// PlantDecorator.cpp
 #include "PlantDecorator.h"
 
 // PlantDecorator implementation
-PlantDecorator::PlantDecorator(Plant* plant) : decoratedPlant(plant) {}
+//PlantDecorator::PlantDecorator(Plant* plant) 
+ //   : Plant(plant->info), decoratedPlant(plant) {}  // Copy info for base ctor
+
+PlantDecorator::PlantDecorator(Plant* plant)
+    : Plant(*plant),  // Calls copy ctor to duplicate base state safely
+      decoratedPlant(plant) {}
 
 PlantDecorator::~PlantDecorator() {
-    delete decoratedPlant; // Assuming ownership; beware: this may need adjustment based on memory management in the full system
+    delete decoratedPlant;
 }
 
 std::string PlantDecorator::getDescription() const {
@@ -24,20 +28,28 @@ void PlantDecorator::fertilize(int amount) {
     decoratedPlant->fertilize(amount);
 }
 
+void PlantDecorator::exposeToSunlight(int hours) {
+    decoratedPlant->exposeToSunlight(hours);
+}
+
+void PlantDecorator::addSunlight(int amount) {
+    decoratedPlant->addSunlight(amount);
+}
+
 void PlantDecorator::grow() {
     decoratedPlant->grow();
 }
 
 // PottedPlant implementation
 PottedPlant::PottedPlant(Plant* plant, const std::string& type, const std::string& size)
-    : PlantDecorator(plant), potType(type), potSize(size), potPrice(10.0) {} // Example price; adjust as needed
+    : PlantDecorator(plant), potType(type), potSize(size), potPrice(10.0) {}
 
 std::string PottedPlant::getDescription() const {
-    return decoratedPlant->getDescription() + " in a " + potSize + " " + potType + " pot";
+    return PlantDecorator::getDescription() + " in a " + potSize + " " + potType + " pot";
 }
 
 double PottedPlant::getPrice() const {
-    return decoratedPlant->getPrice() + potPrice;
+    return PlantDecorator::getPrice() + potPrice;
 }
 
 std::string PottedPlant::getPotType() const {
@@ -47,19 +59,18 @@ std::string PottedPlant::getPotType() const {
 void PottedPlant::repot(const std::string& newType, const std::string& newSize) {
     potType = newType;
     potSize = newSize;
-    // Could adjust potPrice here if needed
 }
 
 // LabeledPlant implementation
 LabeledPlant::LabeledPlant(Plant* plant, const std::string& text, const std::string& care)
-    : PlantDecorator(plant), labelText(text), careInstructions(care), labelPrice(2.0) {} // Example price
+    : PlantDecorator(plant), labelText(text), careInstructions(care), labelPrice(2.0) {}
 
 std::string LabeledPlant::getDescription() const {
-    return decoratedPlant->getDescription() + " with label: " + labelText;
+    return PlantDecorator::getDescription() + " with label: " + labelText;
 }
 
 double LabeledPlant::getPrice() const {
-    return decoratedPlant->getPrice() + labelPrice;
+    return PlantDecorator::getPrice() + labelPrice;
 }
 
 std::string LabeledPlant::getCareInstructions() const {
@@ -68,14 +79,14 @@ std::string LabeledPlant::getCareInstructions() const {
 
 // GiftWrappedPlant implementation
 GiftWrappedPlant::GiftWrappedPlant(Plant* plant, const std::string& style, const std::string& color)
-    : PlantDecorator(plant), wrappingStyle(style), ribbonColor(color), giftMessage(""), wrappingPrice(5.0) {} // Example price
+    : PlantDecorator(plant), wrappingStyle(style), ribbonColor(color), giftMessage(""), wrappingPrice(5.0) {}
 
 std::string GiftWrappedPlant::getDescription() const {
-    return decoratedPlant->getDescription() + " gift-wrapped in " + wrappingStyle + " with " + ribbonColor + " ribbon";
+    return PlantDecorator::getDescription() + " gift-wrapped in " + wrappingStyle + " with " + ribbonColor + " ribbon";
 }
 
 double GiftWrappedPlant::getPrice() const {
-    return decoratedPlant->getPrice() + wrappingPrice;
+    return PlantDecorator::getPrice() + wrappingPrice;
 }
 
 void GiftWrappedPlant::setGiftMessage(const std::string& message) {

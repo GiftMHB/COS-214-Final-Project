@@ -45,7 +45,8 @@ int SeasonalCare::calculateSunlightNeeds(Plant *plant)
     int adjustment = seasonalAdjustments[currentSeason];
 
     // Winter → less sunlight; Summer → more sunlight
-    int sunlight = std::clamp(base + adjustment, 2, 8);
+    int value = base + adjustment;
+    int sunlight = std::max(2, std::min(value, 8));
 
     std::cout << "Sunlight needs (" << currentSeason << "): " << sunlight << " hours\n";
     return sunlight;

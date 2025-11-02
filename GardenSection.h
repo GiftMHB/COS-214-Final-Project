@@ -1,91 +1,32 @@
-/**
- * @file GardenSection.h
- * @brief Composite class representing a section within the garden
- * @details This class can contain other sections or plant beds, forming the
- *          intermediate level in the composite hierarchy.
- */
-
-#ifndef GARDEN_SECTION_H
-#define GARDEN_SECTION_H
+#ifndef GARDENSECTION_H
+#define GARDENSECTION_H
 
 #include "GardenComponent.h"
-#include <list>
 #include <string>
+#include <vector>
+#include <list>  // Explicit include for std::list<Plant*>
 
-/**
- * @class GardenSection
- * @brief Composite container for organizing plant beds and subsections
- * 
- * GardenSection acts as a composite node that can contain both other
- * sections and plant beds, allowing for hierarchical organization.
- */
 class GardenSection : public GardenComponent {
 private:
-    std::string id; ///< Unique identifier for the section
-    std::list<GardenComponent*> components; ///< Child components
+    std::string name;
+    std::string id;
+    std::vector<GardenComponent*> components;
 
 public:
-    /**
-     * @brief Constructor
-     * @param sectionName Name of the section
-     * @param sectionId Unique identifier
-     */
     GardenSection(const std::string& sectionName, const std::string& sectionId);
-
-    /**
-     * @brief Destructor - cleans up child components
-     */
     ~GardenSection();
 
-    /**
-     * @brief Add a child component (section or bed)
-     * @param component Pointer to the component to add
-     */
-    void add(GardenComponent* component);
+    void add(GardenComponent* component) override;
+    void remove(GardenComponent* component) override;
+    void display(int depth = 0) override;
+    int getPlantCount() override;
+    GardenComponent* findByName(const std::string& name) override;
+    std::list<Plant*> getAllPlants() override;
+    std::string getType() override;
+    std::string getName() override;
+    GardenComponent* getChild(size_t index) override;
 
-    /**
-     * @brief Remove a child component
-     * @param component Pointer to the component to remove
-     */
-    void remove(GardenComponent* component);
-
-    /**
-     * @brief Display this section and its children
-     * @param depth Indentation depth for formatting
-     */
-    void display(int depth = 0);
-
-    /**
-     * @brief Get total plant count in this section
-     * @return Number of plants
-     */
-    int getPlantCount();
-
-    /**
-     * @brief Find a component by name
-     * @param searchName Name to search for
-     * @return Pointer to found component, nullptr if not found
-     */
-    GardenComponent* findByName(const std::string& searchName);
-
-    /**
-     * @brief Get a child component by index
-     * @param index Index of the child
-     * @return Pointer to child component, nullptr if index invalid
-     */
-    GardenComponent* getChild(size_t index);
-
-    /**
-     * @brief Get the component type
-     * @return Type string "GardenSection"
-     */
-    std::string getType();
-
-    /**
-     * @brief Get the section name
-     * @return Section name
-     */
-    std::string getName();
+    std::string getId() const;
 };
 
-#endif // GARDEN_SECTION_H
+#endif // GARDENSECTION_H

@@ -13,6 +13,8 @@
 #include "Observer.h"
 #include "Subject.h"
 
+class CareStrategy;
+
 using namespace std;
 
 /**
@@ -90,6 +92,7 @@ public:
 
     // Price management
     double getPrice() const;
+  
     void setPrice(double price);
     double getSalePrice() const;
 

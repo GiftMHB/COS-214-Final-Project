@@ -1,8 +1,18 @@
 #include "Plant.h"
+#include "PlantState.h"
+#include "SeedlingState.h"
+#include "GrowingState.h" 
+#include "MatureState.h"
+#include "WiltingState.h"
+#include "DeadState.h"
+#include "CareStrategy.h"
 #include <iostream>
 #include <ctime>
 #include <algorithm>
 #include <sstream>
+
+#include "CareStrategy.h"
+#include "Subject.cpp"
 
 // Static counters for both ID systems
 int PlantInfo::plantCount = 0;
@@ -231,6 +241,11 @@ void Plant::water(int amount) {
     if (!info.isAlive) {
         std::cout << info.name << " is dead and cannot be watered." << std::endl;
         return;
+    }
+
+
+    if(state){
+        state->water(this);  // Your state pattern handles the logic
     }
 
     int newWaterLevel = info.waterLevel + amount;

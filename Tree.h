@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include "Plant.h"
+#include <string>
 
 /**
  * @file Tree.h
@@ -21,11 +22,11 @@ class Tree : public Plant {
          * @brief Constructs a Tree with the given attributes.
          * @param isEvergreen Whether the tree is evergreen.
          */
-        Tree(PlantInfo& info,string treeType,double height,bool isEvergreen,double trunkDiameter);  
+        Tree(PlantInfo& info,std::string treeType,double height,bool isEvergreen,double trunkDiameter);  
         ~Tree();//more parameters will be added later
 
         double getHeight();
-        std::string getDescription();
+        std::string getDescription() const override;
         double getTrunkDiameter();
         void prune();
 };
