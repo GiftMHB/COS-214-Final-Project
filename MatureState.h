@@ -28,6 +28,8 @@ public:
 
     int getHealthPercentage() const override;
 
+    void handle(Plant* plant) override;
+
 };
 
 #endif

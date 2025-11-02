@@ -37,6 +37,8 @@ public:
 
     bool attemptRecovery(Plant* plant);
 
+    void handle(Plant* plant) override;
+
 };
 
 #endif

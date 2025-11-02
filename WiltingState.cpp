@@ -143,3 +143,9 @@ bool WiltingState::attemptRecovery(Plant* plant) {
 
 
 }
+
+void WiltingState::handle(Plant* plant) {
+
+    checkTransition(plant);
+
+}

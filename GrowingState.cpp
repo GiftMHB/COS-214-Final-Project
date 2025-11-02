@@ -126,7 +126,11 @@ std::string GrowingState::getStateName() const {
 
 }
 
+void GrowingState::handle(Plant* plant) {
 
+    checkTransition(plant);
+
+}
 
 
 int GrowingState::getHealthPercentage() const {

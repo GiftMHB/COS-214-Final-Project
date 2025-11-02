@@ -105,3 +105,10 @@ int MatureState::getHealthPercentage() const {
 
 
 }
+
+void MatureState::handle(Plant* plant) {
+    
+
+    checkTransition(plant);
+}
+

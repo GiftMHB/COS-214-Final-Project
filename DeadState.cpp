@@ -63,8 +63,12 @@ std::string DeadState::getStateName() const {
 }
 
 
+void DeadState::handle(Plant* plant) {
 
+    // No actions can be taken on a dead plant
+    std::cout << "Dead plant " << plant->getName() << " cannot be handled." << std::endl;
 
+}
 
 int DeadState::getHealthPercentage() const {
   

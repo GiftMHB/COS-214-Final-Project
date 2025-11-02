@@ -27,6 +27,8 @@ public:
     std::string getStateName() const override;
 
     int getHealthPercentage() const override;
+
+    void handle(Plant* plant) override;
     
 };
 
