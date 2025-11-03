@@ -1,8 +1,3 @@
-/**
- * @file SimulationFacade.h
- * @brief Facade pattern providing simplified interface to the nursery simulation
- */
-
 #ifndef SIMULATION_FACADE_H
 #define SIMULATION_FACADE_H
 
@@ -21,6 +16,8 @@ class CommandInvoker;
 class ReportGenerator;
 
 /**
+ * @file SimulationFacade.h
+ * @brief Facade pattern providing simplified interface to the nursery simulation system
  * @class NurseryStaff
  * @brief Simple staff class for the facade
  */
@@ -54,7 +51,7 @@ private:
     CommandInvoker* commandInvoker;
     ReportGenerator* reportGenerator;
     
-    std::vector<NurseryStaff*> staffMembers;  // Changed to NurseryStaff
+    std::vector<NurseryStaff*> staffMembers;  
     std::map<std::string, Plant*> allPlants;
     
     bool simulationRunning;
@@ -122,10 +119,9 @@ private:
     void updatePlantStates();
     void processDailyEvents();
     void processSeasonalChanges();
-    Plant* createPlant(const std::string& type, const std::string& name, 
-                       const std::string& careLevel);
+    Plant* createPlant(const std::string& type, const std::string& name, const std::string& careLevel);
     void initializeDefaultPlants();
     void initializeDefaultStaff();
 };
 
-#endif // SIMULATION_FACADE_H
+#endif 

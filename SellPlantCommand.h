@@ -1,8 +1,3 @@
-/**
- * @file SellPlantCommand.h
- * @brief Declares the SellPlantCommand class, which handles selling plants and undoing the sale.
- */
-
 #ifndef SELL_PLANT_COMMAND_H
 #define SELL_PLANT_COMMAND_H
 
@@ -15,6 +10,8 @@
 #include <stdexcept>
 
 /**
+ * @file SellPlantCommand.h
+ * @brief Declares the SellPlantCommand class, which handles selling plants and undoing the sale.
  * @class SellPlantCommand
  * @brief Represents a command to sell a specific plant to a customer.
  *

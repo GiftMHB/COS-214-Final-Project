@@ -1,12 +1,9 @@
-/**
- * @file SellPlantCommand.cpp
- * @brief Implements the SellPlantCommand class for selling plants and undoing the sale.
- */
-
 #include "SellPlantCommand.h"
 #include <iostream>
 
 /**
+ * @file SellPlantCommand.cpp
+ * @brief Implements the SellPlantCommand class for selling plants and undoing the sale.
  * @brief Constructs a SellPlantCommand object.
  * 
  * Initializes the command with a target plant, customer name, sale price,

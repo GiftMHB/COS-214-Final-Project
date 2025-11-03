@@ -1,12 +1,9 @@
-/**
- * @file WaterPlantCommand.cpp
- * @brief Implements the WaterPlantCommand class responsible for watering plants and undoing the action.
- */
-
 #include "WaterPlantCommand.h"
 #include <iostream>
 
 /**
+ * @file WaterPlantCommand.cpp
+ * @brief Implements the WaterPlantCommand class responsible for watering plants and undoing the action
  * @brief Constructs a WaterPlantCommand object.
  * 
  * Initializes the command with a target plant, the amount of water to be added,

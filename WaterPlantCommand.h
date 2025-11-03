@@ -1,8 +1,3 @@
-/**
- * @file WaterPlantCommand.h
- * @brief Declares the WaterPlantCommand class, which handles watering actions for plants.
- */
-
 #ifndef WATER_PLANT_COMMAND_H
 #define WATER_PLANT_COMMAND_H
 
@@ -15,6 +10,8 @@
 #include <stdexcept>
 
 /**
+ * @file WaterPlantCommand.h
+ * @brief Declares the WaterPlantCommand class, which handles watering actions for plants
  * @class WaterPlantCommand
  * @brief Represents a command that waters a specific plant.
  *

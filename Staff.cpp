@@ -1,13 +1,10 @@
-/**
- * @file Staff.cpp
- * @brief Implements the Staff class for managing staff members and their tasks.
- */
-
 #include "Staff.h"
 #include <algorithm>
 #include <sstream>
 
 /**
+ * @file Staff.cpp
+ * @brief Implements the Staff class for managing staff members and their tasks
  * @brief Constructs a Staff object with the given name and role.
  * 
  * @param staffName Name of the staff member.

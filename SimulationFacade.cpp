@@ -122,7 +122,7 @@ void SimulationFacade::stopSimulation() {
     simulationRunning = false;
     std::cout << "\n=== Simulation Stopped ===\n";
     std::cout << "Final day: " << currentDay << "\n";
-    std::cout << "Final funds: $" << nurseryFunds << "\n";
+    std::cout << "Final funds: R" << nurseryFunds << "\n";
 }
 
 void SimulationFacade::simulateDay() {
@@ -277,7 +277,7 @@ void SimulationFacade::displayAllPlants() {
                   << " | Name: " << plant->getName()
                   << " | Type: " << plant->getClassification()
                   << " | Health: " << plant->getHealthPercentage() << "%"
-                  << " | Price: $" << plant->getPrice() << "\n";
+                  << " | Price: R" << plant->getPrice() << "\n";
     }
 }
 
@@ -332,7 +332,7 @@ void SimulationFacade::setEnvironment(double temperature, double humidity) {
 void SimulationFacade::displayInventory() {
     std::cout << "\n=== Inventory Status ===\n";
     std::cout << "Total plants in system: " << allPlants.size() << "\n";
-    std::cout << "Nursery funds: $" << nurseryFunds << "\n";
+    std::cout << "Nursery funds: R" << nurseryFunds << "\n";
 }
 
 void SimulationFacade::displayLowStock() {
@@ -372,7 +372,7 @@ void SimulationFacade::sellPlant(const std::string& plantId, const std::string& 
         
         // Update funds
         nurseryFunds += price;
-        std::cout << "Nursery funds increased to: $" << nurseryFunds << "\n";
+        std::cout << "Nursery funds increased to: R" << nurseryFunds << "\n";
         
         // Remove from active plants
         removePlant(plantId);
@@ -403,7 +403,7 @@ void SimulationFacade::generateInventoryReport() {
     std::cout << "\n=== Inventory Report ===\n";
     std::cout << "Total Plants: " << allPlants.size() << "\n";
     std::cout << "Total Staff: " << staffMembers.size() << "\n";
-    std::cout << "Nursery Funds: $" << nurseryFunds << "\n";
+    std::cout << "Nursery Funds: R" << nurseryFunds << "\n";
     std::cout << "Current Season: " << currentSeason << "\n";
     std::cout << "Simulation Day: " << currentDay << "\n";
 }
@@ -411,8 +411,8 @@ void SimulationFacade::generateInventoryReport() {
 void SimulationFacade::generateSalesReport() {
     std::cout << "\n=== Sales Report ===\n";
     std::cout << "Total plants available for sale: " << allPlants.size() << "\n";
-    std::cout << "Average plant price: $50.00\n";
-    std::cout << "Projected revenue: $" << (allPlants.size() * 50.0) << "\n";
+    std::cout << "Average plant price: R50.00\n";
+    std::cout << "Projected revenue: R" << (allPlants.size() * 50.0) << "\n";
 }
 
 void SimulationFacade::generatePlantHealthReport() {
@@ -439,7 +439,7 @@ void SimulationFacade::displaySystemStatus() {
     std::cout << "Current Season: " << currentSeason << "\n";
     std::cout << "Total Plants: " << allPlants.size() << "\n";
     std::cout << "Total Staff: " << staffMembers.size() << "\n";
-    std::cout << "Nursery Funds: $" << nurseryFunds << "\n";
+    std::cout << "Nursery Funds: R" << nurseryFunds << "\n";
 }
 
 void SimulationFacade::updatePlantStates() {

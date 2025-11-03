@@ -1,9 +1,3 @@
-/**
- * @file Subject.h
- * @brief Abstract Subject class for the Observer pattern
- * @details Manages a list of observers and notifies them of state changes
- */
-
 #ifndef SUBJECT_H
 #define SUBJECT_H
 
@@ -16,6 +10,9 @@
 class Plant;
 
 /**
+ * @file Subject.h
+ * @brief Abstract Subject class for the Observer pattern
+ * @details Manages a list of observers and notifies them of state changes
  * @class Subject
  * @brief Abstract subject class that manages observers
  * 

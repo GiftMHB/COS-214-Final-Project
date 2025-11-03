@@ -149,4 +149,4 @@ protected:
     void notifyCareApplied(const std::string& careType);
 };
 
-#endif // PLANT_H
+#endif 

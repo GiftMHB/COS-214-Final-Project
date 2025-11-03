@@ -1,8 +1,3 @@
-/**
- * @file Staff.h
- * @brief Declares the Staff class representing staff members and their tasks.
- */
-
 #ifndef STAFF_H
 #define STAFF_H
 
@@ -10,6 +5,8 @@
 #include <vector>
 
 /**
+ * @file Staff.h
+ * @brief Declares the Staff class representing staff members and their tasks
  * @class Staff
  * @brief Represents a staff member, their role, and assigned tasks.
  *

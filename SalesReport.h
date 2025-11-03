@@ -1,8 +1,3 @@
-/**
- * @file SalesReport.h
- * @brief Declares the SalesReport class for generating sales reports within a specified date range.
- */
-
 #ifndef SALES_REPORT_H
 #define SALES_REPORT_H
 
@@ -15,6 +10,9 @@
 class SalesRecord;
 
 /**
+ * @file SalesReport.h
+ * @brief Declares the SalesReport class for generating sales reports within a specified date range.
+ *
  * @class SalesReport
  * @brief Generates a report summarizing sales records for a given time period.
  *
