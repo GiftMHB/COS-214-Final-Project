@@ -191,7 +191,7 @@ Plant* SimulationFacade::createPlant(const std::string& type, const std::string&
     
     // Set reasonable defaults
     info.waterLevel = 50;
-    info.healthLevel = 100;
+    info.healthLevel = 90;
     info.sunlightNeed = 5;
     info.fertilizerNeed = 2;
     info.nutrientLevel = 50;
@@ -429,7 +429,7 @@ void SimulationFacade::generatePlantHealthReport() {
     
     std::cout << "Healthy plants: " << healthy << "\n";
     std::cout << "Plants needing care: " << needsCare << "\n";
-    std::cout << "Overall health: " << (healthy * 100 / allPlants.size()) << "%\n";
+    std::cout << "Overall health: " << (healthy * 100 / allPlants.size()) << "\n";
 }
 
 void SimulationFacade::displaySystemStatus() {

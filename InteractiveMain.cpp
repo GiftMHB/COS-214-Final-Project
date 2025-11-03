@@ -16,7 +16,7 @@ private:
 public:
     void run() {
         std::cout << "========================================\n";
-        std::cout << "    PLANT NURSERY SIMULATOR v2.0\n";
+        std::cout << "    PLANT NURSERY SIMULATOR \n";
         std::cout << "========================================\n\n";
         
         facade.initializeSystem();
