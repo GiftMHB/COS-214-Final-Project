@@ -68,7 +68,10 @@
 //     }
 //     sections.clear();
 // }
-
+/**
+ * @file GardenArea.cpp
+ * @brief Implementation of the GardenArea singleton composite root
+ */
 #include "GardenArea.h"
 #include "GardenSection.h"  // For dynamic_cast<GardenSection*>
 #include <iostream>
