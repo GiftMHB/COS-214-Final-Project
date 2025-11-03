@@ -1,3 +1,9 @@
+/**
+ * @file GardenComponent.h
+ * @brief Abstract base class for the Composite pattern representing garden hierarchy
+ * @details This class serves as the component interface in the Composite design pattern,
+ *          allowing uniform treatment of individual plants and compositions of garden elements.
+ */
 #ifndef GARDENCOMPONENT_H
 #define GARDENCOMPONENT_H
 
@@ -7,6 +13,14 @@
 #include <cstddef>  // for size_t
 
 #include "Plant.h"  // Include full Plant.h for complete type (fixes potential override issues)
+
+/**
+ * @class GardenComponent
+ * @brief Abstract component class for the Composite pattern
+ * 
+ * This class defines the interface for objects in the composition hierarchy.
+ * It declares operations that are common to both leaf and composite objects.
+ */
 
 class GardenComponent {
 public:
