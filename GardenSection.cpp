@@ -1,3 +1,7 @@
+/**
+ * @file GardenSection.cpp
+ * @brief Implementation of the GardenSection composite class
+ */
 #include "GardenSection.h"
 #include <iostream>
 #include <algorithm>
