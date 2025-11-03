@@ -1,5 +1,5 @@
 # 🌿 COS214 Final Project — Smart Garden Simulation System  
-> _Can someone add a slogan😂_  
+> "Nurturing Patterns, Harvesting Excellence"  
 > by **Team [Iterator Innovators]**
 
 ---
@@ -10,8 +10,10 @@
 | Gift Mohuba  | 23545527 | Factory Method & Strategy & Iterator|
 | Lufuno Mphagi| 22501445 | Abstract Factory & Command & Template Method|
 | Tiego Mokwena | 22496336 | Composite & Observer & Facade |
+| Christopher Adolph | 23535548 | State |
 |  | XXXXXXXX | X |
-|  | XXXXXXXX | X |
+
+Christopher Adolph - Also completed the Presentation & Report
 
 ---
 
