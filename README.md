@@ -21,7 +21,11 @@ Christopher Adolph - Also completed the Presentation & Report
 The **Smart Garden Simulation** is an object-oriented system built entirely in **C++**,  
 designed to model real-world garden operations: plant growth, staff management, and maintenance automation.  
 
-The system demonstrates mastery of **12 integrated Design Patterns**, carefully selected for scalability, maintainability, and real-world realism.  
+The system demonstrates mastery of **13 integrated Design Patterns**, carefully selected for scalability, maintainability, and real-world realism.  
+
+---
+## 🔗Class Diagrams Links
+>![Alt text](https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/images/image.png)
 
 ---
 
