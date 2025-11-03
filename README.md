@@ -32,6 +32,14 @@ The system demonstrates mastery of **13 integrated Design Patterns**, carefully 
 >[Class Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Class%20Diagram1.jpg)
 >
 >[Report](https://docs.google.com/document/d/1d_wSwSUxNFVtXFbv_4fgMn0-bCimJWIoTOoVRXwM1wg/edit?usp=sharing)
+>
+>[Factory Method Part 1](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/FactoryPart1.png)
+>
+>[Factory Method Part 2](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/FacroryPart2.png)
+>
+>[Iterator Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/IteratorPattern.png)
+>
+>[Strategy Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/StrategyPattern.png)
 ---
 
 ## 🧩 Design Philosophy
