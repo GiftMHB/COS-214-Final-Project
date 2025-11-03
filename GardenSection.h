@@ -1,3 +1,9 @@
+/**
+ * @file GardenSection.h
+ * @brief Composite class representing a section within the garden
+ * @details This class can contain other sections or plant beds, forming the
+ *          intermediate level in the composite hierarchy.
+ */
 #ifndef GARDENSECTION_H
 #define GARDENSECTION_H
 
@@ -5,6 +11,13 @@
 #include <string>
 #include <vector>
 #include <list>  // Explicit include for std::list<Plant*>
+/**
+ * @class GardenSection
+ * @brief Composite container for organizing plant beds and subsections
+ * 
+ * GardenSection acts as a composite node that can contain both other
+ * sections and plant beds, allowing for hierarchical organization.
+ */
 
 class GardenSection : public GardenComponent {
 private:
