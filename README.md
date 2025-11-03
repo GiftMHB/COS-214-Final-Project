@@ -11,7 +11,7 @@
 | Lufuno Mphagi| 22501445 | Abstract Factory & Command & Template Method|
 | Tiego Mokwena | 22496336 | Composite & Observer & Facade |
 | Christopher Adolph | 23535548 | State |
-|  | XXXXXXXX | X |
+| Lusanda Mtembu | 23602016 | Memento & Decorator & Singleton |
 
 Christopher Adolph - Also completed the Presentation & Report
 
@@ -80,11 +80,28 @@ The goal is not just functionality but **architectural elegance** — using desi
 ---
 
 ## 📁 Project Structure
-
+smart-garden-system/ ├── Plant.h ├── Plant.cpp ├── PlantFactory.h ├── PlantFactory.cpp ├── PlantAbstractFactory.h ├── PlantAbstractFactory.cpp ├── PlantState.h ├── PlantState.cpp ├── CareStrategy.h ├── CareStrategy.cpp ├── GardenArea.h ├── GardenArea.cpp ├── GardenSection.h ├── GardenSection.cpp ├── PlantDecorator.h ├── PlantDecorator.cpp ├── Command.h ├── Command.cpp ├── Staff.h ├── Staff.cpp ├── PlantObserver.h ├── PlantObserver.cpp ├── Inventory.h ├── Inventory.cpp ├── InventoryIterator.h ├── InventoryIterator.cpp ├── Customer.h ├── Customer.cpp ├── Transaction.h ├── Transaction.cpp ├── Report.h ├── Report.cpp ├── SimulationFacade.h ├── SimulationFacade.cpp ├── Memento.h ├── Memento.cpp ├── main.cpp ├── Makefile ├── doctest.h
 ---
 ## Branching Strategy
-
+main (protected) 
+├── dev (integration branch) 
+│ ├── feature/Lufuno-abstract_command_interface 
+│ ├── feature/Gift-factory-Strategy-Iterator 
+│ ├── feature/Christopher-State 
+│ ├── feature/Lusanda-singleton-memento-decorator 
+│ └── feature/Tiego-composite-observer-facade 
+└── documents 
+ ├── class-diagram 
+ ├── sequence-diagram 
+ ├── activity-diagram 
+ ├── object-diagram 
+ ├── state-diagram
 --
 ## Unit Testing
+**Testing Framework** 
+**Framework**: doctest (header-only C++ testing)
 
+**Approach**: Test-Driven Development (TDD) where applicable
+
+**Coverage**: Unit tests for all major components and design patterns
 
