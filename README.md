@@ -25,7 +25,7 @@ The system demonstrates mastery of **13 integrated Design Patterns**, carefully 
 
 ---
 ## 🔗Class Diagrams Links
->![State Class Diagram](https://raw.githubusercontent.com/GiftMHB/COS-214-Final-Project/main/Images/State.png)
+>[State Class Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/State.png)
 
 ---
 
