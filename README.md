@@ -88,14 +88,14 @@ The goal is not just functionality but **architectural elegance** — using desi
 
 ## 📁 Project Structure
 >/
-├── Core Components: Plant, Factory, AbstractFactory, State, CareStrategy, Decorator, Observer
-├── Garden System: GardenArea, GardenSection, Inventory, Iterator, Memento
-├── Staff & Operations: Staff, Command, Customer, Transaction, Report, SimulationFacade
-├── Images/: Class diagrams for all implemented design patterns
-├── interactivemain.cpp
-├── Makefile
-└── README.md
->
+-├── Core Components: Plant, Factory, AbstractFactory, State, CareStrategy, Decorator, Observer
+-├── Garden System: GardenArea, GardenSection, Inventory, Iterator, Memento
+-├── Staff & Operations: Staff, Command, Customer, Transaction, Report, SimulationFacade
+-├── Images/: Class diagrams for all implemented design patterns
+-├── interactivemain.cpp
+-├── Makefile
+-└── README.md
+
 ---
 ## Branching Strategy
 ###  Main Branch
