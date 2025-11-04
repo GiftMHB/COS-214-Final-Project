@@ -40,6 +40,8 @@ The system demonstrates mastery of **13 integrated Design Patterns**, carefully 
 >[Iterator Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/IteratorPattern.png)
 >
 >[Strategy Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/StrategyPattern.png)
+>
+>[Communication Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Communication_Diagram.png)
 ---
 
 ## 🧩 Design Philosophy
