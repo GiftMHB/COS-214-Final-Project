@@ -56,17 +56,19 @@ The goal is not just functionality but **architectural elegance** — using desi
 |-----------|----------|----------|
 | **Creational** | Factory Method | Creates specific plant types (Flower, Tree, Vegetable) |
 |  | Abstract Factory | Builds themed gardens with multiple related plants |
-|  | Builder | Configures complex garden setups step-by-step |
 |  | Singleton | Ensures one global `GardenArea` instance |
 | **Structural** | Composite | Organizes garden hierarchy (Sections → Beds → Plants) |
 |  | Decorator | Dynamically adds features to plants (e.g., pots, labels, gift wraps) |
 |  | Facade | Simplifies subsystem interaction (Garden, Staff, Reports) |
+|  | Composite | Treat individual plants and plant groups uniformly |
 | **Behavioral** | State | Manages plant lifecycles (Seedling → Mature → Dead) |
 |  | Strategy | Encapsulates care routines for different plant types |
 |  | Command | Encapsulates staff actions (Water, Fertilize, Sell) |
 |  | Observer | Automatically updates monitors and inventory when plants change |
-|  | Iterator |  |
-|  | Template Method | Used to create reports |
+|  | Iterator | Provide multiple ways to traverse inventory collections (all items, low stock, by category) |
+|  | Template Method | Define report generation algorithm skeleton |
+|  | State | Manage plant life cycle states and state-specific behavior |
+|  | Memento | Capture and restore system state |
 
 ---
 
