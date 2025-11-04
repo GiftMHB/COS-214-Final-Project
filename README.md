@@ -85,7 +85,7 @@ The goal is not just functionality but **architectural elegance** — using desi
 - **State** controls how plants evolve over time  
 - **Strategy** defines plant-specific care rules  
 - **Command + Memento** handle staff actions and undo functionality  
-- **Observer + Mediator**  system monitoring  
+- **Observer**  system monitoring  
 - **Template Method + Iterator** Generation of reports
 
 ---
