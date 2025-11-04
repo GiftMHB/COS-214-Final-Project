@@ -71,6 +71,8 @@ The goal is not just functionality but **architectural elegance** — using desi
 |  | Memento | Capture and restore system state |
 
 ---
+## Running our project
+> Our project has a makefile,all you have to do is **make** to compile and **make run** to run
 
 ## 🧠 System Architecture Summary
 
