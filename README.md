@@ -44,6 +44,14 @@ The system demonstrates mastery of **13 integrated Design Patterns**, carefully 
 >[Strategy Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/StrategyPattern.png)
 >
 >[Communication Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Communication_Diagram.png)
+>
+>[Observer and Subject Pattern](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Observer%20%26%20Subject.png)
+>
+>[Concrete Observers](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Concrete%20Observers.png)
+>
+>[Composite](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Composite.png)
+>
+>[Facade](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Facade.png)
 ---
 
 ## 🧩 Design Philosophy
