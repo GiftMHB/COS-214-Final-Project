@@ -25,6 +25,8 @@ The system demonstrates mastery of **13 integrated Design Patterns**, carefully 
 
 ---
 ## 🔗UML Class Diagrams Links
+>[Visual Paradigm .vpp file](https://github.com/GiftMHB/COS-214-Final-Project/blob/Documents/COS%20214%20Project%20%20UML%20Class%20Diagrams.vpp)
+>
 >[State Class Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/State.png)
 >
 >[Activity Diagram](https://github.com/GiftMHB/COS-214-Final-Project/blob/main/Images/Activity%20Diagram1.jpg)
